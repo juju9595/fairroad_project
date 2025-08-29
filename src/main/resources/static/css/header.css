@@ -1,0 +1,7 @@
+.top{
+    margin: 0 auto;
+    padding: 0 auto;
+    width: 414px;
+    display: flex;
+    justify-content: space-between;
+}
