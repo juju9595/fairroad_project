@@ -10,4 +10,4 @@ public class AppStart { // class start
 //
         SpringApplication.run( AppStart.class );
     } // main end
-} // class end
+} // class end 1
