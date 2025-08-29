@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class VisitlogDto {
+public class VisitLogDto {
     private int vno;        // 방문로그 번호
     private int mno;        // 회원번호(FK)
     private int fno;        // 박람회번호(FK)
