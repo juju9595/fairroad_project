@@ -1,4 +1,7 @@
 package web.model.dao;
 
-public class WishlistDao {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class WishlistDao extends Dao{
 }
