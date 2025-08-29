@@ -1,13 +1,14 @@
 package web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import web.service.FairService;
 
 @RestController
-@RequestMapping("/fair")
-public class FairController {
-    @Autowired FairService fairService;
+@RequiredArgsConstructor
+public class FairController { // class start
 
-}//class end
+
+    private final FairService fairService;
+} // class end
