@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class WishlistDto {
+public class WishListDto {
 
     private int wno;    // 즐겨찾기 번호
     private int mno;    // 회원 번호(FK)
