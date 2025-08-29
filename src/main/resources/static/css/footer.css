@@ -1,0 +1,42 @@
+/* 전체 페이지 414px 고정 */
+body {
+  width: 414px;
+  margin: 0 auto;
+  background: #f9f9f9;
+  font: 13px/1.4 system-ui, -apple-system, "맑은 고딕", sans-serif;
+  color: #444;
+}
+
+/* footer 링크 목록 */
+.footer {
+  display: flex;
+  justify-content: center;   /* 가운데 정렬 */
+  flex-wrap: wrap;           /* 줄바꿈 가능 */
+  gap: 10px 16px;            /* 아이템 사이 여백 */
+  list-style: none;
+  padding: 14px 10px;
+  margin: 0;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer li a {
+  text-decoration: none;
+  color: #666;
+  font-size: 12px;
+}
+
+.footer li a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* 카피라이트 */
+.copy {
+  text-align: center;
+  font-size: 11px;
+  color: #999;
+  padding: 10px 0 20px;
+  background: #fff;
+  border-top: 1px solid #f1f1f1;
+}
