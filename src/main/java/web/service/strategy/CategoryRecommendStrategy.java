@@ -17,6 +17,9 @@ public class CategoryRecommendStrategy implements RecommendStrategy {
     @Autowired
     FairDao fairDao;
 
+    public CategoryRecommendStrategy(VisitLogDao visitLogDao, FairDao fairDao) {
+    }
+
     @Override
     public List<FairDto> recommend(int mno){
 
