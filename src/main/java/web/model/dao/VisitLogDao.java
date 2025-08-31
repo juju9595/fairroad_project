@@ -1,16 +1,16 @@
 package web.model.dao;
 
 import org.springframework.stereotype.Repository;
-import web.model.dto.VisitlogDto;
+import web.model.dto.VisitLogDto;
 
 import java.sql.PreparedStatement;
 import java.sql.Types;
 
 @Repository
-public class VisitlogDao extends Dao{
+public class VisitLogDao extends Dao{
 
     // 방문 로그 저장
-    public boolean insertVisitLog(VisitlogDto visitlogDto ){
+    public boolean insertVisitLog(VisitLogDto visitlogDto ){
         try {
             String sql = "insert into visitlog (mno , fno ) values ( ? , ? ) ";
             PreparedStatement ps = conn.prepareStatement(sql);

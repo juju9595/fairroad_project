@@ -3,11 +3,11 @@ package web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-import web.service.WishlistService;
+import web.service.WishListService;
 
 @RestController
 @RequiredArgsConstructor
 public class WishController { // class start
 
-    private final WishlistService wishlistService;
+    private final WishListService wishlistService;
 } // class end
