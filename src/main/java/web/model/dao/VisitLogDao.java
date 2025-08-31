@@ -1,10 +1,14 @@
 package web.model.dao;
 
 import org.springframework.stereotype.Repository;
+import web.model.dto.LastVisitDto;
 import web.model.dto.VisitLogDto;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class VisitLogDao extends Dao{
@@ -27,6 +31,31 @@ public class VisitLogDao extends Dao{
             System.out.println(e);
         }
         return false;
+    } // func e
+
+    // 최근 본 박람회 조회
+    public List<LastVisitDto> lastVisitList(int mno){
+        List<LastVisitDto> list = new ArrayList<>();
+        String sql = "select f.fno , f.fname , v.vdate from visitlog v " +
+                "join fair f on v.fno = f.fno where v.mno = ? order by v.vdate desc limit 10 "; // 가장 최근으로 10개만 조회
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, mno);
+
+            try(ResultSet rs = ps.executeQuery()) {
+                while (rs.next()){
+                    LastVisitDto dto = new LastVisitDto();
+                    dto.setFno(rs.getInt("fno"));
+                    dto.setFname(rs.getString("fname"));
+                    dto.setVdate(rs.getString("vdate"));
+                    list.add(dto);
+                }
+
+            }
+        }catch (Exception e ){
+            System.out.println(e);
+        }
+        return list;
     } // func e
 
 
