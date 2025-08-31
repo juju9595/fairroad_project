@@ -2,6 +2,7 @@ package web.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,8 @@ import web.service.VisitLogService;
 @RequestMapping("/visitlog")
 public class VisitLogController { // class start
 
-    private final VisitLogService visitlogService;
+    @Autowired
+    private VisitLogService visitlogService;
 
     // 방문 로그 저장
     @PostMapping("")
