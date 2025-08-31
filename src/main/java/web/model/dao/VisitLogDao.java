@@ -58,5 +58,38 @@ public class VisitLogDao extends Dao{
         return list;
     } // func e
 
+    // --------------------------- 추천 알고리즘 ------------------------ //
+
+    // 회원별 방문 로그 조회
+    public List<Integer> getVisitFnoByMember(int mno){
+        List<Integer> list = new ArrayList<>();
+        String sql = "select fno from visitlog where mno = ? ";
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,mno);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                list.add(rs.getInt("fno"));
+            }
+        }catch (Exception e ){
+            System.out.println(e);
+        }
+        return list;
+    } // func e
+
+    // 전체 방문수 기준 top 박람회
+    public List<Integer> getTopVisitedFairs(int limit){
+        List<Integer> list = new ArrayList<>();
+        String sql = " select fno from visitlog group by fno order by count(*) desc limit ? ";
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1,limit);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                list.add(rs.getInt("fno"));
+            }
+        }catch (Exception e ){
+            System.out.println(e);
+        }
+        return list;
+    } // func e
 
 } // claas e
