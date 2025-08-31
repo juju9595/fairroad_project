@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+
 public class FairDto {
 
     private int fno;            // 박람회 번호
