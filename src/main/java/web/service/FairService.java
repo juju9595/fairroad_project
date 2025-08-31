@@ -52,7 +52,7 @@ public class FairService {
     // 박람회 장소 문자열 반환 메소드 , 없으면 기타로 반환
     private String extractRegion(String fplace){
         if(fplace == null || fplace.isEmpty()) return "기타";
-        return fplace.split(" ")[0]; // " " 공백 넣어야함 , 안하면
+        return fplace.split(" ")[0]; // " " 공백 넣어야함 , 안하면 "서울 엑스포" -> "ㅅ" 나옴
     } // func e
 
 }//class end
