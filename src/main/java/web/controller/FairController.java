@@ -4,6 +4,7 @@ package web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.FairDto;
+import web.model.dto.PageDto;
 import web.service.FairService;
 
 import java.util.List;
@@ -25,8 +26,13 @@ public class FairController { // class start
 
     //박람회 전체
     @GetMapping("/print")
-    public List<FairDto> fairPrint(){
-        return fairService.fairPrint();
+    public PageDto fairPrint(@RequestParam int cno,
+                             @RequestParam int page,
+                             @RequestParam int count,
+                             @RequestParam (required = false) String key,
+                             @RequestParam (required = false) String keyword){
+        PageDto result= fairService.fairPrint(cno,page,count,key,keyword);
+        return result;
     }//func end
 
 

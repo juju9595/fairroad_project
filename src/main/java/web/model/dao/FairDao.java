@@ -37,11 +37,14 @@ public class FairDao extends Dao{
     //-----------------------------------------------------------------------------------------------------------//
 
     //박람회 조회
-    public List<FairDto>fairPrint(){
+    public List<FairDto>fairPrint(int cno,int startRow, int count){
         List<FairDto> list = new ArrayList<>();
         try{
-            String sql = "SELECT *FROM fair;";
+            String sql = "SELECT *FROM fair f inner join category c ON f.cno = c.cno WHERE f.cno =? order by f.cno desc limit ?,?";
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,cno);
+            ps.setInt(2,startRow);
+            ps.setInt(3,count);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 FairDto fairDto = new FairDto();
@@ -59,7 +62,7 @@ public class FairDao extends Dao{
             }//while end
             ps.close();
             rs.close();
-        } catch (Exception e) {System.out.println(e);}//catch end
+        } catch (Exception e) {System.out.println("박람회조회"+e);}//catch end
         return list;
     }//func end
 
@@ -75,7 +78,7 @@ public class FairDao extends Dao{
             if(rs.next()){
                 FairDto fairDto = new FairDto();
                 fairDto.setFno(rs.getInt("fno"));
-                fairDto.setFname(rs.getString("fanme"));
+                fairDto.setFname(rs.getString("fname"));
                 fairDto.setFimg(rs.getString("fimg"));
                 fairDto.setFplace(rs.getString("fplace"));
                 fairDto.setFprice(rs.getInt("fprice"));
@@ -88,7 +91,7 @@ public class FairDao extends Dao{
             }//if end
             ps.close();
             rs.close();
-        } catch (Exception e) {System.out.println(e);};//catch end
+        } catch (Exception e) {System.out.println("개별정보조회"+e);};//catch end
         return null;
     }//func end
 
@@ -109,15 +112,16 @@ public class FairDao extends Dao{
     //박람회 카테고리별 게시물 수
     public int getTotalCount(int cno){
         try{
-            String sql = "SELECT COUNT(*) FROM category WHERE cno=?;";
+            String sql = "SELECT COUNT(*) FROM fair WHERE cno=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,cno);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                return rs.getInt(cno);
+                return rs.getInt(1);
             }
             ps.close();
             rs.close();
-        } catch (Exception e) {System.out.println(e);}//catch end
+        } catch (Exception e) {System.out.println("카테고리별게시물수"+e);}//catch end
         return 0;
     }//func end
 
@@ -126,31 +130,34 @@ public class FairDao extends Dao{
     //박람회 카테고리별 게시물 수 [검색]
     public int getTotalCountSearch(int cno,String key, String keyword){
         try{
-            String sql = "SELECT COUNT(*) FROM category where cno=?";
+            String sql = "SELECT COUNT(*) FROM fair where cno=?";
+            if(key.equals("fname")){sql+=" and fname like ? ";}
+            else if(key.equals("finfo")){sql+= " and finfo like ? ";}
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,cno);
+            ps.setString(2,"%"+keyword+"%");
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return rs.getInt(1);
-            }//if eend
-            ps.close();
-            rs.close();
-        }catch(Exception e){System.out.println(e);}//catch end
+            }//if end
+
+        }catch(Exception e){System.out.println("게시물수[검색]"+e);}//catch end
         return 0;
     }//func end
 
     //-----------------------------------------------------------------------------------------------------------//
 
     //박람회 카테고리별 게시물 전체 정보 조회 [검색]
-    public List<FairDto>fairPrint(int fno,int startRow,int count,String key, String keyword){
+    public List<FairDto>fairPrintSearch(int cno,int startRow,int count,String key, String keyword){
         List<FairDto> list =  new ArrayList<>();
         try{
-           String sql = "select *from fair f inner join category c on f.cno = c.cno  where fno=?;";
-           if(key.equals("ftitle")){sql+=" and ptiele like ? ";}
+           String sql = "select *from fair f inner join category c on f.cno = c.cno  where f.cno=?";
+           if(key.equals("fname")){sql+=" and fname like ? ";}
            else if(key.equals("finfo")){sql+=" and finfo like ? ";}
            //페이징 처리
             sql += " order by fno desc limit ?,? ";
            PreparedStatement ps = conn.prepareStatement(sql);
-           ps.setInt(1,fno);
+           ps.setInt(1,cno);
            ps.setString(2,"%"+keyword+"%");
            ps.setInt(3,startRow);
            ps.setInt(4,count);
@@ -158,7 +165,7 @@ public class FairDao extends Dao{
            while(rs.next()){
                FairDto fairDto = new FairDto();
                fairDto.setFno(rs.getInt("fno"));
-               fairDto.setFname(rs.getString("fanme"));
+               fairDto.setFname(rs.getString("fname"));
                fairDto.setFimg(rs.getString("fimg"));
                fairDto.setFplace(rs.getString("fplace"));
                fairDto.setFprice(rs.getInt("fprice"));
@@ -171,7 +178,7 @@ public class FairDao extends Dao{
            }//while end
            ps.close();
            rs.close();
-        }catch(Exception e){System.out.println(e);}//catch end
+        }catch(Exception e){System.out.println("전체조회[검색]"+e);}//catch end
         return list;
     }//func end
 
