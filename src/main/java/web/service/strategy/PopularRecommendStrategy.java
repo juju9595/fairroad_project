@@ -16,8 +16,6 @@ public class PopularRecommendStrategy implements RecommendStrategy{
     @Autowired
     FairDao fairDao;
 
-    public PopularRecommendStrategy(VisitLogDao visitLogDao, FairDao fairDao) {
-    }
 
     @Override
     public List<FairDto> recommend(int mno){

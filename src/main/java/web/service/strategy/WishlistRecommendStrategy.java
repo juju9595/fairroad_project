@@ -16,9 +16,6 @@ public class WishlistRecommendStrategy implements RecommendStrategy{
     @Autowired
     FairDao fairDao;
 
-    public WishlistRecommendStrategy(WishListDao wishListDao, FairDao fairDao) {
-    }
-
     @Override
     public List<FairDto> recommend(int mno){
         List<Integer> wishFnoList = wishListDao.getWishFnoByMember(mno);

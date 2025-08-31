@@ -23,21 +23,24 @@ public class RecommendService {
     VisitLogDao visitLogDao;
     @Autowired
     WishListDao wishListDao;
+    @Autowired
+    private CategoryRecommendStrategy categoryStrategy;
+    @Autowired
+    private PopularRecommendStrategy popularRecommendStrategy;
+    @Autowired WishlistRecommendStrategy wishlistRecommendStrategy;
+
 
     // 회원별 추천 박람회 리스트
     public List<FairDto> getRecommendations(int mno){
 
         // 인기순 추천
-        RecommendStrategy popular = new PopularRecommendStrategy(visitLogDao , fairDao);
-        List<FairDto> popularList = popular.recommend(mno);
+        List<FairDto> popularList = popularRecommendStrategy.recommend(mno);
 
         // 즐겨찾기 기반 추천
-        RecommendStrategy wishlist = new WishlistRecommendStrategy(wishListDao , fairDao);
-        List<FairDto> wishlistList = wishlist.recommend(mno);
+        List<FairDto> wishlistList = wishlistRecommendStrategy.recommend(mno);
 
         // 카테고리 기반 추천
-        RecommendStrategy category = new CategoryRecommendStrategy(visitLogDao , fairDao);
-        List<FairDto> categoryList = category.recommend(mno);
+        List<FairDto> categoryList = categoryStrategy.recommend(mno);
 
         // 전략 결과 합쳐서 반환
         Set<FairDto> combined = new java.util.LinkedHashSet<>(); // 순서 유지하면서 중복 제거

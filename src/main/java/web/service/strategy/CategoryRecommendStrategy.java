@@ -17,9 +17,6 @@ public class CategoryRecommendStrategy implements RecommendStrategy {
     @Autowired
     FairDao fairDao;
 
-    public CategoryRecommendStrategy(VisitLogDao visitLogDao, FairDao fairDao) {
-    }
-
     @Override
     public List<FairDto> recommend(int mno){
 
@@ -31,7 +28,7 @@ public class CategoryRecommendStrategy implements RecommendStrategy {
         for (int fno : visitedFno){                             // 회원이 방문한 fno 목록 순회 하면서 각 fno의 카테고리 가져와서 카운트 저장
             FairDto fair = fairDao.getFairbyFno(fno);
             if(fair != null){
-                categoryCount.put(fair.getCno() , categoryCount.put(fair.getCno() , 0 ) + 1);   // 해당 카테고리 값 없으면 0반환
+                categoryCount.put(fair.getCno() , categoryCount.getOrDefault(fair.getCno() , 0 ) + 1);   // 해당 카테고리 값 없으면 0반환
             }
         } // for e
 
