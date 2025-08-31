@@ -29,5 +29,22 @@ public class WishListDao extends Dao{
         return list;
     } // func e
 
+    // ------------------------------ 추천 알고리즘 ----------------------- //
+
+    // 회원 즐겨찾기 fno 목록 조회
+    public List<Integer> getWishFnoByMember(int mno) {
+        List<Integer> list = new ArrayList<>();
+        String sql = "SELECT fno FROM wishlist WHERE mno = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, mno);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getInt("fno"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    } // func e
 
 } // class e
