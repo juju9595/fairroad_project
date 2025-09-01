@@ -27,5 +27,3 @@ public class VisitLogService {
 
 
 } // class e
-
-

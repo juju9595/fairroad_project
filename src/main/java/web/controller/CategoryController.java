@@ -2,6 +2,7 @@ package web.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import web.service.CategoryService;
 
@@ -9,6 +10,7 @@ import web.service.CategoryService;
 @RequiredArgsConstructor
 public class CategoryController { // class start
 
-    private final CategoryService categoryService;
+    @Autowired
+    private CategoryService categoryService;
 
 } // class end
