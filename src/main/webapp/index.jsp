@@ -17,7 +17,7 @@
     <div class="category">
         <ul>
             <li><a href="/Fair/fairWrite.jsp">등록용테스트</a></li>
-            <li>카테고리2</li>
+            <li><a href="/Fair/fairPrint.jsp">전체조회 목록</a></li>
             <li>카테고리3</li>
         </ul>
     </div>
