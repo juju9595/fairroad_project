@@ -12,7 +12,7 @@ import web.service.WishListService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/visitlog")
+@RequestMapping("/wish")
 public class WishListController { // class start
     @Autowired
     private WishListService wishlistService;
