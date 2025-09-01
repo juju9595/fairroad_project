@@ -47,10 +47,11 @@ public class VisitLogController { // class start
     // --------------- CSV 파일 처리 할때 쓰는 코드 ---------------- //
     // 방문 로그 저장
     @PostMapping("/add")
-    public String insertVisitLog(@RequestParam(required = false) Integer mno ,
+    public String insertVisitLog(@RequestParam(required = false) String mno ,
                                  @RequestParam int fno ){
+        Integer memberNo = (mno == null || mno.equals("null")) ? null : Integer.valueOf(mno);
         VisitLogDto log = new VisitLogDto();
-        log.setMno(mno);   // 비회원이면 null 가능
+        log.setMno(memberNo);   // 비회원이면 null 가능
         log.setFno(fno);
         log.setVdate(LocalDateTime.now());
 
