@@ -47,10 +47,14 @@ public class VisitLogController { // class start
     // --------------- CSV 파일 처리 할때 쓰는 코드 ---------------- //
     // 방문 로그 저장
     @PostMapping("/add")
-    public String insertVisitLog(@RequestParam int vno ,
-                                 @RequestParam int mno ,
+    public String insertVisitLog(@RequestParam(required = false) Integer mno ,
                                  @RequestParam int fno ){
-        visitlogService.addVisitLogAsync(new VisitLogDto(vno , mno , fno , LocalDateTime.now()));
+        VisitLogDto log = new VisitLogDto();
+        log.setMno(mno);   // 비회원이면 null 가능
+        log.setFno(fno);
+        log.setVdate(LocalDateTime.now());
+
+        visitlogService.addVisitLogAsync(log);
         return "방문로그 등록 완료(비동기)";
     } // func e
 

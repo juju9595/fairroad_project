@@ -1,5 +1,6 @@
 package web.service;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.nio.Buffer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,22 +37,50 @@ public class VisitLogService {
 
     // --------------- CSV 파일 처리 할때 쓰는 코드 ---------------- //
 
-    private String fileName = "visitlog.csv";
+    // vno 카운터
+    private int currentVno = 0;
+
+    @PostConstruct
+    public void init() {
+        // 서버 시작할 때 CSV에서 최대 vno 읽어서 currentVno 초기화
+        List<VisitLogDto> logs = readAllLogs();
+        if (!logs.isEmpty()) {
+            currentVno = logs.stream()
+                    .mapToInt(VisitLogDto::getVno)
+                    .max()
+                    .orElse(0);
+        }
+    } // func e
+
+    private synchronized int getNextVno() {
+        return ++currentVno;
+    }
+
+
+    private String getFileName() {
+        return "visitlog_" + LocalDate.now().format(dateFormatter) + ".csv";
+    }
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final Object fileLock = new Object();
+    private AtomicInteger vnoGenerator = new AtomicInteger(1); // vno 자동 증가
 
     // 방문 로그 비동기
     public void addVisitLogAsync(VisitLogDto log){
+        // vno 자동 증가 (전역 AtomicInteger 사용)
+        log.setVno(vnoGenerator.getAndIncrement());
+
         addVisitLog(log);
     }
 
     private void addVisitLog(VisitLogDto log){
         synchronized (fileLock){
-            try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName , true))) {
-                File file = new File(fileName);
+            try(BufferedWriter bw = new BufferedWriter(new FileWriter(getFileName() , true))) {
+                File file = new File(getFileName());
                 if(file.length() == 0){
                     bw.write("vno, mno, fno , vdate");
                     bw.newLine();
+                    // vno 자동생성
+                    log.setVno(getNextVno());
                 }
                 bw.write(log.toCsv());
                 bw.newLine();
@@ -63,7 +93,7 @@ public class VisitLogService {
     // CSV 전체 읽기
     private List<VisitLogDto> readAllLogs(){
         List<VisitLogDto> logs = new ArrayList<>();
-        File file = new File(fileName);
+        File file = new File(getFileName());
         if(!file.exists()) return logs;
 
         synchronized (fileLock){ // 읽는 동안 쓰기 충돌 방지
