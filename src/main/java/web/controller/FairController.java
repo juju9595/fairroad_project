@@ -46,14 +46,14 @@ public class FairController { // class start
 
 
     // 조회수별 박람회 조회
-    @GetMapping("/visitlog/fcount")
+    @GetMapping("/fcount")
     public List<FairCountDto> fcountList(){
         List<FairCountDto> result = fairService.fcountList();
         return result;
     } // func e
 
     // 지역별 박람회 조회
-    @GetMapping("/visitlog/fregion")
+    @GetMapping("/fregion")
     public Map<String , List<FairRegionDto>> fregionList(){
         Map<String , List<FairRegionDto>> result = fairService.fregionList();
         return result;
