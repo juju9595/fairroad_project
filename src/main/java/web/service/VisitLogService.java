@@ -37,21 +37,48 @@ public class VisitLogService {
 
     // --------------- CSV 파일 처리 할때 쓰는 코드 ---------------- //
 
-    // vno 카운터
+    // vno 카운터 수정 필요 (파일 있으면 파일의 마지막 번호에서 +1 해줘야함)
     private int currentVno = 0;
 
     @PostConstruct
     public void init() {
-        // 서버 시작할 때 CSV에서 최대 vno 읽어서 currentVno 초기화
-        List<VisitLogDto> logs = readAllLogs();
-        if (!logs.isEmpty()) {
-            currentVno = logs.stream()
-                    .mapToInt(VisitLogDto::getVno)
+        String todayFile = getFileName();
+        File file = new File(todayFile);
+
+        if(file.exists()) {
+            // 오늘 파일 있으면 오늘 파일 기준 최대 vno 읽기
+            currentVno = getMaxVnoFromFile(file);
+        } else {
+            // 오늘 파일 없으면 이전 파일 기준으로 최대 vno 읽기
+            File logDir = new File(".");
+            File[] files = logDir.listFiles((dir, name) -> name.startsWith("visitlog_") && name.endsWith(".csv"));
+            if(files != null && files.length > 0){
+                File lastFile = Arrays.stream(files)
+                        .sorted(Comparator.comparing(File::getName))
+                        .reduce((first, second) -> second)
+                        .get();
+                currentVno = getMaxVnoFromFile(lastFile);
+            } else {
+                currentVno = 0;
+            }
+        }
+    }
+
+    private int getMaxVnoFromFile(File file){
+        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+            return br.lines()
+                    .skip(1)
+                    .map(line -> line.split(",")[0].trim())
+                    .mapToInt(Integer::parseInt)
                     .max()
                     .orElse(0);
+        } catch(Exception e){
+            e.printStackTrace();
+            return 0;
         }
-    } // func e
+    }
 
+    //
     private synchronized int getNextVno() {
         return ++currentVno;
     }
