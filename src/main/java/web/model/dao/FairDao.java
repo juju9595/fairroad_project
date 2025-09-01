@@ -234,6 +234,19 @@ public class FairDao extends Dao{
         return list;
     } // func e
 
+    // fno 로 박람회 이름 조회
+    public String getFairNameByFno(int fno) {
+        String sql = "SELECT fname FROM fair WHERE fno = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, fno);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("fname");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    } // func e
+
 
     // --------------------------- 추천 알고리즘 ------------------------ //
 

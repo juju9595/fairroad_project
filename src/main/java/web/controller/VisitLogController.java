@@ -25,7 +25,7 @@ public class VisitLogController { // class start
     // 방문 로그 저장
     @PostMapping("")
     public boolean insertVisitLog(@RequestBody VisitLogDto visitlogDto){
-        boolean result = visitlogService.insertVisitLog(visitlogDto);
+            boolean result = visitlogService.insertVisitLog(visitlogDto);
         return result;
     } // func e
 
@@ -64,15 +64,19 @@ public class VisitLogController { // class start
         return visitlogService.getLogsByMember(mno);
     } // func e
 
-    // 회원별 최근 방문 10개
+    // 회원별 최근 방문 10개 + fname 포함
     @GetMapping("/recent")
-    public List<VisitLogDto> getRecentLogs(HttpSession session){
+    public Map<String, Object> getRecentVisits(HttpSession session) {
         Integer loginMno = (Integer) session.getAttribute("loginMno");
-        if(loginMno == null) loginMno = 101;// return Collections.emptyList();
 
-        return visitlogService.getLogsByMember(loginMno).stream()
-                .limit(10)
-                .collect(Collectors.toList());
+        // 로그인 기능 구현 전이라면 테스트용 가상 Mno
+        if (loginMno == null) loginMno = 1;
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("mno", loginMno);
+        result.put("lastvisitfair", visitlogService.getRecentVisitsWithName(loginMno));
+
+        return result;
     } // func e
 
 } // class end

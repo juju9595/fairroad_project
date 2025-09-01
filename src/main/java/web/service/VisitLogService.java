@@ -1,9 +1,11 @@
 package web.service;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import web.model.dao.FairDao;
 import web.model.dto.VisitLogDto;
 
 import java.io.*;
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class VisitLogService {
+    @Autowired
+    FairDao fairDao;
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final Object fileLock = new Object(); // 파일 잠금 객체 생성
@@ -135,13 +139,24 @@ public class VisitLogService {
                 // { 박람회 번호 = 방문횟수 } 그룹화 해서 Map 반환
     } // func e
 
-    // 회원별 최근 본 박람회 최대 10개
-    public List<VisitLogDto> getRecentVisitsByMember(int mno) {
+    // 회원별 최근 본 박람회 최대 10개 + fname 가져오기
+    public List<Map<String, Object>> getRecentVisitsWithName(int mno) {
         return readAllLogs().stream()
-                .filter(log -> log.getMno() != null && log.getMno() == mno) // 해당 회원만
-                .sorted(Comparator.comparing(VisitLogDto::getVdate).reversed()) // 최근 날짜 순 정렬
-                .limit(10) // 최대 10개만 가져오기
-                .collect(Collectors.toList()); // List로 반환
+                .filter(log -> log.getMno() != null && log.getMno() == mno)
+                .sorted(Comparator.comparing(VisitLogDto::getVdate).reversed())
+                .limit(10)
+                .map(log -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("fno", log.getFno());
+                    map.put("vdate", log.getVdate());
+
+                    // DB에서 fno → fname 조회
+                    String fname = fairDao.getFairNameByFno(log.getFno());
+                    map.put("fname", fname);
+
+                    return map;
+                })
+                .collect(Collectors.toList());
     } // func e
 
     // 하루 단위 아카이브 (매일 자정 실행)
