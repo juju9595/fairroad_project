@@ -16,7 +16,7 @@
 
     <div class="category">
         <ul>
-            <li>카테고리1</li>
+            <li><a href="/Fair/fairWrite.jsp">등록용테스트</a></li>
             <li>카테고리2</li>
             <li>카테고리3</li>
         </ul>
