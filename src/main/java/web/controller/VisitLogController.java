@@ -1,6 +1,7 @@
 package web.controller;
 
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,10 +10,8 @@ import web.model.dto.VisitLogDto;
 import web.service.VisitLogService;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,10 +58,21 @@ public class VisitLogController { // class start
         return "방문로그 등록 완료(비동기)";
     } // func e
 
-    // 회원별 조회
+    // 회원별 방문로그 조회
     @GetMapping("/member")
     public List<VisitLogDto> getLogsByMember(@RequestParam int mno){
         return visitlogService.getLogsByMember(mno);
+    } // func e
+
+    // 회원별 최근 방문 10개
+    @GetMapping("/recent")
+    public List<VisitLogDto> getRecentLogs(HttpSession session){
+        Integer loginMno = (Integer) session.getAttribute("loginMno");
+        if(loginMno == null) loginMno = 101;// return Collections.emptyList();
+
+        return visitlogService.getLogsByMember(loginMno).stream()
+                .limit(10)
+                .collect(Collectors.toList());
     } // func e
 
 } // class end
