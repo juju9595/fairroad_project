@@ -8,6 +8,7 @@ import web.model.dto.LastVisitDto;
 import web.model.dto.VisitLogDto;
 import web.service.VisitLogService;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class VisitLogController { // class start
     @Autowired
     private VisitLogService visitlogService;
 
+    /* 방문 기록 DB 처리 시 썼던 코드
     // 방문 로그 저장
     @PostMapping("")
     public boolean insertVisitLog(@RequestBody VisitLogDto visitlogDto){
@@ -39,6 +41,23 @@ public class VisitLogController { // class start
         result.put("lastvisitfair" , lastList);
 
         return result;
+    } // func e
+    */
+
+    // --------------- CSV 파일 처리 할때 쓰는 코드 ---------------- //
+    // 방문 로그 저장
+    @PostMapping("/add")
+    public String insertVisitLog(@RequestParam int vno ,
+                                 @RequestParam int mno ,
+                                 @RequestParam int fno ){
+        visitlogService.addVisitLogAsync(new VisitLogDto(vno , mno , fno , LocalDateTime.now()));
+        return "방문로그 등록 완료(비동기)";
+    } // func e
+
+    // 회원별 조회
+    @GetMapping("/member")
+    public List<VisitLogDto> getLogsByMember(@RequestParam int mno){
+        return visitlogService.getLogsByMember(mno);
     } // func e
 
 } // class end
