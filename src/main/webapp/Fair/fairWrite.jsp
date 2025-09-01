@@ -44,8 +44,9 @@
             링크:<input class="furl" />
             개최일:<input class="start_date" />
             마감일:<input class="end_date" />
-            <textarea class="finfo" id="summernote" name="editordata" ></textarea>
             <button type="button" onclick="onFairWrite()">등록</button>
+            <textarea class="finfo" id="summernote" name="editordata" ></textarea>
+            
         </dvi>
         <script src='/js/Fair/fairWrite.js'></script>
     </body>
