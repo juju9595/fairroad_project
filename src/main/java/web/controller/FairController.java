@@ -35,9 +35,9 @@ public class FairController { // class start
 
     //박람회 전체
     @GetMapping("/print")
-    public PageDto fairPrint(@RequestParam int cno,
-                             @RequestParam int page,
-                             @RequestParam int count,
+    public PageDto fairPrint(@RequestParam (defaultValue = "1")int cno,
+                             @RequestParam (defaultValue = "1")int page,
+                             @RequestParam (defaultValue = "5")int count,
                              @RequestParam (required = false) String key,
                              @RequestParam (required = false) String keyword){
         PageDto result= fairService.fairPrint(cno,page,count,key,keyword);

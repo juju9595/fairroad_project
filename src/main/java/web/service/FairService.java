@@ -1,5 +1,6 @@
 package web.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.model.dao.FairDao;
@@ -17,8 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class FairService {
-    @Autowired FairDao fairDao;
+    private final FairDao fairDao;
 
     //박람회 등록
     public int fairWrite(FairDto fairDto){

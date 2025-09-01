@@ -71,16 +71,15 @@ public class FairDao extends Dao{
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 FairDto fairDto = new FairDto();
-                fairDto.setFno(rs.getInt("fno"));
                 fairDto.setFname(rs.getString("fname"));
                 fairDto.setFimg(rs.getString("fimg"));
                 fairDto.setFplace(rs.getString("fplace"));
                 fairDto.setFprice(rs.getInt("fprice"));
-                fairDto.setFurl(rs.getString("furl"));
-                fairDto.setFinfo(rs.getString("finfo"));
                 fairDto.setStart_date(rs.getString("start_date"));
                 fairDto.setEnd_date(rs.getString("end_date"));
                 fairDto.setFcount(rs.getInt("fcount"));
+                fairDto.setCno(rs.getInt("cno"));
+                fairDto.setFno(rs.getInt("fno"));
                 list.add(fairDto);
             }//while end
             ps.close();
@@ -188,6 +187,7 @@ public class FairDao extends Dao{
            while(rs.next()){
                FairDto fairDto = new FairDto();
                fairDto.setFno(rs.getInt("fno"));
+               fairDto.setCno(rs.getInt("cno"));
                fairDto.setFname(rs.getString("fname"));
                fairDto.setFimg(rs.getString("fimg"));
                fairDto.setFplace(rs.getString("fplace"));
