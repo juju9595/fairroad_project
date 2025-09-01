@@ -30,6 +30,7 @@ const onFairWrite = async() => {
         const data = await response.json();
         if(data>0){
             alert("등록성공");
+            location.href=`/index.jsp`;
         }else{
             alert("등록실패");
         }//if end
