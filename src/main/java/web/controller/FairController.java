@@ -45,10 +45,6 @@ public class FairController { // class start
     }//func end
 
 
-
-    @Autowired
-    private FairService fairService;
-
     // 조회수별 박람회 조회
     @GetMapping("/visitlog/fcount")
     public List<FairCountDto> fcountList(){
