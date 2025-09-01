@@ -15,11 +15,13 @@
         <table>
             <thead>
                 <tr>
-                    <th> 번호 </th>
                     <th> 제목 </th>
                     <th> 사진 </th>
+                    <th> 가격 </th>
+                    <th> 장소 </th>
                     <th> 개최일 </th>
                     <th> 마감일 </th>
+                    <th> 조회수 </th>
                 </tr>
             </thead>
             <tbody id="fairTbody">
