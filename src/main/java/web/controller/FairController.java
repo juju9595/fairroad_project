@@ -35,25 +35,24 @@ public class FairController { // class start
 
     //박람회 전체
     @GetMapping("/print")
-    public PageDto fairPrint(@RequestParam int cno,
-                             @RequestParam int page,
-                             @RequestParam int count,
+    public PageDto fairPrint(@RequestParam (defaultValue = "1")int cno,
+                             @RequestParam (defaultValue = "1")int page,
+                             @RequestParam (defaultValue = "5")int count,
                              @RequestParam (required = false) String key,
                              @RequestParam (required = false) String keyword){
         PageDto result= fairService.fairPrint(cno,page,count,key,keyword);
         return result;
     }//func end
 
-
     // 조회수별 박람회 조회
-    @GetMapping("/fcount")
+    @GetMapping("/visitlog/fcount")
     public List<FairCountDto> fcountList(){
         List<FairCountDto> result = fairService.fcountList();
         return result;
     } // func e
 
     // 지역별 박람회 조회
-    @GetMapping("/fregion")
+    @GetMapping("/visitlog/fregion")
     public Map<String , List<FairRegionDto>> fregionList(){
         Map<String , List<FairRegionDto>> result = fairService.fregionList();
         return result;

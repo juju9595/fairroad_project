@@ -24,22 +24,37 @@ public class FairDao extends Dao{
     //박람회 등록
     public int fairWrite(FairDto fairDto){
         try{
-            String sql = "INSERT INTO fair(fname , fimg , fplace , fprice , furl , finfo , start_date , end_date , fcount) values(?,?,?,?,?,?,?,?,?);";
+            String sql = "INSERT INTO fair(fname , fplace , fprice , furl , finfo , start_date , end_date , cno) values(?,?,?,?,?,?,?,?);";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1,fairDto.getFname());
-            ps.setString(2, fairDto.getFimg());
-            ps.setString(3,fairDto.getFplace());
-            ps.setInt(4,fairDto.getFprice());
-            ps.setString(5,fairDto.getFurl());
-            ps.setString(6,fairDto.getFinfo());
-            ps.setString(7,fairDto.getStart_date());
-            ps.setString(8,fairDto.getEnd_date());
-            ps.setInt(9,fairDto.getFcount());
+            ps.setString(2,fairDto.getFplace());
+            ps.setInt(3,fairDto.getFprice());
+            ps.setString(4,fairDto.getFurl());
+            ps.setString(5,fairDto.getFinfo());
+            ps.setString(6,fairDto.getStart_date());
+            ps.setString(7,fairDto.getEnd_date());
+            ps.setInt(8,fairDto.getCno());
             int count = ps.executeUpdate();
             if(count==1)return 1;
             ps.close();
         } catch (Exception e) {System.out.println(e);}//catch end
         return 0;
+    }//func end
+
+    //-----------------------------------------------------------------------------------------------------------//
+
+    //박람회 대표 이미지 등록
+    public boolean fairImg(String fimg,int fno){
+        try{
+            String sql = "INSERT INTO fair(fimg,fno)values(?,?);";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,fimg);
+            ps.setInt(2,fno);
+            int count = ps.executeUpdate();
+            if(count==1) return true;
+            ps.close();
+        } catch (Exception e) {System.out.println(e);}//catch end
+        return false;
     }//func end
 
     //-----------------------------------------------------------------------------------------------------------//
@@ -56,16 +71,15 @@ public class FairDao extends Dao{
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 FairDto fairDto = new FairDto();
-                fairDto.setFno(rs.getInt("fno"));
                 fairDto.setFname(rs.getString("fname"));
                 fairDto.setFimg(rs.getString("fimg"));
                 fairDto.setFplace(rs.getString("fplace"));
                 fairDto.setFprice(rs.getInt("fprice"));
-                fairDto.setFurl(rs.getString("furl"));
-                fairDto.setFinfo(rs.getString("finfo"));
                 fairDto.setStart_date(rs.getString("start_date"));
                 fairDto.setEnd_date(rs.getString("end_date"));
                 fairDto.setFcount(rs.getInt("fcount"));
+                fairDto.setCno(rs.getInt("cno"));
+                fairDto.setFno(rs.getInt("fno"));
                 list.add(fairDto);
             }//while end
             ps.close();
@@ -173,6 +187,7 @@ public class FairDao extends Dao{
            while(rs.next()){
                FairDto fairDto = new FairDto();
                fairDto.setFno(rs.getInt("fno"));
+               fairDto.setCno(rs.getInt("cno"));
                fairDto.setFname(rs.getString("fname"));
                fairDto.setFimg(rs.getString("fimg"));
                fairDto.setFplace(rs.getString("fplace"));
