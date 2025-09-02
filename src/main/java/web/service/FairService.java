@@ -52,19 +52,19 @@ public class FairService {
         int totalPage = totalCount % count == 0? totalCount/count : totalCount/count+1; //나머지가 존재하면 +1
 
         // 최대 버튼수
-        int btbCount=5;
+        int btnCount=5;
 
         //시작 버튼
-        int startBtn = ((page-1)/btbCount)*btbCount+1;
+        int startBtn = ((page-1)/btnCount)*btnCount+1;
         //끝 버튼
-        int endBtn = startBtn + btbCount -1;
+        int endBtn = startBtn + btnCount -1;
         //총 페이지수 끝번호
         if(endBtn > totalPage) endBtn = totalPage;
 
         //pageDto 구성하기
         PageDto pageDto = new PageDto();
         pageDto.setCurrentPage(page);
-        pageDto.setTotalCount(totalPage);
+        pageDto.setTotalPage(totalPage);
         pageDto.setPerCount(count);
         pageDto.setTotalCount(totalCount);
         pageDto.setStartBtn(startBtn);
