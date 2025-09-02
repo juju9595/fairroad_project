@@ -39,6 +39,7 @@ public class MembersController { // class start
         if(result > 0){
             session.setAttribute("loginMno", result);
         }
+        //
         return result;
     }//func e
 
