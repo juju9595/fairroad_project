@@ -114,4 +114,36 @@ public class MemberDao extends Dao{
         }catch (Exception e) {System.out.println();}
         return list;
     }
+
+
+
+    // ---------------------------- 추천 알고리즘 --------------------- //
+
+    // [7] 회원번호로 회원 정보 조회
+    public MembersDto getMemberByMno(int mno){
+        try{
+            String sql = "select * from members where mno = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, mno);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                MembersDto member = new MembersDto();
+                member.setMno(rs.getInt("mno"));
+                member.setMid(rs.getString("mid"));
+                member.setMpwd(rs.getString("mpwd"));
+                member.setMname(rs.getString("mname"));
+                member.setMbirth(rs.getString("mbirth"));
+                member.setMphone(rs.getString("mphone"));
+                member.setMemail(rs.getString("memail"));
+                member.setMaddress(rs.getString("maddress"));
+                return member;
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return null; // 조회 실패
+    }
 }//class e
+
+
+
