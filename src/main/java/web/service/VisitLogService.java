@@ -168,33 +168,51 @@ public class VisitLogService {
     // 날짜별로 csv 파일 백업 메소드 (매일 자정 실행)
     public void archiveDailyLogs() {
         List<VisitLogDto> logs = readAllLogs();
-        if (logs.isEmpty()) return; // 로그 비어있으면 함수 종료
 
+        if (logs.isEmpty()) {
+            System.out.println("archiveDailyLogs 종료: 로그가 비어있음");
+            return; // 로그 비어있으면 함수 종료
+        }
+
+        // 프로젝트 루트 기준 logs 디렉토리
+        String baseDir = System.getProperty("user.dir") + File.separator + "logs";
+        System.out.println("baseDir 절대 경로: " + new File(baseDir).getAbsolutePath());
+
+        // 방문 로그를 날짜별로 그룹화
         Map<String, List<VisitLogDto>> byDate = logs.stream()
+                .filter(log -> log.getVdate() != null) // 안전하게 null 체크
                 .collect(Collectors.groupingBy(log -> log.getVdate().toLocalDate().format(dateFormatter)));
-        // 로그 순회하면서 방문날짜 기준으로 그룹화
-        // LocalDate(yyyy-MM-dd) 형태로 추출
-        // format() : 문자열로 반환
 
-        // 날짜별 디렉토리 생성
+        System.out.println("archiveDailyLogs: byDate 그룹화 완료, 날짜 수 = " + byDate.size());
+
         for (String date : byDate.keySet()) {
-            String archiveDir = "logs/" + date;
-            new File(archiveDir).mkdirs();
-            String archiveFile = archiveDir + "/visitlog.csv";
+            String archiveDir = baseDir + File.separator + date; // ← 절대 경로 사용
+            File dir = new File(archiveDir);
+            if (!dir.exists()) {
+                boolean dirCreated = dir.mkdirs();
+                System.out.println("디렉토리 생성: " + archiveDir + " -> " + dirCreated);
+            } else {
+                System.out.println("디렉토리 이미 존재: " + archiveDir);
+            }
 
-            synchronized (fileLock) { // 동기화 블럭 시작!!
+            String archiveFile = archiveDir + File.separator + "visitlog.csv";
+            System.out.println("아카이브 파일 경로: " + new File(archiveFile).getAbsolutePath());
+
+            synchronized (fileLock) { // 동기화 블럭 시작
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(archiveFile))) {
-                    bw.write("vno, mno, fno, vdate");
+                    bw.write("vno,mno,fno,vdate");
                     bw.newLine();
+
                     for (VisitLogDto log : byDate.get(date)) {
                         bw.write(log.toCsv());
                         bw.newLine();
                     }
+                    bw.flush(); // 안전하게 버퍼 비우기
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } // syn e
-            System.out.println("아카이브 완료 : " + date);
+            System.out.println("아카이브 완료: " + date + ", 로그 수 = " + byDate.get(date).size());
         } // for e
     } // func e
 
