@@ -25,7 +25,7 @@
             <li>카테고리3</li>
         </ul>
     </div>
-
+//
     <div class="banner">
 
     </div>
