@@ -34,11 +34,11 @@
         <!-- 페이징 버튼 구역-->
         <div style="width: 300px;">
             <ul class="pageBtnBox" style="display: flex; justify-content: space-between;">
-                <li><a href="fairPrint.jsp?cno=1&page=1">1</a></li>
-                <li><a href="fairPrint.jsp?cno=1&page=2">2</a></li>
-                <li><a href="fairPrint.jsp?cno=1&page=3">3</a></li>
-                <li><a href="fairPrint.jsp?cno=1&page=4">4</a></li>
-                <li><a href="fairPrint.jsp?cno=1&page=5">5</a></li>
+                <li><a href="allPostCategory.jsp?cno=1&page=1">1</a></li>
+                <li><a href="allPostCategory.jsp?cno=1&page=2">2</a></li>
+                <li><a href="allPostCategory.jsp?cno=1&page=3">3</a></li>
+                <li><a href="allPostCategory.jsp?cno=1&page=4">4</a></li>
+                <li><a href="allPostCategory.jsp?cno=1&page=5">5</a></li>
             </ul>
         </div>
 
@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <script src='/js/Fair/fairPrint.js'></script>
+        <script src='/js/Fair/allPostCategory.js'></script>
     </body>
 
     </html>

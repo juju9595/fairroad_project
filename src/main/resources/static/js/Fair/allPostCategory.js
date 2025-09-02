@@ -1,5 +1,3 @@
-console.log("fairPrint open");
-
 // 사용자가 요청한 URL 에서 CNO 가져오기 page 가져오기
 const params = new URL(location.href).searchParams; // 현재 페이지의 URL 에서 매개변수 값 반환
 
@@ -8,10 +6,10 @@ const page = params.get('page')||1;     //page 존재하지 않으면 1
 const key = params.get('key')||'';      //key 존재 하지 않으면''
 const keyword = params.get('keyword')||'';
 
-const fairPrint = async () =>{
+const allPostCategory = async () =>{
     console.log("fairPrint");
     try{
-        const url = `/fair/print?cno=${cno}&page=${page}&key=${key}&keyword=${keyword}`;
+        const url = `/fair/allPostCategory?cno=${cno}&page=${page}&key=${key}&keyword=${keyword}`;
         const response = await fetch(url);
         const data = await response.json(); console.log(data);
 
@@ -50,18 +48,18 @@ const viewPageButtons = async(data) =>{
     let html=``;
     //이전 버튼
     html +=  `<li>
-                <a href="/Fair/fairPrint.jsp?cno=${cno}&page=${currentPage == 1 ? 1 : currentPage -1}${searchURL}">이전</a>
+                <a href="/Fair/allPostCategory.jsp?cno=${cno}&page=${currentPage == 1 ? 1 : currentPage -1}${searchURL}">이전</a>
              </li>`
     //페이지 버튼
     for(let i=startBtn; i<=endBtn; i++){
         html +=  `<li>
-                <a href="/Fair/fairPrint.jsp?cno=${cno}&page=${i}${searchURL}" style="${i==currentPage ? 'color:red':''}">${i}</a>
+                <a href="/Fair/allPostCategory.jsp?cno=${cno}&page=${i}${searchURL}" style="${i==currentPage ? 'color:red':''}">${i}</a>
              </li>`
     }//if end
 
     //다음 버튼
     html +=  `<li>
-                <a href="/Fair/fairPrint.jsp?cno=${cno}&page=${currentPage+1 >= totalPage ? totalPage : currentPage +1}${searchURL}">다음</a>
+                <a href="/Fair/allPostCategory.jsp?cno=${cno}&page=${currentPage+1 >= totalPage ? totalPage : currentPage +1}${searchURL}">다음</a>
              </li>`
     pageBtnBox.innerHTML=html
 }//func end
@@ -70,7 +68,7 @@ const onSearch = async( )=>{
     const newkey = document.querySelector('.key').value;
     const newkeyword = document.querySelector('.keyword').value;
 
-    location.href=`fairPrint.jsp?cno=${cno}&page=${page}&key=${newkey}&keyword=${newkeyword}`;
+    location.href=`allPostCategory.jsp?cno=${cno}&page=${page}&key=${newkey}&keyword=${newkeyword}`;
 }//func end
 
-fairPrint();
+allPostCategory();
