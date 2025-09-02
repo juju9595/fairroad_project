@@ -13,7 +13,7 @@ public class ReviewService {
     ReviewDao reviewDao;
 
     // [1] 방문 리뷰 등록
-    public boolean reviewWrite( ReviewDto reviewDto ){
+    public int reviewWrite( ReviewDto reviewDto ){
         return reviewDao.reviewWrite( reviewDto );
     }
 
@@ -29,7 +29,7 @@ public class ReviewService {
 
 
     // [4] 방문 리뷰 수정
-    public boolean reviewUpdate( int rno , String rcontent ){
+    public int reviewUpdate( int rno , String rcontent ){
         return reviewDao.reviewUpdate( rno , rcontent );
     }
 
@@ -38,4 +38,11 @@ public class ReviewService {
     public boolean revieweDelete( int rno ){
         return reviewDao.reviewDelete( rno );
     }
+
+
+
+
+    //-------------------------------------------------------------//
+
+
 }
