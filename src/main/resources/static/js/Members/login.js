@@ -25,4 +25,4 @@ const login = async() =>{
             location.href="/index.jsp";
         }else{alert('아이디 또는 비밀번호가 다릅니다.')}
     }catch{}
-}
+}//func e

@@ -8,7 +8,7 @@ import web.model.dto.MembersDto;
 @Service
 public class MembersService {
     @Autowired
-    MemberDao memberDao;
+    private MemberDao memberDao;
 
     // [1] 회원가입
     public int signUp(MembersDto membersDto){

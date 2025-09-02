@@ -13,7 +13,7 @@ public class MemberDao extends Dao{
     //회원가입
     public int signUp(MembersDto membersDto){
         try{
-            String sql = "insert into members (mid, mpwd, mname, mbirth, mphone, memail, joindate, maddress) values(?,?,?,?,?,?,?,?)";
+            String sql = "insert into members (mid, mpwd, mname, mbirth, mphone, memail, maddress) values(?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, membersDto.getMid());
             ps.setString(2, membersDto.getMpwd());
@@ -21,8 +21,7 @@ public class MemberDao extends Dao{
             ps.setString(4, membersDto.getMbirth());
             ps.setString(5, membersDto.getMphone());
             ps.setString(6, membersDto.getMemail());
-            ps.setString(7, membersDto.getJoindate());
-            ps.setString(8, membersDto.getMaddress() );
+            ps.setString(7, membersDto.getMaddress() );
             int count = ps.executeUpdate();
             if(count == 1){
                 ResultSet rs = ps.getGeneratedKeys();

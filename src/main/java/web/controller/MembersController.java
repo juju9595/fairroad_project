@@ -3,7 +3,6 @@ package web.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,6 @@ import web.model.dto.MembersDto;
 import web.service.MembersService;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/member")
 public class MembersController { // class start
 

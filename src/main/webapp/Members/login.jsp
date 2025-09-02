@@ -25,17 +25,17 @@
         <button type="button" onclick="login()" class="btn-primary">로그인</button>
 
         <div class="links">
-        <a href="/member/idFind.jsp">아이디 찾기</a>
+        <a href="/Members/idFind.jsp">아이디 찾기</a>
         <span>|</span>
-        <a href="/member/pwdFind.jsp">아이디 찾기</a>
+        <a href="/Members/pwdFind.jsp">아이디 찾기</a>
         <span>|</span>
-         <a href="/member/signup.jsp">회원가입</a>
+         <a href="/Members/signup.jsp">회원가입</a>
         </div>
     </div>
 
     <jsp:include page="/footer.jsp"></jsp:include>
 
-    <script src="/js/member/login.js"></script></title>
+    <script src="/js/Members/login.js"></script></title>
     
 </body>
 </html>
