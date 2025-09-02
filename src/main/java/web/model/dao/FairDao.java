@@ -37,7 +37,7 @@ public class FairDao extends Dao{
             int count = ps.executeUpdate();
             if(count==1)return 1;
             ps.close();
-        } catch (Exception e) {System.out.println(e);}//catch end
+        } catch (Exception e) {System.out.println("박람회등록"+e);}//catch end
         return 0;
     }//func end
 
@@ -56,10 +56,108 @@ public class FairDao extends Dao{
         } catch (Exception e) {System.out.println(e);}//catch end
         return false;
     }//func end
+    //-----------------------------------------------------------------------------------------------------------//
+
+    //박람회 메인화면 전체 조회
+    public List<FairDto>fairPrintMain(int starRow,int count){
+        List<FairDto> list = new ArrayList<>();
+        try{
+            String sql = "select * from fair order by start_date desc limit ?,?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,starRow);
+            ps.setInt(2,count);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                FairDto fairDto = new FairDto();
+                fairDto.setFimg(rs.getString("fimg"));
+                fairDto.setFname(rs.getString("fname"));
+                fairDto.setFprice(rs.getInt("fprice"));
+                list.add(fairDto);
+
+            }//while end
+        } catch (Exception e) {System.out.println("메인화면 전체조회"+e);}//catch end
+        return list;
+    }//func end
+
 
     //-----------------------------------------------------------------------------------------------------------//
 
-    //박람회 조회
+    //박람회 메인화면 게시물 수
+    public int getMainTotalCount(int fno){
+        try{
+            String sql = "SELECT COUNT(*) FROM fair WHERE cno=?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,fno);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+            ps.close();
+            rs.close();
+        } catch (Exception e) {System.out.println("메인화면 게시물수"+e);}//catch end
+        return 0;
+    }//func end
+
+    //-----------------------------------------------------------------------------------------------------------//
+
+    //박람회 메인화면 게시물 수 [검색]
+    public int getMainTotalCountSearch(int fno,String key, String keyword){
+        try{
+            String sql = "SELECT COUNT(*) FROM fair where fno=?";
+            if(key.equals("fname")){sql+=" and fname like ? ";}
+            else if(key.equals("finfo")){sql+= " and finfo like ? ";}
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,fno);
+            ps.setString(2,"%"+keyword+"%");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }//if end
+
+        }catch(Exception e){System.out.println("메인화면 게시물수[검색]"+e);}//catch end
+        return 0;
+    }//func end
+    //-----------------------------------------------------------------------------------------------------------//
+
+    //박람회 메인 게시물 전체 정보 조회 [검색]
+    public List<FairDto>fairPrintMainSearch(int fno,int startRow,int count,String key, String keyword){
+        List<FairDto> list =  new ArrayList<>();
+        try{
+            String sql = "select *from fair where fno=?";
+            if(key.equals("fname")){sql+=" and fname like ? ";}
+            else if(key.equals("finfo")){sql+=" and finfo like ? ";}
+            //페이징 처리
+            sql += " order by fno desc limit ?,? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,fno);
+            ps.setString(2,"%"+keyword+"%");
+            ps.setInt(3,startRow);
+            ps.setInt(4,count);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                FairDto fairDto = new FairDto();
+                fairDto.setFno(rs.getInt("fno"));
+                fairDto.setFname(rs.getString("fname"));
+                fairDto.setFimg(rs.getString("fimg"));
+                fairDto.setFplace(rs.getString("fplace"));
+                fairDto.setFprice(rs.getInt("fprice"));
+                fairDto.setFurl(rs.getString("furl"));
+                fairDto.setFinfo(rs.getString("finfo"));
+                fairDto.setStart_date(rs.getString("start_date"));
+                fairDto.setEnd_date(rs.getString("end_date"));
+                fairDto.setFcount(rs.getInt("fcount"));
+                list.add(fairDto);
+            }//while end
+            ps.close();
+            rs.close();
+        }catch(Exception e){System.out.println("메인화면 전체조회[검색]"+e);}//catch end
+        return list;
+    }//func end
+
+    //-----------------------------------------------------------------------------------------------------------//
+
+
+    //박람회 카테고리 조회
     public List<FairDto>fairPrint(int cno,int startRow, int count){
         List<FairDto> list = new ArrayList<>();
         try{

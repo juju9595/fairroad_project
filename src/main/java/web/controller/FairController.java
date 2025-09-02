@@ -33,7 +33,7 @@ public class FairController { // class start
         return result;
     }//func end
 
-    //박람회 전체
+    //박람회 카테고리 전체
     @GetMapping("/print")
     public PageDto fairPrint(@RequestParam (defaultValue = "1")int cno,
                              @RequestParam (defaultValue = "1")int page,
@@ -43,6 +43,16 @@ public class FairController { // class start
         PageDto result= fairService.fairPrint(cno,page,count,key,keyword);
         return result;
     }//func end
+
+    @GetMapping("/main")
+    public PageDto fairPrintMain(@RequestParam (defaultValue = "1")int fno,
+                                 @RequestParam (defaultValue = "1")int page,
+                                 @RequestParam (defaultValue = "5")int count,
+                                 @RequestParam (required = false) String key,
+                                 @RequestParam (required = false) String keyword){
+        PageDto result = fairService.fairMainPrint(fno,page,count,key,keyword);
+        return result;
+    }
 
     // 조회수별 박람회 조회
     @GetMapping("/visitlog/fcount")
