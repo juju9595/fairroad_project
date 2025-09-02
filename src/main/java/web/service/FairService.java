@@ -39,7 +39,7 @@ public class FairService {
         if(key!=null&&!key.isEmpty()&&keyword!=null&&keyword.isEmpty()){
             //검색일때
             totalCount=fairDao.getMainTotalCountSearch(fno,key,keyword);
-            fairList=fairDao.fairPrintMainSearch(startRow,count,key,keyword);
+            fairList=fairDao.fairPrintMainSearch(fno,startRow,count,key,keyword);
         }else{
             //검색 아닐때
             totalCount = fairDao.getMainTotalCount(fno);
