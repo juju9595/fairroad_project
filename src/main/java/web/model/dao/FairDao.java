@@ -14,8 +14,8 @@ public class FairDao extends Dao{
     // [1] 방문 리뷰 등록
     public boolean reviewWrite( ReviewDto dto ) {
         String sql = "INSERT INTO review ( rcontent, rdate ) VALUES ( ?, ? )";
-        try {
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try (
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, dto.getRcontent());
             ps.setDate(2, Date.valueOf(dto.getRdate()));
@@ -37,12 +37,12 @@ public class FairDao extends Dao{
     //--------------------------------------------------------------------------------------------------//
 
     // [2] 방문 리뷰 전체 조회
-    public List<ReviewDto> reviewPrint() {
+    public List<ReviewDto> findAll() {
         String sql = "SELECT rno, rcontent, rdate FROM review ORDER BY rno DESC";
         List<ReviewDto> list = new ArrayList<>();
-        try {
+        try (
              PreparedStatement ps = conn.prepareStatement( sql );
-             ResultSet rs = ps.executeQuery();
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 list.add(new ReviewDto(
@@ -63,8 +63,8 @@ public class FairDao extends Dao{
     // [3] 방문 리뷰 개별 조회
     public ReviewDto reviewPrint2( int rno ) {
         String sql = "SELECT rno, rcontent, rdate FROM review WHERE rno = ?";
-        try{
-             PreparedStatement ps = conn.prepareStatement( sql );
+        try (
+             PreparedStatement ps = conn.prepareStatement( sql )) {
 
             ps.setInt(1, rno);
             try (ResultSet rs = ps.executeQuery()) {
@@ -100,25 +100,6 @@ public class FairDao extends Dao{
                  return true;
              }
         }catch ( Exception e ){
-            System.out.println( e );
-        }
-        return false;
-    }
-
-
-    // [5] 방문 리뷰 삭제
-    public boolean reviewDelete( int rno ) {
-        String sql = "DELETE FROM review WHERE rno = ?";
-        try{
-             PreparedStatement ps = conn.prepareStatement( sql );
-
-            ps.setInt(1, rno);
-            int count = ps.executeUpdate();
-
-            if( count == 1 ){
-                return true;
-            }
-        } catch ( Exception e ){
             System.out.println( e );
         }
         return false;
