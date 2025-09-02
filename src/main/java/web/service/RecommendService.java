@@ -72,15 +72,36 @@ public class RecommendService {
             } //if e
         } // func e
 
+        // ============= 점수 출력 디버그용 =============
+        System.out.println("=== 점수 맵 ===");
+        for(Integer fno : scoreMap.keySet()){
+            FairDto fair = fairDao.getFairbyFno(fno);
+            System.out.println(fair.getFname() + " : 점수=" + scoreMap.get(fno));
+        } // fuc e
+        // ==========================================
+
         // 점수 합산 후 확률 계산
         double totalScore = scoreMap.values().stream().mapToDouble(Double::doubleValue).sum();
         if(totalScore == 0) return new ArrayList<>();
+
+        // ============= 확률 출력 디버그용 =============
+        System.out.println("\n=== 확률 맵 ===");
+        Map<Integer, Double> probabilityMap = new HashMap<>();
+        for(Integer fno : scoreMap.keySet()){
+            double prob = scoreMap.get(fno) / totalScore * 100;
+            probabilityMap.put(fno, prob);
+            FairDto fair = fairDao.getFairbyFno(fno);
+            System.out.println(fair.getFname() + " : 확률=" + String.format("%.2f", prob) + "%");
+        } // func e
+        // ==========================================
+
 
         List<Integer> fnoPool = new ArrayList<>(scoreMap.keySet());
         List<FairDto> resultList = new ArrayList<>();
         Random random = new Random();
 
         // 확률 기반 랜덤 추천
+        System.out.println("\n=== 선택 과정 맵 ===");
         while (resultList.size() < RECOMMEND_COUNT && !fnoPool.isEmpty()){
             double r = random.nextDouble() * totalScore;
             double cumulative = 0.0;
@@ -95,10 +116,19 @@ public class RecommendService {
             } // for e
 
             if (selectedFno != null ){
-                resultList.add(fairDao.getFairbyFno(selectedFno));
+                FairDto selectedFair = fairDao.getFairbyFno(selectedFno);
+                resultList.add(selectedFair);
+
+                // ============= 확률 선택 과정 디버그 출력 =============
+                System.out.println("랜덤값: " + r + ", 선택된 박람회: " +
+                        selectedFair.getFname() +
+                        ", 점수: " + scoreMap.get(selectedFno) +
+                        ", 현재 totalScore: " + totalScore);
+                // ==========================================
+
                 totalScore -= scoreMap.get(selectedFno);
                 fnoPool.remove(selectedFno);
-            } // if e
+            }
         } // while e
         return resultList;
     } // func e
