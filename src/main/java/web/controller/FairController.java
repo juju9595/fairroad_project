@@ -65,7 +65,7 @@ public class FairController { // class start
     }
 
     // 박람회 상세 조회
-)    @GetMapping("/getpost")
+    @GetMapping("/getpost")
     public FairDto fairInfo(@RequestParam int fno){
         FairDto result = fairService.fairInfo(fno);
         return result;
