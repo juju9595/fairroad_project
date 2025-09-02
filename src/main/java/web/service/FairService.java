@@ -28,6 +28,12 @@ public class FairService {
         return result;
     }//func end
 
+    //박람회 대표 이미지 등록
+    public boolean fairImg(String fimg,int fno){
+        boolean result = fairDao.fairImg(fimg,fno);
+        return result;
+    }//func end
+
     //박람회 메인 전체 조회
     public PageDto fairMainPrint(int page,int count,String key, String keyword){
         int startRow=(page-1)*count;

@@ -25,7 +25,7 @@ public class FairDao extends Dao{
     public int fairWrite(FairDto fairDto){
         try{
             String sql = "INSERT INTO fair(fname , fplace , fprice , furl , finfo , start_date , end_date , cno) values(?,?,?,?,?,?,?,?);";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1,fairDto.getFname());
             ps.setString(2,fairDto.getFplace());
             ps.setInt(3,fairDto.getFprice());
@@ -35,7 +35,12 @@ public class FairDao extends Dao{
             ps.setString(7,fairDto.getEnd_date());
             ps.setInt(8,fairDto.getCno());
             int count = ps.executeUpdate();
-            if(count==1)return 1;
+            if(count==1) {
+                ResultSet rs =ps.getGeneratedKeys();
+                if(rs.next()){
+                    return rs.getInt(1);
+                }
+            };
             ps.close();
         } catch (Exception e) {System.out.println("박람회등록"+e);}//catch end
         return 0;
