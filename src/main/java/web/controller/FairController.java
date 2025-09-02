@@ -45,12 +45,11 @@ public class FairController { // class start
     }//func end
 
     @GetMapping("/main")
-    public PageDto fairPrintMain(@RequestParam (defaultValue = "1")int fno,
-                                 @RequestParam (defaultValue = "1")int page,
+    public PageDto fairPrintMain(@RequestParam (defaultValue = "1")int page,
                                  @RequestParam (defaultValue = "5")int count,
                                  @RequestParam (required = false) String key,
                                  @RequestParam (required = false) String keyword){
-        PageDto result = fairService.fairMainPrint(fno,page,count,key,keyword);
+        PageDto result = fairService.fairMainPrint(page,count,key,keyword);
         return result;
     }
 

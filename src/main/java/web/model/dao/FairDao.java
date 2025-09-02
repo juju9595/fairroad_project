@@ -83,11 +83,10 @@ public class FairDao extends Dao{
     //-----------------------------------------------------------------------------------------------------------//
 
     //박람회 메인화면 게시물 수
-    public int getMainTotalCount(int fno){
+    public int getMainTotalCount(){
         try{
-            String sql = "SELECT COUNT(*) FROM fair WHERE cno=?;";
+            String sql = "SELECT COUNT(*) FROM fair;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1,fno);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return rs.getInt(1);
@@ -101,38 +100,35 @@ public class FairDao extends Dao{
     //-----------------------------------------------------------------------------------------------------------//
 
     //박람회 메인화면 게시물 수 [검색]
-    public int getMainTotalCountSearch(int fno,String key, String keyword){
+    public int getMainTotalCountSearch(String key, String keyword){
         try{
-            String sql = "SELECT COUNT(*) FROM fair where fno=?";
+            String sql = "SELECT COUNT(*) FROM fair WHERE 1=1 ";
             if(key.equals("fname")){sql+=" and fname like ? ";}
             else if(key.equals("finfo")){sql+= " and finfo like ? ";}
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1,fno);
-            ps.setString(2,"%"+keyword+"%");
+            ps.setString(1,"%"+keyword+"%");
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return rs.getInt(1);
             }//if end
-
         }catch(Exception e){System.out.println("메인화면 게시물수[검색]"+e);}//catch end
         return 0;
     }//func end
     //-----------------------------------------------------------------------------------------------------------//
 
     //박람회 메인 게시물 전체 정보 조회 [검색]
-    public List<FairDto>fairPrintMainSearch(int fno,int startRow,int count,String key, String keyword){
+    public List<FairDto>fairPrintMainSearch(int startRow,int count,String key, String keyword){
         List<FairDto> list =  new ArrayList<>();
         try{
-            String sql = "select *from fair where fno=?";
+            String sql = "select *from fair where 1=1 ";
             if(key.equals("fname")){sql+=" and fname like ? ";}
             else if(key.equals("finfo")){sql+=" and finfo like ? ";}
             //페이징 처리
             sql += " order by fno desc limit ?,? ";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1,fno);
-            ps.setString(2,"%"+keyword+"%");
-            ps.setInt(3,startRow);
-            ps.setInt(4,count);
+            ps.setString(1,"%"+keyword+"%");
+            ps.setInt(2,startRow);
+            ps.setInt(3,count);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 FairDto fairDto = new FairDto();
