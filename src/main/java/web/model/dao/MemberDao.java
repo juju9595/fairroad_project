@@ -70,7 +70,9 @@ public class MemberDao extends Dao{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, membersDto.getMphone());
             int count = ps.executeUpdate();
-            return count == 1;
+            if(count == 1){
+                ResultSet rs = ps.getGeneratedKeys();
+            }
         } catch (Exception e) {
             System.out.println(e);
         }return false;
