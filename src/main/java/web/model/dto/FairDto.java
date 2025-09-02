@@ -3,6 +3,9 @@ package web.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,5 +24,11 @@ public class FairDto {
     private  String start_date; // 박람회 개최일
     private String end_date;    // 박람회 마감일
     private int fcount;         // 조회수
+
+    //  업로드에 사용할 MultipartFile 객체를 List타입으로 여러개 첨부파일 받아오기
+    private List<MultipartFile> uploads;
+    //  조회시 업로드된 파일명을 문자열로 조회하기
+    private List<String>images;
+
 
 }//class end

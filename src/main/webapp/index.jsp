@@ -16,12 +16,16 @@
 
     <div class="category">
         <ul>
-            <li>카테고리1</li>
-            <li>카테고리2</li>
+            <li><a href="/Fair/fairWrite.jsp">등록용테스트</a></li>
+            <li> <a href="/Fair/fairPrint.jsp?cno=1"> 웨딩 </a> </li>
+            <li> <a href="/Fair/fairPrint.jsp?cno=2"> 베이비 </a> </li>
+            <li> <a href="/Fair/fairPrint.jsp?cno=3"> 취업 </a> </li>
+            <li> <a href="/Fair/fairPrint.jsp?cno=4"> 애완 </a> </li>
+            <li> <a href="/Fair/fairPrint.jsp?cno=5"> 캠핑 </a> </li>
             <li>카테고리3</li>
         </ul>
     </div>
-
+//
     <div class="banner">
 
     </div>
