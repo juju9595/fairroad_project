@@ -117,7 +117,11 @@ public class FairService {
         return pageDto;
     }//func end
 
-
+    // 박람회 상세 조회
+    public FairDto fairInfo(int fno){
+        FairDto result = fairDao.fairInfo(fno);
+        return result;
+    }//func end
 
     // 조회수별 박람회 조회
     public List<FairCountDto> fcountList(){

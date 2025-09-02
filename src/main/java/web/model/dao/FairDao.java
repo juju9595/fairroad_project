@@ -184,7 +184,7 @@ public class FairDao extends Dao{
 
     //-----------------------------------------------------------------------------------------------------------//
 
-    //게시물 개별 정보 조회
+    //게시물 상세 정보 조회
     public FairDto fairInfo(int fno){
         try{
             String sql = "SELECT *FROM fair WHERE fno=?";
@@ -207,7 +207,7 @@ public class FairDao extends Dao{
             }//if end
             ps.close();
             rs.close();
-        } catch (Exception e) {System.out.println("개별정보조회"+e);};//catch end
+        } catch (Exception e) {System.out.println("상세정보조회"+e);};//catch end
         return null;
     }//func end
 

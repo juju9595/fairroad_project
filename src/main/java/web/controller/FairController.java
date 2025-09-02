@@ -33,8 +33,8 @@ public class FairController { // class start
         return result;
     }//func end
 
-    //박람회 전체
-    @GetMapping("/print")
+    //박람회 카테고리별 전체 조회(카테고리/페이징/검색)
+    @GetMapping("/allPostCategory")
     public PageDto fairPrint(@RequestParam (defaultValue = "1")int cno,
                              @RequestParam (defaultValue = "1")int page,
                              @RequestParam (defaultValue = "5")int count,
@@ -44,7 +44,8 @@ public class FairController { // class start
         return result;
     }//func end
 
-    @GetMapping("/main")
+    //박람회 메인 전체 조회(페이징/검색)
+    @GetMapping("/allPostMain")
     public PageDto fairPrintMain(@RequestParam (defaultValue = "1")int page,
                                  @RequestParam (defaultValue = "5")int count,
                                  @RequestParam (required = false) String key,
@@ -52,6 +53,13 @@ public class FairController { // class start
         PageDto result = fairService.fairMainPrint(page,count,key,keyword);
         return result;
     }
+
+    // 박람회 상세 조회
+    @GetMapping("/getPost")
+    public FairDto fairInfo(@RequestParam int fno){
+        FairDto result = fairService.fairInfo(fno);
+        return result;
+    }//func end
 
     // 조회수별 박람회 조회
     @GetMapping("/visitlog/fcount")
