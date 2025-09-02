@@ -17,9 +17,9 @@ const allPostMain = async () =>{
         data.data.forEach((fair) =>{
             html+=  `
                     <tr>
-                        <td>${fair.fname}</td>
-                        <td>${fair.fimg}</td>
-                        <td>${fair.fprice}</td>
+                        <td><a href=/Fair/getpost.jsp?fno=${fair.fno}>${fair.fname} </a></td>
+                        <td><a href=/Fair/getpost.jsp?fno=${fair.fno}>${fair.fimg} </a></td>
+                        <td><a href=/Fair/getpost.jsp?fno=${fair.fno}>${fair.fprice} </a></td>
                     </tr>
                     `
         })
