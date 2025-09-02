@@ -28,21 +28,27 @@ public class FairService {
         return result;
     }//func end
 
+    //박람회 대표 이미지 등록
+    public boolean fairImg(String fimg,int fno){
+        boolean result = fairDao.fairImg(fimg,fno);
+        return result;
+    }//func end
+
     //박람회 메인 전체 조회
-    public PageDto fairMainPrint(int fno,int page,int count,String key, String keyword){
+    public PageDto fairMainPrint(int page,int count,String key, String keyword){
         int startRow=(page-1)*count;
 
         int totalCount;
 
         //자료구하기
         List<FairDto>fairList;
-        if(key!=null&&!key.isEmpty()&&keyword!=null&&keyword.isEmpty()){
+        if(key!=null&&!key.isEmpty()&&keyword!=null&&!keyword.isEmpty()){
             //검색일때
-            totalCount=fairDao.getMainTotalCountSearch(fno,key,keyword);
-            fairList=fairDao.fairPrintMainSearch(fno,startRow,count,key,keyword);
+            totalCount=fairDao.getMainTotalCountSearch(key,keyword);
+            fairList=fairDao.fairPrintMainSearch(startRow,count,key,keyword);
         }else{
             //검색 아닐때
-            totalCount = fairDao.getMainTotalCount(fno);
+            totalCount = fairDao.getMainTotalCount();
             fairList = fairDao.fairPrintMain(startRow,count);
         }//if end
         //메인 전체 페이지수
@@ -57,7 +63,7 @@ public class FairService {
         // 끝버튼
         int endBtn = startBtn + btnCount -1;
         //총 페이지 수 끝번호
-        if(endBtn > totalPage) endBtn = totalCount;
+        if(endBtn > totalPage) endBtn = totalPage;
 
         //pageDto 구성하기
         PageDto pageDto = new PageDto();
@@ -117,7 +123,11 @@ public class FairService {
         return pageDto;
     }//func end
 
-
+    // 박람회 상세 조회
+    public FairDto fairInfo(int fno){
+        FairDto result = fairDao.fairInfo(fno);
+        return result;
+    }//func end
 
     // 조회수별 박람회 조회
     public List<FairCountDto> fcountList(){
