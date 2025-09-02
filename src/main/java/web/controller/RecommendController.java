@@ -17,7 +17,7 @@ public class RecommendController {
     RecommendService recommendService;
 
     // 추천 알고리즘
-    @GetMapping("/recommend")
+    @GetMapping("/algorithm")
     public List<FairDto> recommendList(@RequestParam int mno){
         List<FairDto> result = recommendService.getRecommendations(mno);
         return result;

@@ -8,6 +8,7 @@ import web.model.dto.FairDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WishlistRecommendStrategy implements RecommendStrategy{
@@ -18,15 +19,14 @@ public class WishlistRecommendStrategy implements RecommendStrategy{
 
     @Override
     public List<FairDto> recommend(int mno){
+        // 회원 즐겨찾기한 fno 목록 조회
         List<Integer> wishFnoList = wishListDao.getWishFnoByMember(mno);
 
-        List<FairDto> list = new ArrayList<>();
-        for(int fno : wishFnoList){
-            FairDto fair = fairDao.getFairbyFno(fno);
-            if(fair != null )list.add(fair);
-        }
-        return list;
+        // fno -> FairDto 변환 후 리스트 반환
+        return wishFnoList.stream()
+                .map(fairDao::getFairbyFno)
+                .filter(f -> f != null)
+                .collect(Collectors.toList());
     } // func e
-
 
 } // class e

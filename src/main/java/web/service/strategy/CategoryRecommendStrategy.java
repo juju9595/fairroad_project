@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.model.dao.FairDao;
 import web.model.dao.VisitLogDao;
+import web.model.dao.VisitLogDaoImpl;
 import web.model.dto.FairDto;
 
 import java.util.HashMap;
