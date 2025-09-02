@@ -15,16 +15,9 @@ import java.util.Set;
 
 @Service
 public class RecommendService {
-    @Autowired
-    FairDao fairDao;
-    @Autowired
-    VisitLogDaoImpl visitLogDaoImpl;
-    @Autowired
-    WishListDao wishListDao;
-    @Autowired
-    private CategoryRecommendStrategy categoryStrategy;
-    @Autowired
-    private PopularRecommendStrategy popularRecommendStrategy;
+
+    @Autowired CategoryRecommendStrategy categoryStrategy;
+    @Autowired PopularRecommendStrategy popularRecommendStrategy;
     @Autowired WishlistRecommendStrategy wishlistRecommendStrategy;
 
 
@@ -39,6 +32,12 @@ public class RecommendService {
 
         // 카테고리 기반 추천
         List<FairDto> categoryList = categoryStrategy.recommend(mno);
+
+        System.out.println("popularList size = " + popularList );
+        System.out.println("wishlistList size =" + wishlistList);
+        System.out.println("categoryList size = " + categoryList);
+
+
 
         // 전략 결과 합쳐서 반환
         Set<FairDto> combined = new java.util.LinkedHashSet<>(); // 순서 유지하면서 중복 제거
