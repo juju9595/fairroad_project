@@ -37,7 +37,7 @@ const fairPrint = async () =>{
 }//func end
 
 
-const viewPageButtons = async() =>{
+const viewPageButtons = async(data) =>{
 
     let currentPage = parseInt(data.currentPage);
     let totalPage = data.totalPage;
@@ -70,7 +70,7 @@ const onSearch = async( )=>{
     const newkey = document.querySelector('.key').value;
     const newkeyword = document.querySelector('.keyword').value;
 
-    location.href=`/Fair/fairPrint?cno=${cno}&page=${page}&key=${newkey}&keyword=${newkeyword}`;
+    location.href=`fairPrint.jsp?cno=${cno}&page=${page}&key=${newkey}&keyword=${newkeyword}`;
 }//func end
 
 fairPrint();

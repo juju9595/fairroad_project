@@ -11,7 +11,6 @@
     </head>
 
     <body>
-
         <table>
             <thead>
                 <tr>
