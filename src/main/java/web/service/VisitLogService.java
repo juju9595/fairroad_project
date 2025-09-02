@@ -37,7 +37,7 @@ public class VisitLogService {
             lastVno = getMaxVnoFromFile(todayFile);
         } else {
             // 오늘 파일 없으면 이전 파일 기준 최대 vno 확인
-            File logDir = new File(".");
+            File logDir = new File("logs");
             File[] files = logDir.listFiles((dir, name) -> name.startsWith("visitlog_") && name.endsWith(".csv"));
             if (files != null && files.length > 0) {
                 File lastFile = Arrays.stream(files)
@@ -70,7 +70,13 @@ public class VisitLogService {
 
     // 파일명 현재 날짜로 저장 메소드
     private String getFileName() {
-        return "visitlog_" + LocalDate.now().format(dateFormatter) + ".csv";
+        String logDir = "logs"; // logs 폴더 사용
+        File dir = new File(logDir);
+        if (!dir.exists()) {
+            dir.mkdirs(); // 폴더 없으면 생성
+        }
+        return logDir + File.separator + "visitlog_"
+                + LocalDate.now().format(dateFormatter) + ".csv";
     } // func e
 
     // 방문 로그 비동기 저장
