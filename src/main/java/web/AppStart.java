@@ -11,6 +11,7 @@ import java.io.File;
 @EnableAsync // 비동기 처리 활성화
 public class AppStart { // class start
     public static void main(String[] args) { // main start
+//12349
         SpringApplication.run( AppStart.class );
 
         // baseDir 경로 설정

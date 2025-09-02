@@ -27,7 +27,7 @@
         <div class="links">
         <a href="/Members/idFind.jsp">아이디 찾기</a>
         <span>|</span>
-        <a href="/Members/pwdFind.jsp">아이디 찾기</a>
+        <a href="/Members/pwdFind.jsp">비밀번호 찾기</a>
         <span>|</span>
          <a href="/Members/signup.jsp">회원가입</a>
         </div>

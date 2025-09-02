@@ -4,12 +4,13 @@ package web.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.model.dto.MembersDto;
+import web.model.dto.WishListDto;
 import web.service.MembersService;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/member")
@@ -25,7 +26,7 @@ public class MembersController { // class start
         return  result;
     }//func e
 
-    //-----------------------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------------------//
 
     // [2] 로그인 구현
     @PostMapping("/login")
@@ -41,4 +42,45 @@ public class MembersController { // class start
         return result;
     }//func e
 
-} // class end
+
+//-----------------------------------------------------------------------------------------//
+
+    // [3] 로그아웃 구현
+    @GetMapping("/logout")
+    public boolean logout(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        if(session == null || session.getAttribute("loginMno")==null){
+            return false; // 비로그인상태, 로그아웃 실패
+        }
+        //로그인상태면 속성값 제거
+        session.removeAttribute("loginMno");
+        return true; // 로그아웃 성공
+    }//func e
+// -----------------------------------------------------------------------------------------//
+
+    // [4] 연락처 수정
+
+    @PutMapping("/update/phone")
+    public boolean phoneUpdate(@RequestBody MembersDto membersDto, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        if(session == null || session.getAttribute("loginMno") == null ){
+            return false;
+        }
+        Object obj = session.getAttribute("loginMno");
+        int loginMno = (int)obj;
+        membersDto.setMno(loginMno);
+        boolean result = membersService.phoneUpdate(membersDto);
+        return result;}
+
+// -----------------------------------------------------------------------------------------//
+
+    // [5] 비밀번호 수정
+
+
+// -----------------------------------------------------------------------------------------//
+
+    // [6] 즐겨찾기 목록
+
+
+
+} // class e
