@@ -7,25 +7,23 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>방문 리뷰 전체 조회</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-
 </head>
 <body>
 
-    <table>
+    <h3> 방문 리뷰 전체 조회 </h3>
+    <a href="/Review/reviewWrite.jsp"> 등록페이지로 이동하기 </a>
+    <table border="1" cellpadding="6" cellspacing="0">
         <thead>
             <tr>
-                <th>리뷰번호</th>
-                <th>리뷰내용</th>
+                <th></a> 리뷰번호 </th>
+                <th> 리뷰제목 </th>
             </tr>
-        <tbody class="reviewTbody">
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
         </thead>
+        <tbody class="reviewTbody">
+            
+        </tbody>
     </table>
 
-
+    <script src="/js/Review/review.js"></script>
 </body>
 </html>
