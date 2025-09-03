@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import web.model.dao.FairDao;
+import web.model.dto.FairDto;
 import web.model.dto.VisitLogDto;
 
 import java.io.*;
@@ -154,25 +155,29 @@ public class VisitLogService {
                 // { 박람회 번호 = 방문횟수 } 그룹화 해서 Map 반환
     } // func e
 
-    // 회원별 최근 본 박람회 최대 10개 + fname 가져오기
+    // 회원별 최근 본 박람회 최대 10개 + 박람회 상세정보 가져오기
     public List<Map<String, Object>> getRecentVisitsWithName(int mno) {
         return readAllLogs().stream()
-                .filter(log -> log.getMno() != null && Objects.equals(log.getMno() , mno))
+                .filter(log -> log.getMno() != null && log.getMno() == mno)
                 .sorted(Comparator.comparing(VisitLogDto::getVdate).reversed())
                 .limit(10)
                 .map(log -> {
                     Map<String, Object> map = new HashMap<>();
-                    map.put("fno", log.getFno());
                     map.put("vdate", log.getVdate());
 
-                    // DB에서 fno → fname 조회
-                    String fname = fairDao.getFairNameByFno(log.getFno());
-                    map.put("fname", fname);
-
+                    FairDto fair = fairDao.getFairbyFno(log.getFno());
+                    if (fair != null) {
+                        map.put("fno", fair.getFno());
+                        map.put("fname", fair.getFname());
+                        map.put("fplace", fair.getFplace());
+                        map.put("fprice", fair.getFprice());
+                        map.put("furl", fair.getFurl());
+                        map.put("fimg", fair.getFimg()); // 이미지가 있으면 추가
+                    }
                     return map;
                 })
                 .collect(Collectors.toList());
-    } // func e
+    }
 
     // 하루 단위 아카이브 (매일 자정 실행)
     @Scheduled(cron = "0 0 0 * * ?")
