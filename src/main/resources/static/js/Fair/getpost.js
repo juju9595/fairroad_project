@@ -8,7 +8,8 @@ const getPost = async () =>{
 
     document.querySelector('.fname').innerHTML=data.fname;
     document.querySelector('.fcount').innerHTML=data.fcount;
-    document.querySelector('.fimg').innerHTML=data.fimg;
+    document.querySelector('.fimg').innerHTML = data.fimg;
+//document.querySelector('.fimg').innerHTML = `<img src="${URL.createObjectURL(file)}" class="uploaded-img" />`;
     document.querySelector('.fprice').innerHTML=data.fprice;
     document.querySelector('.furl').innerHTML=data.furl;
     document.querySelector('.start_date').innerHTML=data.start_date;
