@@ -10,8 +10,12 @@ import web.service.RecommendService;
 
 import java.util.List;
 
+
+// ----------------- [테스트 전용 API] - 추천 알고리즘 결과를 직접 확인할 때만 사용 ----------------- //
+
 @RestController
 @RequestMapping("/visitlog")
+
 public class RecommendController {
     @Autowired
     RecommendService recommendService;

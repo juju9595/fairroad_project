@@ -29,8 +29,8 @@ public class ReviewService {
 
 
     // [4] 방문 리뷰 수정
-    public int reviewUpdate( int rno , String rcontent ){
-        return reviewDao.reviewUpdate( rno , rcontent );
+    public int reviewUpdate( int rno , String rtitle , String rcontent ){
+        return reviewDao.reviewUpdate( rno , rtitle , rcontent );
     }
 
 

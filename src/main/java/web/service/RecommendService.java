@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import web.model.dao.*;
 import web.model.dto.FairDto;
 import web.model.dto.MembersDto;
+import web.model.dto.PageDto;
 import web.service.strategy.CategoryRecommendStrategy;
 import web.service.strategy.PopularRecommendStrategy;
 import web.service.strategy.WishlistRecommendStrategy;
@@ -132,5 +133,70 @@ public class RecommendService {
         } // while e
         return resultList;
     } // func e
+
+    // 추천 결과 PageDto 로 변환 ( 검색 + 페이징 처리 )
+    public PageDto getRecommendationsPaged(int mno , int page , int count , String key , String keyword){
+
+        // 1. 기존 추천 로직 호출
+        List<FairDto> allRecommendation = getRecommendations(mno);
+
+        // 2. 검색 조건 적용
+        if( key != null && !key.isEmpty() && keyword != null && !keyword.isEmpty()){
+            String lowerKeyword = keyword.toLowerCase();
+            allRecommendation = allRecommendation.stream()
+                    .filter(fair ->{
+                        switch (key){
+                            case "fname" : return fair.getFname() != null && fair.getFname().toLowerCase().contains(lowerKeyword);
+                            case "fplace" : return fair.getFplace() != null && fair.getFplace().toLowerCase().contains(lowerKeyword);
+                            case "finfo" : return fair.getFinfo() != null && fair.getFinfo().toLowerCase().contains(lowerKeyword);
+                            default: return true; // 알수 없는 key 무시
+                        }
+                    })
+                    .toList();
+        } // if e
+
+        // 3. 페이징 처리
+        int totalCount = allRecommendation.size();
+        int totalPage = totalCount % count == 0 ? totalCount / count : totalCount / count + 1;
+        int startRow = (page -1) * count;
+        int endRow = Math.min(startRow + count , totalCount);
+        List<FairDto> pageList = (startRow < totalCount) ? allRecommendation.subList(startRow , endRow) : Collections.emptyList();
+
+        // 4. 페이징 버튼 계산
+        int btnCount = 5;
+        int startBtn = ((page - 1 ) / btnCount) * btnCount + 1;
+        int endBtn = Math.min(startBtn + btnCount -1 , totalPage);
+
+        // 5. PageDto 구성
+        PageDto pageDto = new PageDto();
+        pageDto.setCurrentPage(page);
+        pageDto.setTotalPage(totalPage);
+        pageDto.setPerCount(count);
+        pageDto.setTotalCount(totalCount);
+        pageDto.setStartBtn(startBtn);
+        pageDto.setEndBtn(endBtn);
+        pageDto.setData(pageList);
+
+        return pageDto;
+
+    } // func e
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 } // class e

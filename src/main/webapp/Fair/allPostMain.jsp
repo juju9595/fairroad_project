@@ -11,7 +11,9 @@
     </head>
 
     <body>
-                <div><h3>메인 전체조회<h3><div>
+        <div>
+            <h3 id="pageTitle">메인 전체조회<h3>
+        <div>
         <table>
             <thead>
                 <tr>
@@ -44,6 +46,7 @@
             <select class="key"> <!-- select에서 선택한 value값을 js로 이동할 예정 -->
                 <option value="fname"> 제목 </option>
                 <option value="finfo"> 내용 </option>
+                <option value="fplace">장소</option>
             </select>
 
             <div>
