@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", function(){
+    // ----------------------------
+    // 0. 전역 변수
+    // ----------------------------
     const isMember = false; // 임시 회원/비회원 구분
     const memberNo = 1;    // 임시 회원 번호 (로그인 정보에서 실제 값으로 대체)
-    const contentEl = document.getElementById("content");
+    const contentEl = document.getElementById("content"); // 메인 콘텐츠 영역
 
     // ----------------------------
-    // 1. fetch HTML
+    // 1. HTML Fetch
     // ----------------------------
+    // 지정 URL에서 HTML을 가져와 target 요소에 삽입
     function fetchHTML(url, target) {
         fetch(url)
             .then(res => res.text())
@@ -17,8 +21,9 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // ----------------------------
-    // 2. fetch JSON
+    // 2. JSON Fetch
     // ----------------------------
+    // 지정 URL에서 JSON 데이터를 가져와 콜백 함수에 전달
     function fetchJSON(url, callback) {
         fetch(url)
             .then(res => res.json())
@@ -30,29 +35,31 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // ----------------------------
-    // 3. 공통 박람회 렌더링 함수 (배열 여부 확인)
+    // 3. 공통 박람회 렌더링 함수
     // ----------------------------
+    // 배열 여부 확인 + 객체도 배열로 변환 후 카드 형태로 렌더링
     function renderFairs(data, target, title = "") {
-        if(!data){
+        if(!data){ // 데이터 없으면 안내문 표시
             target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
             return;
         }
 
-        // 배열이 아니면 객체 처리
+        // 배열이 아니면 객체 처리 (예: {key: [...]} 형태)
         if(!Array.isArray(data)){
             if(typeof data === 'object'){
-                data = Object.values(data).flat(); // 객체 → 배열
+                data = Object.values(data).flat();
             } else {
                 target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
                 return;
             }
         }
 
-        if(data.length === 0){
+        if(data.length === 0){ // 배열이 비어있으면 안내문 표시
             target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
             return;
         }
 
+        // HTML 생성
         let html = title ? `<h2>${title}</h2>` : "";
         html += "<ul class='fair-list'>";
 
@@ -75,8 +82,9 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // ----------------------------
-    // 4. 지역별 select + 렌더링
+    // 4. 지역별 박람회 렌더링
     // ----------------------------
+    // 지역 선택 select와 선택 시 해당 지역 박람회 렌더링
     function renderRegionSelect(dataMap) {
         let html = `<h2>지역별 박람회</h2>`;
         html += `<label for="regionSelect">지역 선택:</label>`;
@@ -87,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function(){
         const select = document.getElementById("regionSelect");
         const regionContainer = document.getElementById("regionContent");
 
-        // select options 채우기
+        // select 옵션 채우기
         Object.keys(dataMap).forEach(region => {
             const option = document.createElement("option");
             option.value = region;
@@ -95,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function(){
             select.appendChild(option);
         });
 
-        // change 이벤트 등록
+        // 선택 변경 시 해당 지역 박람회 렌더링
         select.addEventListener("change", function(){
             const selectedRegion = this.value;
             if(!selectedRegion){
@@ -108,9 +116,10 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
- // ----------------------------
+    // ----------------------------
     // 5. 카테고리 클릭 이벤트 초기화
     // ----------------------------
+    // 인기순 / 지역별 / 최근 본 / 즐겨찾기 / 기타 HTML 링크 처리
     function initCategoryEvents() {
         document.querySelectorAll(".category a[data-type]").forEach(a => {
             a.addEventListener("click", function(e){
@@ -120,18 +129,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 if(!url) return;
 
-                if(type === "popular"){
+                if(type === "popular"){ // 인기순
                     fetchJSON(url, data => renderFairs(data, contentEl, "인기순"));
-                } else if(type === "region"){
+                } else if(type === "region"){ // 지역별
                     fetchJSON(url, renderRegionSelect);
-                } else if(type === "recent"){
+                } else if(type === "recent"){ // 최근 본
                     fetchJSON(url, data => renderFairs(data, contentEl, "최근 본 박람회"));
                 } else if(type === "favorite"){ // 즐겨찾기
                     fetchJSON(`/wish/member?mno=${memberNo}`, data => {
                         console.log("즐겨찾기 데이터:", data);
                         renderFairs(data.wishfair, contentEl, "즐겨찾기 목록");
                     });
-                } else {
+                } else { // 일반 HTML 링크
                     fetchHTML(url, contentEl);
                 }
             });
@@ -142,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // 6. 초기 로딩
     // ----------------------------
     function init() {
-        initCategoryEvents();
+        initCategoryEvents(); // 클릭 이벤트 초기화
 
         // 회원이면 페이지 로드 시 최근 본 박람회 자동 출력
         if(isMember){
@@ -158,5 +167,5 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
-    init();
+    init(); // 초기화 실행
 });
