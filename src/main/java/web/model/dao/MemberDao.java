@@ -114,4 +114,8 @@ public class MemberDao extends Dao{
         }catch (Exception e) {System.out.println();}
         return list;
     }
+
+// -----------------------------------------------------------------------------------------//
+
+
 }//class e
