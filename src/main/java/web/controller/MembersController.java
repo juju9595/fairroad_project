@@ -56,9 +56,23 @@ public class MembersController { // class start
         session.removeAttribute("loginMno");
         return true; // 로그아웃 성공
     }//func e
+
+
 // -----------------------------------------------------------------------------------------//
 
-    // [4] 연락처 수정
+    // [3] 회원정보 수정 접근권한
+    @PostMapping("/update")
+    public boolean signUpCheck(@RequestParam String mpwd, HttpSession session){
+        if(session == null || session.getAttribute("loginMno") == null)return false;
+        int loginMno = (int)session.getAttribute("loginMno");
+        boolean result = membersService.signUpCheck(loginMno, mpwd);
+        return result;
+    }
+
+
+// -----------------------------------------------------------------------------------------//
+
+    // [5] 연락처 수정
 
     @PutMapping("/update/phone")
     public boolean phoneUpdate(@RequestBody MembersDto membersDto, HttpServletRequest request){
@@ -74,7 +88,7 @@ public class MembersController { // class start
 
 // -----------------------------------------------------------------------------------------//
 
-    // [5] 비밀번호 수정
+    // [6] 비밀번호 수정
     @PutMapping("/update/password")
     public boolean pwdUpdate(@RequestBody Map<String, String> map, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -88,11 +102,20 @@ public class MembersController { // class start
 
 // -----------------------------------------------------------------------------------------//
 
-    // [6] 즐겨찾기 목록
+    // [7] 즐겨찾기 목록
     @GetMapping("/wishlist")
-    public List<WishListDto> wishList(){
-        return membersService.wishList();
+    public List<WishListDto> wishList(int mno){
+        List<WishListDto> result = membersService.wishList(mno);
+        return result;
     }
 
+// -----------------------------------------------------------------------------------------//
+
+    // [8] 즐겨찾기 목록 삭제
+    @DeleteMapping("/wishlist/delete")
+    public boolean wishListDelete(@RequestParam int mno, @RequestParam int fno){
+        boolean result = membersService.wishListDelete(mno, fno);
+        return result;
+    }
 
 } // class e

@@ -3,6 +3,7 @@ package web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.model.dao.MemberDao;
+import web.model.dao.WishListDao;
 import web.model.dto.MembersDto;
 import web.model.dto.WishListDto;
 
@@ -30,6 +31,14 @@ public class MembersService {
 
 // -----------------------------------------------------------------------------------------//
 
+    // [3] 회원정보 수정 접근권한
+    public boolean signUpCheck(int mno, String mpwd){
+        boolean result = memberDao.signUpCheck(mno, mpwd);
+        return result;
+    }
+
+// -----------------------------------------------------------------------------------------//
+
     // [4] 연락처 수정
     public boolean phoneUpdate(MembersDto membersDto){
         boolean result = memberDao.phoneUpdate(membersDto);
@@ -47,10 +56,19 @@ public class MembersService {
 // -----------------------------------------------------------------------------------------//
 
     // [6] 즐겨찾기 목록
-    public List<WishListDto> wishList(){
-        List<WishListDto> result = memberDao.wishList();
+    public List<WishListDto> wishList(int mno){
+        List<WishListDto> result = memberDao.wishList(mno);
         return result;
     }
+
+// -----------------------------------------------------------------------------------------//
+
+    //[7] 즐겨찾기 목록 삭제
+    public boolean wishListDelete(int mno, int fno){
+        boolean result = memberDao.wishListDelete(mno, fno);
+        return result;
+    }
+
 
 
 }//class e
