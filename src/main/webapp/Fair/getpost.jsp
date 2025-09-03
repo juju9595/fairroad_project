@@ -12,7 +12,7 @@
 <body>   
     <div>
         <div>제목 : <span class="fname"></span>/조회수:<span class="fcount"></span></div>
-        <div>이미지 : <span class="fimg"></span>
+        <div>이미지 : <span class="fimg"></span></div>
         <div>가격 : <span class="fprice"></span></div>
         <div>URL : <span class="furl"></span></div>
         <div>개최일 : <span class="start_date"></span></div>
