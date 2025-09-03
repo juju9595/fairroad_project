@@ -129,6 +129,12 @@ public class FairService {
         return result;
     }//func end
 
+    // 박람회 조회수 증가
+    public void increment(int fno){
+        fairDao.incrementCount(fno);
+    }//func end
+
+
     // 조회수별 박람회 조회
     public List<FairCountDto> fcountList(){
         List<FairCountDto> result = fairDao.fcountList();

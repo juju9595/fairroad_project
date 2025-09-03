@@ -17,6 +17,8 @@ import web.service.FairService;
 import web.service.FileService;
 import web.service.RecommendService;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,9 +85,23 @@ public class FairController { // class start
 
     // 박람회 상세 조회
     @GetMapping("/getpost")
-    public FairDto fairInfo(@RequestParam int fno){
-        FairDto result = fairService.fairInfo(fno);
-        return result;
+    public FairDto fairInfo(@RequestParam int fno,HttpSession session){
+        Object object = session.getAttribute("viewHistory");
+        Map<Integer,String> viewHistory;
+        if(object==null){
+            viewHistory = new HashMap<>();
+        }else{
+            viewHistory = (Map<Integer, String>)object;
+        }//if end
+        String today = LocalDate.now().toString();
+        String check = viewHistory.get(fno);
+        if(check==null||!check.equals(today)){
+            fairService.increment(fno);
+            viewHistory.put(fno,today);
+            session.setAttribute("viewHistory",viewHistory);
+        }//if end
+        FairDto fairDto = fairService.fairInfo(fno);
+        return fairDto;
     }//func end
 
     // 조회수별 박람회 조회
