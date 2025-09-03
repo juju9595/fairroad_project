@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
     const isMember = false; // 임시 회원/비회원 구분
+    const memberNo = 1;    // 임시 회원 번호 (로그인 정보에서 실제 값으로 대체)
     const contentEl = document.getElementById("content");
 
     // ----------------------------
@@ -107,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
-    // ----------------------------
+ // ----------------------------
     // 5. 카테고리 클릭 이벤트 초기화
     // ----------------------------
     function initCategoryEvents() {
@@ -123,8 +124,13 @@ document.addEventListener("DOMContentLoaded", function(){
                     fetchJSON(url, data => renderFairs(data, contentEl, "인기순"));
                 } else if(type === "region"){
                     fetchJSON(url, renderRegionSelect);
-                } else if(type === "recent" || type === "favorite"){
-                    fetchJSON(url, data => renderFairs(data, contentEl, type === "recent" ? "최근 본 박람회" : "즐겨찾기 목록"));
+                } else if(type === "recent"){
+                    fetchJSON(url, data => renderFairs(data, contentEl, "최근 본 박람회"));
+                } else if(type === "favorite"){ // 즐겨찾기
+                    fetchJSON(`/wish/member?mno=${memberNo}`, data => {
+                        console.log("즐겨찾기 데이터:", data);
+                        renderFairs(data.wishfair, contentEl, "즐겨찾기 목록");
+                    });
                 } else {
                     fetchHTML(url, contentEl);
                 }
