@@ -11,21 +11,34 @@ import java.util.List;
 @Repository
 public class WishListDao extends Dao{
 
-    // 회원별 즐겨찾기 목록 조회
+    // 회원별 즐겨찾기 목록 조회 ( 박람회 상세정보 조회로 확장)
     public List<WishListDto> memberWishList(int mno){
         List<WishListDto> list = new ArrayList<>();
-        String sql = "select f.fno , f.fname from wishlist w join fair f on w.fno = f.fno where w.mno = ? ";
-        try (PreparedStatement ps = conn.prepareStatement(sql)){ // PreparedStatement 블록 끝나면 자동 close
+        String sql = "SELECT f.fno, f.fname, f.fimg, f.fplace, f.fprice, f.furl " +
+                "FROM wishlist w " +
+                "JOIN fair f ON w.fno = f.fno " +
+                "WHERE w.mno = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) { // PreparedStatement 블록 끝나면 자동 close
             ps.setInt(1, mno);
-            try (ResultSet rs = ps.executeQuery()){ // ResultSet 블록 끝나면 자동 close
-                while (rs.next()){
-                    WishListDto dto = new WishListDto(rs.getInt("fno") , rs.getString("fname"));
+
+            try (ResultSet rs = ps.executeQuery()) { // ResultSet 블록 끝나면 자동 close
+                while (rs.next()) {
+                    WishListDto dto = new WishListDto(
+                            rs.getInt("fno"),
+                            rs.getString("fname"),
+                            rs.getString("fimg"),
+                            rs.getString("fplace"),
+                            rs.getInt("fprice"),
+                            rs.getString("furl")
+                    );
                     list.add(dto);
                 }
             }
-        }catch (Exception e ){
+        } catch (Exception e) {
             System.out.println(e);
         }
+
         return list;
     } // func e
 
