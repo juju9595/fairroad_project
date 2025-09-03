@@ -35,7 +35,7 @@ public class ReviewService {
 
 
     // [5] 방문 리뷰 삭제
-    public boolean revieweDelete( int rno ){
+    public boolean reviewDelete( int rno ){
         return reviewDao.reviewDelete( rno );
     }
 
