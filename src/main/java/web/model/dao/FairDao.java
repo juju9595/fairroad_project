@@ -51,7 +51,7 @@ public class FairDao extends Dao{
     //박람회 대표 이미지 등록
     public boolean fairImg(String fimg,int fno){
         try{
-            String sql = "INSERT INTO fair(fimg,fno)values(?,?);";
+            String sql = "update fair set fimg=? where fno=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1,fimg);
             ps.setInt(2,fno);

@@ -31,11 +31,11 @@ public class FairController { // class start
         System.out.println("fairDto = " + fairDto);
         int result = fairService.fairWrite(fairDto);
         //제품 등록했으면서 첨부파일이 비어있지 않고 첨부파일 목록에 첫번째 첨부파일이 비어 있지 않으면
-        if(result>0&&!fairDto.getUploads().isEmpty()&&!fairDto.getUploads().get(0).isEmpty()){
+        if( result > 0 && !fairDto.getUploads().isEmpty() && !fairDto.getUploads().get(0).isEmpty() ){
             //파일업로드,LIST타입을 반복문 이용하여 여러번 업로드
             for(MultipartFile multipartFile : fairDto.getUploads()){
                 String fimg=fileService.fileUpload(multipartFile);
-                if(fimg==null){return 0;}//if end
+                if(fimg==null)break;
                 boolean result2 = fairService.fairImg(fimg,result);
                 if(result2==false)return 0;
             }//for end
