@@ -18,10 +18,10 @@ document.addEventListener("DOMContentLoaded", function(){
     // ----------------------------
     // 2. fetch JSON
     // ----------------------------
-    function fetchJSON(url, renderFunction) {
+    function fetchJSON(url, callback) {
         fetch(url)
             .then(res => res.json())
-            .then(data => renderFunction(data))
+            .then(data => callback(data))
             .catch(err => {
                 contentEl.innerHTML = "<p>데이터를 불러올 수 없습니다.</p>";
                 console.error(err);
@@ -29,22 +29,48 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // ----------------------------
-    // 3. 인기순 박람회 렌더링
+    // 3. 공통 박람회 렌더링 함수 (배열 여부 확인)
     // ----------------------------
-    function renderPopularFairs(data) {
-        let html = "<h2>인기순 박람회</h2><ul class='fair-list'>";
+    function renderFairs(data, target, title = "") {
+        if(!data){
+            target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
+            return;
+        }
+
+        // 배열이 아니면 객체 처리
+        if(!Array.isArray(data)){
+            if(typeof data === 'object'){
+                data = Object.values(data).flat(); // 객체 → 배열
+            } else {
+                target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
+                return;
+            }
+        }
+
+        if(data.length === 0){
+            target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
+            return;
+        }
+
+        let html = title ? `<h2>${title}</h2>` : "";
+        html += "<ul class='fair-list'>";
+
         data.forEach(fair => {
             html += `
-                <li>
-                    <a href="${fair.furl}" target="_blank">${fair.fname}</a>
-                    <div>장소: ${fair.fplace}</div>
-                    <div>가격: ${fair.fprice}원</div>
-                    <div>조회수: ${fair.fcount}</div>
+                <li class="fair-item">
+                    <img src="${fair.fimg || '/img/default.png'}" alt="${fair.fname}" class="fair-img">
+                    <div class="fair-info">
+                        <a href="${fair.furl}" target="_blank" class="fair-name">${fair.fname}</a>
+                        <div class="fair-place">장소: ${fair.fplace}</div>
+                        <div class="fair-price">가격: ${fair.fprice ? fair.fprice + '원' : '정보없음'}</div>
+                        ${fair.fcount !== undefined ? `<div class="fair-count">조회수: ${fair.fcount}</div>` : ""}
+                    </div>
                 </li>
             `;
         });
+
         html += "</ul>";
-        contentEl.innerHTML = html;
+        target.innerHTML = html;
     }
 
     // ----------------------------
@@ -75,35 +101,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 regionContainer.innerHTML = "";
                 return;
             }
-            renderRegionFairs(dataMap[selectedRegion], regionContainer);
+
+            const regionData = dataMap[selectedRegion];
+            renderFairs(regionData, regionContainer, `${selectedRegion} 지역`);
         });
     }
 
     // ----------------------------
-    // 5. 특정 지역 박람회 렌더링
-    // ----------------------------
-    function renderRegionFairs(regionList, target) {
-        if(!regionList || regionList.length === 0){
-            target.innerHTML = "<p>해당 지역 박람회가 없습니다.</p>";
-            return;
-        }
-
-        let html = "<ul class='fair-list'>";
-        regionList.forEach(fair => {
-            html += `
-                <li>
-                    <a href="${fair.furl}" target="_blank">${fair.fname}</a>
-                    <div>장소: ${fair.fplace}</div>
-                    <div>가격: ${fair.fprice || "정보없음"}원</div>
-                </li>
-            `;
-        });
-        html += "</ul>";
-        target.innerHTML = html;
-    }
-
-    // ----------------------------
-    // 6. category 클릭 이벤트 초기화
+    // 5. 카테고리 클릭 이벤트 초기화
     // ----------------------------
     function initCategoryEvents() {
         document.querySelectorAll(".category a[data-type]").forEach(a => {
@@ -115,9 +120,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 if(!url) return;
 
                 if(type === "popular"){
-                    fetchJSON(url, renderPopularFairs);
+                    fetchJSON(url, data => renderFairs(data, contentEl, "인기순"));
                 } else if(type === "region"){
                     fetchJSON(url, renderRegionSelect);
+                } else if(type === "recent" || type === "favorite"){
+                    fetchJSON(url, data => renderFairs(data, contentEl, type === "recent" ? "최근 본 박람회" : "즐겨찾기 목록"));
                 } else {
                     fetchHTML(url, contentEl);
                 }
@@ -126,10 +133,15 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // ----------------------------
-    // 7. 초기 로딩
+    // 6. 초기 로딩
     // ----------------------------
     function init() {
         initCategoryEvents();
+
+        // 회원이면 페이지 로드 시 최근 본 박람회 자동 출력
+        if(isMember){
+            fetchJSON("/recent", data => renderFairs(data, contentEl, "최근 본 박람회"));
+        }
 
         // 비회원이면 임시 전체조회 자동 렌더링
         if(!isMember){

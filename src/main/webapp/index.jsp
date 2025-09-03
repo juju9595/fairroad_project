@@ -27,7 +27,7 @@
             <!-- 인기순 / 지역별 / 회원용 기능 -->
             <li><a href="#" data-url="/fair/visitlog/fcount" data-type="popular">인기순(비회원 가능)</a></li>
             <li><a href="#" data-url="/fair/visitlog/fregion" data-type="region">지역별 박람회(비회원 가능)</a></li>
-            <li><a href="#" data-url="/Fair/recentList.jsp" data-type="recent">최근 본 박람회(회원제)</a></li>
+            <li><a href="#" data-url="/visitlog/recent" data-type="recent">최근 본 박람회(회원제)</a></li>
             <li><a href="#" data-url="/Fair/favoriteList.jsp" data-type="favorite">즐겨찾기 목록(회원제)</a></li>
         </ul>
     </div>
