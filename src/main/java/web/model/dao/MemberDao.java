@@ -63,6 +63,23 @@ public class MemberDao extends Dao{
 
     // -----------------------------------------------------------------------------------------//
 
+    //[3] 회원정보 수정 접근권한
+    public boolean signUpCheck(int mno, String mpwd){
+        try{
+            String sql = "slecet 1 from members where mno = ? and mpwd = ? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, mno);
+            ps.setString(2, mpwd);
+            return ps.executeUpdate() == 1;
+        }catch (Exception e){
+            System.out.println(e);
+        }return false;
+    }
+
+
+
+    // -----------------------------------------------------------------------------------------//
+
     // [4] 연락처 수정
     public boolean phoneUpdate(MembersDto membersDto){
         try{
@@ -100,10 +117,11 @@ public class MemberDao extends Dao{
 // -----------------------------------------------------------------------------------------//
 
     // [6] 즐겨찾기 목록
-    public List<WishListDto> wishList(){
+    public List<WishListDto> wishList(int mno){
         List<WishListDto> list = new ArrayList<>();
-        try{String sql = "select *from wishlist";
+        try{String sql = "select f.fno, f.fname from wishlist w join fair f on w.fno = f.fno where w.mno = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, mno);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 WishListDto wishListDto = new WishListDto();
@@ -115,11 +133,24 @@ public class MemberDao extends Dao{
         return list;
     }
 
+// -----------------------------------------------------------------------------------------//
 
+    //[7] 즐겨찾기 목록 삭제
+    public boolean wishListDelete(int mno, int fno){
+        try{
+            String sql = "delete from wishlist where mno =? and fno = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,mno);
+            ps.setInt(2, fno);
+            return ps.executeUpdate() == 1;
+        } catch (Exception e) {
+            System.out.println(e);
+        }return false;
+    }
 
     // ---------------------------- 추천 알고리즘 --------------------- //
 
-    // [7] 회원번호로 회원 정보 조회
+    // [8] 회원번호로 회원 정보 조회
     public MembersDto getMemberByMno(int mno){
         try{
             String sql = "select * from members where mno = ?";
