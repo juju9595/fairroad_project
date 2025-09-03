@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync // 비동기 처리 활성화
 public class AppStart { // class start
     public static void main(String[] args) { // main start
-//12349
+//1234910
         SpringApplication.run( AppStart.class );
 
     } // main end
