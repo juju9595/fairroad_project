@@ -75,12 +75,11 @@ public class ReviewController { // class start
 
     // [4] 방문 리뷰 수정
     @PutMapping("/update")
-    public int reviewUpdate(@RequestBody ReviewDto reviewDto ) {
-        // 유효성 체크 (명세상 실패 시 false 반환)
+    public int reviewUpdate( @RequestBody ReviewDto reviewDto ) {
         if ( reviewDto.getRno() <= 0 ) return 0;
         if ( reviewDto.getRcontent() == null || reviewDto.getRcontent().isBlank() ) return 0;
 
-        return reviewService.reviewUpdate(reviewDto.getRno(), reviewDto.getRcontent() );
+        return reviewService.reviewUpdate(reviewDto.getRno(), reviewDto.getRtitle() , reviewDto.getRcontent() );
     }
 
     // [5] 방문 리뷰 삭제
