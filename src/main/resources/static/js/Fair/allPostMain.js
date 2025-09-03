@@ -12,6 +12,15 @@ const allPostMain = async () =>{
         const data = await response.json(); console.log(data);
 
         const fairMainTbody = document.querySelector('#fairMainTbody');
+        const pageTitle = document.querySelector('#pageTitle');
+
+        // 회원/비회원 구분
+        if(data.data.length <= 10 ){ // 추천 알고리즘 임시로 10개 이하 지정
+            pageTitle.textContent = "회원 추천 박람회";
+        }else{
+            pageTitle.textContent = "전체 박람회 조회"
+        }
+
         let html=``;
 
         data.data.forEach((fair) =>{
