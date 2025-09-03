@@ -18,6 +18,4 @@ public class ReviewDto {
     private String rcontent;    // 리뷰 내용
     private String rdate;       // 리뷰 작성일
 
-    public ReviewDto(int rno, String rcontent, LocalDate rdate) {
-    }
 }//class end

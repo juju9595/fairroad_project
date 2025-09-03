@@ -12,31 +12,21 @@ import java.util.List;
 
     @Repository
     public class ReviewDao extends Dao{
-        ReviewDto reviewDto = new ReviewDto();
         // [1] 방문 리뷰 등록
-        public int reviewWrite( ReviewDto reviewDto ) {
-            String sql = "INSERT INTO review ( rcontent, rdate ) VALUES ( ?, ? )";
-            try {
-                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-                ps.setString(1, reviewDto.getRcontent());
-                ps.setDate(2, Date.valueOf(reviewDto.getRdate()));
+        public int reviewWrite(ReviewDto reviewDto) {
+            String sql = "INSERT INTO review (mno, fno, rcontent) VALUES (?, ?, ?)";
+            try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, reviewDto.getMno());              // ✅ 로그인 회원번호 사용
+                ps.setInt(2, reviewDto.getFno());              // ✅ 어떤 박람회 리뷰인지 저장
+                ps.setString(3, reviewDto.getRcontent());      // ✅ 내용
 
                 int count = ps.executeUpdate();
-
-                if( count == 1 ){
+                if (count == 1) {
                     try (ResultSet rs = ps.getGeneratedKeys()) {
-                        if (rs.next()) {
-                            int rno = rs.getInt(1);   // 생성된 PK
-                            reviewDto.setRno(rno);   // DTO에 세팅
-                            return rno;              // PK 반환
-                        }
+                        if (rs.next()) return rs.getInt(1);
                     }
                 }
-
-            } catch ( Exception e ){
-                System.out.println( e );
-            }
+            } catch (Exception e) { e.printStackTrace(); }
             return 0;
         } // func end
 
@@ -45,7 +35,7 @@ import java.util.List;
 
         // [2] 방문 리뷰 전체 조회 (널/타입 안전 + 리소스 정리)
         public List<ReviewDto> reviewPrint() {
-            String sql = "SELECT rno, rcontent, rdate FROM review ORDER BY rno DESC";
+            String sql = "SELECT rno, mno, fno, rcontent, rdate FROM review ORDER BY rno DESC";
             List<ReviewDto> list = new ArrayList<>();
 
             try (PreparedStatement ps = conn.prepareStatement(sql);
@@ -53,12 +43,9 @@ import java.util.List;
 
                 while (rs.next()) {
                     java.time.LocalDate rdate = null;
-
-                    // 1) 드라이버가 LocalDate 매핑 지원하면 이게 제일 깔끔 (mysql-connector-j 8.x)
                     try {
                         rdate = rs.getObject("rdate", java.time.LocalDate.class);
                     } catch (Throwable ignore) {
-                        // 2) 폴백: DATE 또는 TIMESTAMP/DATETIME 모두 처리
                         java.sql.Date d = rs.getDate("rdate");
                         if (d != null) rdate = d.toLocalDate();
                         else {
@@ -67,14 +54,17 @@ import java.util.List;
                         }
                     }
 
-                    list.add(new ReviewDto(
-                            rs.getInt("rno"),
-                            rs.getString("rcontent"),
-                            rdate    // null 허용 (DTO가 LocalDate nullable이면 OK)
-                    ));
+                    ReviewDto dto = new ReviewDto();   // ✅ 생성자 의존 X
+                    dto.setRno(rs.getInt("rno"));
+                    dto.setMno(rs.getInt("mno"));
+                    dto.setFno(rs.getInt("fno"));
+                    dto.setRcontent(rs.getString("rcontent"));
+                    dto.setRdate(String.valueOf(rdate));               // (필드 타입이 LocalDate라면)
+
+                    list.add(dto);
                 }
             } catch (Exception e) {
-                e.printStackTrace(); // 원인 추적에 유리
+                e.printStackTrace();
             }
             return list;
         }
@@ -84,23 +74,24 @@ import java.util.List;
 
         // [3] 방문 리뷰 개별 조회
         public ReviewDto reviewPrint2(int rno) {
-            String sql = "SELECT rno, rcontent, rdate FROM review WHERE rno = ?";
+            String sql = "SELECT rno, mno, fno, rcontent, rdate FROM review WHERE rno = ?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setInt(1, rno); // 매개변수로 받은 rno 바인딩
-
+                ps.setInt(1, rno);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
                         java.sql.Date d = rs.getDate("rdate");
-                        return new ReviewDto(
-                                rs.getInt("rno"),            // ✅ 컬럼명 문자열
-                                rs.getString("rcontent"),    // ✅ 컬럼명 문자열
-                                (d != null ? d.toLocalDate() : null) // ✅ 널 안전
-                        );
+                        java.time.LocalDate rdate = (d != null ? d.toLocalDate() : null);
+
+                        ReviewDto dto = new ReviewDto();
+                        dto.setRno(rs.getInt("rno"));
+                        dto.setMno(rs.getInt("mno"));
+                        dto.setFno(rs.getInt("fno"));
+                        dto.setRcontent(rs.getString("rcontent"));
+                        dto.setRdate(String.valueOf(rdate));
+                        return dto;
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) { e.printStackTrace(); }
             return null;
         }
 
