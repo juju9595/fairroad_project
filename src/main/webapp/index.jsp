@@ -23,7 +23,10 @@
             <li> <a href="/Fair/allPostCategory.jsp?cno=3"> 취업 </a> </li>
             <li> <a href="/Fair/allPostCategory.jsp?cno=4"> 애완 </a> </li>
             <li> <a href="/Fair/allPostCategory.jsp?cno=5"> 캠핑 </a> </li>
-            <li>카테고리3</li>
+            <li> <a href="#"> 인기순(비회원 가능) </a> </li>
+            <li> <a href="#"> 지역별 박람회(비회원 가능) </a> </li>
+            <li> <a href="#"> 최근 본 박람회(회원제) </a> </li>
+            <li> <a href="#"> 즐겨찾기 목록(회원제) </a> </li>
         </ul>
     </div>
 //
