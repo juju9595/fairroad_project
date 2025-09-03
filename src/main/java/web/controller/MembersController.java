@@ -75,12 +75,24 @@ public class MembersController { // class start
 // -----------------------------------------------------------------------------------------//
 
     // [5] 비밀번호 수정
-
+    @PutMapping("/update/password")
+    public boolean pwdUpdate(@RequestBody Map<String, String> map, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        if(session == null || session.getAttribute("loginMno") == null)return false;
+        Object obj = session.getAttribute("loginMno");
+        int loginMno = (int)obj;
+        boolean result = membersService.pwdUpdate(loginMno, map);
+        session.removeAttribute("loginMno");
+        return result;
+    }
 
 // -----------------------------------------------------------------------------------------//
 
     // [6] 즐겨찾기 목록
-
+    @GetMapping("/wishlist")
+    public List<WishListDto> wishList(){
+        return membersService.wishList();
+    }
 
 
 } // class e
