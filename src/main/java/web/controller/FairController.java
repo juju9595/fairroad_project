@@ -1,7 +1,9 @@
 package web.controller;
 
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import web.model.dto.FairDto;
@@ -13,6 +15,7 @@ import web.model.dto.FairCountDto;
 import web.model.dto.FairRegionDto;
 import web.service.FairService;
 import web.service.FileService;
+import web.service.RecommendService;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,9 @@ import java.util.Map;
 public class FairController { // class start
     private final FairService fairService;
     private final FileService fileService; //업로드 Service
+
+    @Autowired
+    private RecommendService recommendService;
 
     //박람회 등록
     @PostMapping("/write")
@@ -59,10 +65,21 @@ public class FairController { // class start
     public PageDto fairPrintMain(@RequestParam (defaultValue = "1")int page,
                                  @RequestParam (defaultValue = "5")int count,
                                  @RequestParam (required = false) String key,
-                                 @RequestParam (required = false) String keyword){
-        PageDto result = fairService.fairMainPrint(page,count,key,keyword);
-        return result;
-    }
+                                 @RequestParam (required = false) String keyword,
+                                 HttpSession session){
+        // 세션에서 회원번호(mno) 확인
+        Integer mno = (Integer) session.getAttribute("loginMno");
+
+        // 회원이면 알고리즘 , 비회원이면 전체 조회
+        if(mno != null ){
+            // 회원이면
+            return recommendService.getRecommendationsPaged(mno , page , count , key ,keyword);
+        }else {
+            // 비회원이면
+            return fairService.fairMainPrint(page , count , key , keyword);
+        } // if e
+
+    } // func e
 
     // 박람회 상세 조회
     @GetMapping("/getpost")

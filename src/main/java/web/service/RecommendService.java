@@ -138,10 +138,10 @@ public class RecommendService {
     public PageDto getRecommendationsPaged(int mno , int page , int count , String key , String keyword){
 
         // 1. 기존 추천 로직 호출
-        List<FairDto> allRecommendation = new ArrayList<>();
+        List<FairDto> allRecommendation = getRecommendations(mno);
 
         // 2. 검색 조건 적용
-        if( key != null && !key.isEmpty() && keyword != null && keyword.isEmpty()){
+        if( key != null && !key.isEmpty() && keyword != null && !keyword.isEmpty()){
             String lowerKeyword = keyword.toLowerCase();
             allRecommendation = allRecommendation.stream()
                     .filter(fair ->{
