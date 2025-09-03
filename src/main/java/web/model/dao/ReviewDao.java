@@ -14,11 +14,12 @@ import java.util.List;
     public class ReviewDao extends Dao{
         // [1] 방문 리뷰 등록
         public int reviewWrite(ReviewDto reviewDto) {
-            String sql = "INSERT INTO review (mno, fno, rcontent) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO review (mno, fno, rtitle , rcontent) VALUES ( ? ,?, ?, ? )";
             try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                ps.setInt(1, reviewDto.getMno());              // ✅ 로그인 회원번호 사용
-                ps.setInt(2, reviewDto.getFno());              // ✅ 어떤 박람회 리뷰인지 저장
-                ps.setString(3, reviewDto.getRcontent());      // ✅ 내용
+                ps.setInt(1, reviewDto.getMno());
+                ps.setInt(2, reviewDto.getFno());
+                ps.setString( 3,reviewDto.getRtitle());
+                ps.setString(4, reviewDto.getRcontent());
 
                 int count = ps.executeUpdate();
                 if (count == 1) {
@@ -35,7 +36,7 @@ import java.util.List;
 
         // [2] 방문 리뷰 전체 조회 (널/타입 안전 + 리소스 정리)
         public List<ReviewDto> reviewPrint() {
-            String sql = "SELECT rno, mno, fno, rcontent, rdate FROM review ORDER BY rno DESC";
+            String sql = "SELECT rno, mno, fno, rtitle, rcontent, rdate FROM review ORDER BY rno DESC";
             List<ReviewDto> list = new ArrayList<>();
 
             try (PreparedStatement ps = conn.prepareStatement(sql);
@@ -54,10 +55,11 @@ import java.util.List;
                         }
                     }
 
-                    ReviewDto dto = new ReviewDto();   // ✅ 생성자 의존 X
+                    ReviewDto dto = new ReviewDto();
                     dto.setRno(rs.getInt("rno"));
                     dto.setMno(rs.getInt("mno"));
                     dto.setFno(rs.getInt("fno"));
+                    dto.setRtitle(rs.getString("rtitle"));
                     dto.setRcontent(rs.getString("rcontent"));
                     dto.setRdate(String.valueOf(rdate));               // (필드 타입이 LocalDate라면)
 
@@ -74,7 +76,7 @@ import java.util.List;
 
         // [3] 방문 리뷰 개별 조회
         public ReviewDto reviewPrint2(int rno) {
-            String sql = "SELECT rno, mno, fno, rcontent, rdate FROM review WHERE rno = ?";
+            String sql = "SELECT rno, mno, fno, rtitle , rcontent, rdate FROM review WHERE rno = ?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1, rno);
                 try (ResultSet rs = ps.executeQuery()) {
@@ -86,6 +88,7 @@ import java.util.List;
                         dto.setRno(rs.getInt("rno"));
                         dto.setMno(rs.getInt("mno"));
                         dto.setFno(rs.getInt("fno"));
+                        dto.setRtitle(rs.getString("rtitle"));
                         dto.setRcontent(rs.getString("rcontent"));
                         dto.setRdate(String.valueOf(rdate));
                         return dto;
@@ -101,19 +104,19 @@ import java.util.List;
 
 
     // [4] 방문 리뷰 수정
-    public int reviewUpdate( int rno , String rcontent ){
-        String sql = "UPDATE review SET rcontent = ? WHERE rno = ?";
-        try{
-            PreparedStatement ps = conn.prepareStatement( sql );
-            ps.setString( 1 , rcontent );
-            ps.setInt( 2 , rno );
+    public int reviewUpdate( int rno, String rtitle, String rcontent ) {
+        String sql = "UPDATE review SET rtitle = ? , rcontent = ? WHERE rno = ?";
+        try (PreparedStatement ps = conn.prepareStatement( sql )) {
+            ps.setString(1, rtitle);
+            ps.setString(2, rcontent);
+            ps.setInt(3, rno);
 
             int count = ps.executeUpdate();
-            if( count == 1 ){
+            if (count == 1) {
                 return rno;
             }
-        }catch ( Exception e ){
-            System.out.println( e );
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return 0;
     }
