@@ -2,17 +2,26 @@ console.log("review.js open");
 
 const findAllReview = async () => {
   try {
-    const res = await fetch('/fair/review/print'); // 전체 조회 API
-    const data = await res.json();
+
+    const params = new URLSearchParams(window.location.search);
+    const fno = params.get("fno");
+    if (!fno) {
+      console.error("리뷰 번호(fno)가 없습니다.");
+      return;
+    }
+
+
+    const response = await fetch(`/fair/review/print?fno=${fno}`); // 전체 조회 API
+    const data = await response.json();
 
     const reviewTbody = document.querySelector('.reviewTbody');
     let html = '';
     data.forEach(review => {
       html += `
         <tr>
-          <td>${review.rno}</td>
+          <td>${review.rdate}</td>
           <td>
-            <a href="/reviewDetail.jsp?rno=${review.rno}">
+            <a href="/Review/reviewDetail.jsp?rno=${review.rno}">
               ${review.rtitle}
             </a>
           </td>
@@ -20,8 +29,8 @@ const findAllReview = async () => {
     });
 
     reviewTbody.innerHTML = html;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
 };
 
