@@ -1,8 +1,17 @@
-console.log("mypage.js open")
+console.log("mypage.js open");
 
 // [1] 로그인 후 출력
 const myinfo = async () => {
     const logMenu = document.querySelector('#log-menu');
+    const isMember = sessionStorage.getItem("isMember") === "true";
+    const memberNo = sessionStorage.getItem("memberNo");
+
+    // 비회원이면 아예 안보이게
+    if (!isMember || !memberNo) {
+        logMenu.style.display = "none";
+        return;
+    }
+
     let html = '';
     try {
         const option = { method: "GET" }
@@ -17,12 +26,16 @@ const myinfo = async () => {
         console.error('myinfo fetch 에러:', error);
     }
     logMenu.innerHTML = html;
+    logMenu.style.display = "flex"; // 회원일 때 보이게
 }
 myinfo();
 
 // [2] 로그아웃
 const logout = async () => {
     try {
+        // 로그아웃 확인
+        if (!confirm("정말 로그아웃 하시겠습니까?")) return;
+
         // sessionStorage 삭제
         sessionStorage.removeItem("isMember");
         sessionStorage.removeItem("memberNo");
@@ -31,7 +44,7 @@ const logout = async () => {
         const response = await fetch("/member/logout", option);
         const data = await response.json();
 
-        if (data === true) {
+        if (data === true || data === "true") {
             alert('로그아웃 했습니다.');
             location.href = "/index.jsp";
         } else {

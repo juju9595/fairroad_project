@@ -31,9 +31,6 @@
                 <li><a href="#" data-url="/visitlog/recent" data-type="recent">최근 본 박람회(회원제)</a></li>
                 <li><a href="#" data-url="/wish/member?mno=1" data-type="favorite">즐겨찾기 목록(회원제)</a></li>
             </ul>
-            <ul id="log-menu">
-                <!----로그인 안했을때-->
-            </ul>
         </div>
 
         <div class="banner">
