@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import web.model.dao.FairDao;
+import web.model.dto.FairDto;
 import web.model.dto.VisitLogDto;
 
 import java.io.*;
@@ -107,24 +108,33 @@ public class VisitLogService {
         } // syn
     } // func e
 
-    // CSV 전체 읽기
+    // CSV 전체 읽기 (logs 폴더 내 모든 방문 로그 파일 읽기)
     private List<VisitLogDto> readAllLogs() {
         List<VisitLogDto> logs = new ArrayList<>();
-        File file = new File(getFileName()); // 오늘 날짜 기준 파일 가져오기
-        if (!file.exists()) return logs; // 파일 없으면 빈 list 반환
+        File logDir = new File("logs");
+        if (!logDir.exists()) return logs;
 
-        synchronized (fileLock) { // 동기화 블럭 시작!!
-            // 파일 읽을 때도 다른 스레드가 동시에 파일 쓰면 오류 발생 가능
-            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                br.lines() // 파일 라인 읽기
-                        .skip(1) // 헤더 스킵
-                        .map(VisitLogDto::fromCsv) // csv 파일 dto 객체로 변환
-                        .forEach(logs::add); // 리스트에 추가
-            } catch (Exception e) {
-                e.printStackTrace();
+        // logs 디렉토리 내 visitlog_*.csv 파일 모두 읽기
+        File[] files = logDir.listFiles((dir, name) -> name.startsWith("visitlog_") && name.endsWith(".csv"));
+        if (files == null || files.length == 0) return logs;
+
+        // 파일 이름 기준 정렬 (오래된 순)
+        Arrays.sort(files, Comparator.comparing(File::getName));
+
+        for (File file : files) {
+            synchronized (fileLock) { // 동기화 유지
+                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                    br.lines()
+                            .skip(1) // 헤더 스킵
+                            .map(VisitLogDto::fromCsv)
+                            .forEach(logs::add);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        return logs; // 리스트 반환
+        } // for e
+
+        return logs;
     } // func e
 
     // 회원별 방문 로그 조회
@@ -145,7 +155,7 @@ public class VisitLogService {
                 // { 박람회 번호 = 방문횟수 } 그룹화 해서 Map 반환
     } // func e
 
-    // 회원별 최근 본 박람회 최대 10개 + fname 가져오기
+    // 회원별 최근 본 박람회 최대 10개 + 박람회 상세정보 가져오기
     public List<Map<String, Object>> getRecentVisitsWithName(int mno) {
         return readAllLogs().stream()
                 .filter(log -> log.getMno() != null && log.getMno() == mno)
@@ -153,17 +163,21 @@ public class VisitLogService {
                 .limit(10)
                 .map(log -> {
                     Map<String, Object> map = new HashMap<>();
-                    map.put("fno", log.getFno());
                     map.put("vdate", log.getVdate());
 
-                    // DB에서 fno → fname 조회
-                    String fname = fairDao.getFairNameByFno(log.getFno());
-                    map.put("fname", fname);
-
+                    FairDto fair = fairDao.getFairbyFno(log.getFno());
+                    if (fair != null) {
+                        map.put("fno", fair.getFno());
+                        map.put("fname", fair.getFname());
+                        map.put("fplace", fair.getFplace());
+                        map.put("fprice", fair.getFprice());
+                        map.put("furl", fair.getFurl());
+                        map.put("fimg", fair.getFimg()); // 이미지가 있으면 추가
+                    }
                     return map;
                 })
                 .collect(Collectors.toList());
-    } // func e
+    }
 
     // 하루 단위 아카이브 (매일 자정 실행)
     @Scheduled(cron = "0 0 0 * * ?")
