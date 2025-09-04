@@ -7,8 +7,7 @@ import web.model.dto.FairCountDto;
 import web.model.dto.FairDto;
 
 import javax.xml.transform.Result;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 

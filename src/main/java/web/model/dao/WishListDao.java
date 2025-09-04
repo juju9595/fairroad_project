@@ -5,6 +5,7 @@ import web.model.dto.WishListDto;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,4 +48,26 @@ public class WishListDao extends Dao{
         return list;
     } // func e
 
+    //-------------------------------------------------------------------------------------//
+
+    // 즐겨 찾기 등록 [버튼]
+
+    public int fairWishList(int mno,int fno){
+        try{
+            String sql = "INSERT INTO wishList SET mno=?, fno=?;";
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1,mno);
+            ps.setInt(2,fno);
+            int count = ps.executeUpdate();
+            if(count==1){
+                ResultSet rs = ps.getGeneratedKeys();
+                if(rs.next()){
+                    return rs.getInt(1);
+                }//if end
+            }//if end
+        } catch (Exception e) {System.out.println("즐겨찾기 등록"+e);}//catch end
+        return 0;
+    }//func end
+
 } // class e
+

@@ -20,4 +20,10 @@ public class WishListService {
         return result;
     } // func e
 
+    // 즐겨 찾기 등록 [버튼]
+    public int fairWishList(int mno,int fno){
+        int result = wishlistDao.fairWishList(mno,fno);
+        return result;
+    }//func end
+
 } // class e

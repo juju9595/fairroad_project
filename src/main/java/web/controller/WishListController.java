@@ -3,10 +3,7 @@ package web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberWishListDto;
 import web.service.WishListService;
 
@@ -24,4 +21,12 @@ public class WishListController { // class start
         return result;
     } // func e
 
+    // 즐겨 찾기 등록 [버튼]
+    @PostMapping("/write")
+    public int fairWishList(@RequestBody int mno,int fno){
+        int result = wishlistService.fairWishList(mno,fno);
+        return result;
+    }//func end
+
 } // class end
+
