@@ -20,9 +20,17 @@ const login = async() =>{
         }
         const response = await fetch("/member/login", option);
         const data = await response.json();
-        if(data > 0 ){
-            alert('로그인성공')
-            location.href="/index.jsp";
-        }else{alert('아이디 또는 비밀번호가 다릅니다.')}
+    if(data > 0){ // data가 0보다 크면 로그인 성공 → data = mno
+        alert('로그인 성공');
+
+        // localStorage에 로그인 상태와 회원 번호 저장
+        localStorage.setItem("isMember", "true");
+        localStorage.setItem("memberNo", data);
+
+        // 메인 페이지 이동
+        location.href="/index.jsp";
+    } else {
+        alert('아이디 또는 비밀번호가 다릅니다.');
+    }
     }catch{}
 }//func e

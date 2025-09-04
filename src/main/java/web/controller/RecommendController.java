@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/visitlog")
-
 public class RecommendController {
     @Autowired
     RecommendService recommendService;
