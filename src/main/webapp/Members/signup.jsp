@@ -11,6 +11,10 @@
 </head>
 <body>
     
+    <jsp:include page="/header.jsp"></jsp:include>
+    <div id="container">
+        <h3>회원가입</h3>
+    </div>
 
 
 

@@ -33,7 +33,7 @@ public class RecommendService {
     public List<FairDto> getRecommendations(int mno){
 
         // 회원 정보
-        MembersDto member = memberDao.getMemberByMno(mno);
+        MembersDto member = memberDao.info(mno);
         String memberAddress = member != null ? member.getMaddress() : "";
 
         // 점수 맵 생성

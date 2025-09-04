@@ -7,21 +7,15 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
 </head>
 <body>
-
-    <div id="container">
-        <h3> 마이페이지 </h3>
-        <ul class="listBox">
-            <li><a href="#">내정보</a></li>
-            <li><a href="#">즐겨찾기 목록</a></li>
-        </ul>
-        <ul id="log-menu">
-            
-        </ul>
-
-    </div>
     
+    <jsp:include page="/header.jsp"></jsp:include>
+    <div id="container">
+        <h3>아이디 찾기</h3>
+    </div>
+
 </body>
 </html>

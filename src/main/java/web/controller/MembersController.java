@@ -118,4 +118,19 @@ public class MembersController { // class start
         return result;
     }
 
+//-----------------------------------------------------------------------------
+
+    // [9] 회원번호로 회원 정보 조회
+    @GetMapping("/info")
+    public MembersDto info(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        if(session == null || session.getAttribute("loginMno") == null){
+            return null;
+        }
+        Object obj = session.getAttribute("loginMno");
+        int loginMno = (int)obj;
+        MembersDto result = membersService.info(loginMno);
+        return result;
+    }
+
 } // class e

@@ -70,5 +70,10 @@ public class MembersService {
     }
 
 
+    //[8] 내정보 조회
+    public MembersDto info(int mno){
+        MembersDto result = memberDao.info(mno);
+        return result;
+    }
 
 }//class e

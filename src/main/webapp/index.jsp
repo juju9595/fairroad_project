@@ -28,6 +28,9 @@
             <li> <a href="#"> 최근 본 박람회(회원제) </a> </li>
             <li> <a href="#"> 즐겨찾기 목록(회원제) </a> </li>
         </ul>
+        <ul id="log-menu">
+            <!----로그인 안했을때-->
+        </ul>
     </div>
 //
     <div class="banner">
@@ -38,9 +41,7 @@
 
     </div>
 
-    
-
-
+    <script src="/js/Members/mypage.js"></script>
     <jsp:include page="/footer.jsp"></jsp:include>
     
 </body>

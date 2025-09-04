@@ -151,7 +151,7 @@ public class MemberDao extends Dao{
     // ---------------------------- 추천 알고리즘 --------------------- //
 
     // [8] 회원번호로 회원 정보 조회
-    public MembersDto getMemberByMno(int mno){
+    public MembersDto info(int mno){
         try{
             String sql = "select * from members where mno = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
