@@ -20,9 +20,15 @@ public class WishListService {
         return result;
     } // func e
 
-    // 즐겨 찾기 등록 [버튼]
-    public int fairWishList(int mno,int fno){
-        int result = wishlistDao.fairWishList(mno,fno);
+    // 즐겨 찾기 등록/취소 [버튼]
+    public int fairWishToggle(int mno,int fno){
+        int result = wishlistDao.fairWishToggle(mno,fno);
+        return result;
+    }//func end
+
+    // 즐겨찾기 삭제 테스트용
+    public int fairWishDelete(int mno,int fno){
+        int result = wishlistDao.fairWishToggle(mno,fno);
         return result;
     }//func end
 

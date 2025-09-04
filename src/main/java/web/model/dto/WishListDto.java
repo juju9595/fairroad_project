@@ -15,5 +15,4 @@ public class WishListDto { // 즐겨찾기 된 박람회 리스트 Dto
     private String fplace;
     private int fprice;
     private String furl;
-
 }//class
