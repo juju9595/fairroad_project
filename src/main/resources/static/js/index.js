@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(){
     // ----------------------------
-    // 0. 전역 변수
+    // 0. 전역 변수 (localStorage 기반)
     // ----------------------------
-    const isMember = false; // 임시 회원/비회원 구분
-    const memberNo = 1;    // 임시 회원 번호 (로그인 정보에서 실제 값으로 대체)
+    const isMember = localStorage.getItem("isMember") === "true";
+    const memberNo = localStorage.getItem("memberNo") ? parseInt(localStorage.getItem("memberNo")) : null;
     const contentEl = document.getElementById("content"); // 메인 콘텐츠 영역
 
     // ----------------------------
@@ -73,8 +73,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     <img src="${fair.fimg || '/img/default.png'}" alt="${fair.fname}" class="fair-img">
                     <div class="fair-info">
                         <a href="${fair.furl}" target="_blank" class="fair-name">${fair.fname}</a>
-                        <div class="fair-place">장소: ${fair.fplace}</div>
-                        <div class="fair-price">가격: ${fair.fprice ? fair.fprice + '원' : '정보없음'}</div>
+                        <div class="fair-place">장소: ${fair.fplace || '정보없음'}</div>
+                        <div class="fair-price">가격: ${(fair.fprice != null && fair.fprice > 0) ? fair.fprice + '원' : '정보없음'}</div>
                         ${fair.fcount !== undefined ? `<div class="fair-count">조회수: ${fair.fcount}</div>` : ""}
                     </div>
                 </li>
