@@ -9,8 +9,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const searchInputEl = document.getElementById("searchInput");
     const searchBtnEl = document.getElementById("searchBtn");
 
-    const isMember = localStorage.getItem("isMember") === "true";
-    const memberNo = localStorage.getItem("memberNo") ? parseInt(localStorage.getItem("memberNo")) : null;
+    // ✅ 세션스토리지 기반으로 로그인 상태 확인
+    const isMember = sessionStorage.getItem("isMember") === "true";
+    const memberNo = sessionStorage.getItem("memberNo") ? parseInt(sessionStorage.getItem("memberNo")) : null;
 
     let currentKey = "";
     let currentKeyword = "";
@@ -30,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // ----------------------------
     // 공통 박람회 렌더링
-    // container 인자를 추가해서 regionContent에도 렌더 가능
     // ----------------------------
     function renderFairs(data, container = contentEl){
         if(!data || data.length === 0){
@@ -59,14 +59,13 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // ----------------------------
-    // 페이징 버튼 생성 (callback으로 페이지 이동 처리)
+    // 페이징 버튼 생성
     // ----------------------------
     function renderPagination(currentPage, totalCount, countPerPage, callback){
         paginationEl.innerHTML = "";
         const totalPage = Math.ceil(totalCount / countPerPage);
         if(totalPage <= 1) return;
 
-        // 이전
         if(currentPage > 1){
             const prev = document.createElement("button");
             prev.textContent = "<";
@@ -74,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function(){
             paginationEl.appendChild(prev);
         }
 
-        // 페이지 번호
         for(let i = 1; i <= totalPage; i++){
             const btn = document.createElement("button");
             btn.textContent = i;
@@ -83,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function(){
             paginationEl.appendChild(btn);
         }
 
-        // 다음
         if(currentPage < totalPage){
             const next = document.createElement("button");
             next.textContent = ">";
@@ -93,16 +90,16 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // ----------------------------
-    // 박람회 가져오기 (회원/비회원 구분 + 검색 + 페이지)
+    // 박람회 가져오기 (회원/비회원 구분 + 검색)
     // ----------------------------
     function fetchFairs(page = 1, key = "", keyword = ""){
-        const count = isMember ? 6 : 6; // 회원/비회원 수 동일(필요시 조정)
+        const count = 6;
         let url = `/fair/allPostMain?page=${page}&count=${count}`;
         if(key && keyword) url += `&key=${key}&keyword=${keyword}`;
 
         fetchJSON(url, data => {
             pageTitleEl.textContent = isMember ? "추천 박람회" : "전체 박람회";
-            renderFairs(data.data); // 기본 content 영역 렌더링
+            renderFairs(data.data);
             renderPagination(data.currentPage, data.totalPage * count, count, (p) => fetchFairs(p, key, keyword));
         });
     }
@@ -121,15 +118,19 @@ document.addEventListener("DOMContentLoaded", function(){
     // ----------------------------
     function initCategoryEvents(){
         document.querySelectorAll(".category a[data-type]").forEach(a => {
+            const type = a.dataset.type;
+            // ✅ 회원 전용 카테고리 숨김
+            if((type === "recent" || type === "favorite") && !isMember){
+                a.parentElement.style.display = "none";
+                return;
+            }
+
             a.addEventListener("click", function(e){
                 e.preventDefault();
                 const url = this.dataset.url;
-                const type = this.dataset.type;
                 if(!url) return;
 
-                // ----------------------------
-                // 인기순 박람회 (기존 로직 그대로)
-                // ----------------------------
+                // 인기순
                 if(type === "popular"){
                     const count = 6;
                     function fetchPopular(page = 1){
@@ -141,9 +142,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     fetchPopular();
 
-                // ----------------------------
-                // 지역별 박람회 (기존 로직 그대로)
-                // ----------------------------
+                // 지역별
                 } else if(type === "region"){
                     fetchJSON(url, dataMap => {
                         pageTitleEl.textContent = "지역별 박람회";
@@ -177,16 +176,14 @@ document.addEventListener("DOMContentLoaded", function(){
                         paginationEl.innerHTML = "";
                     });
 
-                // ----------------------------
-                // 최근 본 박람회 (페이징 적용)
-                // ----------------------------
+                // 최근 본 (회원)
                 } else if(type === "recent"){
                     const count = 6;
                     let currentPage = 1;
 
                     function loadRecent(page = 1){
                         currentPage = page;
-                        fetchJSON(`${url}?page=${page}&count=${count}`, data => {
+                        fetchJSON(`${url}?mno=${memberNo}&page=${page}&count=${count}`, data => {
                             pageTitleEl.textContent = "최근 본 박람회";
                             renderFairs(data.lastvisitfair);
                             renderPagination(currentPage, data.totalCount, count, loadRecent);
@@ -195,32 +192,22 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     loadRecent();
 
-                // ----------------------------
-                // 즐겨찾기 목록 (페이징 적용 가능)
-                // ----------------------------
-                } 
-                else if(type === "favorite"){
-                const count = 6; // 한 페이지당 보여줄 아이템 수
-                let currentPage = 1;
+                // 즐겨찾기 (회원)
+                } else if(type === "favorite"){
+                    const count = 6;
+                    let currentPage = 1;
 
-                function loadFavorite(page = 1){
-                    currentPage = page;
-                    fetchJSON(`/wish/member?mno=${memberNo}&page=${page}&count=${count}`, data => {
-                        pageTitleEl.textContent = "즐겨찾기 목록";
-                        renderFairs(data.wishList); // 즐겨찾기 배열 렌더링
+                    function loadFavorite(page = 1){
+                        currentPage = page;
+                        fetchJSON(`/wish/member?mno=${memberNo}&page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = "즐겨찾기 목록";
+                            renderFairs(data.wishList);
+                            renderPagination(currentPage, data.totalCount, count, loadFavorite);
+                        });
+                    }
 
-                        // 기존 renderPagination 사용
-                        renderPagination(
-                            currentPage,       // 현재 페이지
-                            data.totalCount,   // 총 아이템 수
-                            count,             // 한 페이지당 아이템 수
-                            loadFavorite       // 페이지 버튼 클릭 시 호출 함수
-                        );
-                    });
+                    loadFavorite();
                 }
-
-                loadFavorite();
-            }
             });
         });
     }
