@@ -33,15 +33,5 @@ public class WishListController { // class start
         int mno = (int)login;
         return wishlistService.fairWishToggle(mno,fno);
     }//func end
-
-    // 즐겨 찾기 취소 테스트
-    @DeleteMapping("/delete")
-    public int fairWishDelete(@RequestParam int fno, HttpSession session){
-        Object login = session.getAttribute("loginMno");
-        if(session.getAttribute("loginMno")==null) return 0;
-        int mno =(int)login;
-        return wishlistService.fairWishDelete(mno,fno);
-    }//func end
-
 } // class end
 

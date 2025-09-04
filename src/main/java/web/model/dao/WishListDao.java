@@ -81,18 +81,20 @@ public class WishListDao extends Dao{
                 psDel.executeUpdate();
                 return -1;
             }else{
-                String sqlWrite = "INSERT INTO FROM wishlist(mno,fno) values(?,?);";
-                PreparedStatement psAdd= conn.prepareStatement(sqlWrite);
+                String sqlWrite = "INSERT INTO wishlist(mno,fno) values(?,?);";
+                PreparedStatement psAdd = conn.prepareStatement(sqlWrite, Statement.RETURN_GENERATED_KEYS);
                 psAdd.setInt(1,mno);
                 psAdd.setInt(2,fno);
                 int count = psAdd.executeUpdate();
-
-            }
+                if(count==1){
+                    ResultSet rs2 = psAdd.getGeneratedKeys();
+                    if(rs2.next()){
+                        return rs2.getInt(1);
+                    }//if end
+                }//if end
+            }//if end
         } catch (SQLException e) {System.out.println(e);}
         return 0;
     }//func end
-
-
-
 } // class e
 

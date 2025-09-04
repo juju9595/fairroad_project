@@ -25,11 +25,4 @@ public class WishListService {
         int result = wishlistDao.fairWishToggle(mno,fno);
         return result;
     }//func end
-
-    // 즐겨찾기 삭제 테스트용
-    public int fairWishDelete(int mno,int fno){
-        int result = wishlistDao.fairWishToggle(mno,fno);
-        return result;
-    }//func end
-
 } // class e
