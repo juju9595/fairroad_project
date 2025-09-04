@@ -24,7 +24,7 @@
         </div>
         <div class="logo">
             <a href="/index.jsp">
-            <img src="/img/로고.png" >
+            <img src="/img/logo.png" >
             </a>
         </div>
         <div class="search">

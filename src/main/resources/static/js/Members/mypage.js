@@ -10,6 +10,7 @@ const myinfo = async() =>{
         const response = await fetch( "member/info", option);
         const data = await response.json(); console.log(data);
         html += `<li><span>${data.mid}님</span></li>
+                <li><a href="/Members/mypage.jsp">마이페이지</a></li> 
                 <li><a href="#" onclick="logout()">로그아웃</a></li>
                 `
     }catch{

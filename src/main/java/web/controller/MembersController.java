@@ -104,7 +104,15 @@ public class MembersController { // class start
 
     // [7] 즐겨찾기 목록
     @GetMapping("/wishlist")
-    public List<WishListDto> wishList(int mno){
+    public List<WishListDto> wishList(HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        if(session == null || session.getAttribute("loginMno") == null)return null;
+        Object obj = session.getAttribute("loginMno");
+        int mno = (int)obj;
+
+
+
         List<WishListDto> result = membersService.wishList(mno);
         return result;
     }
