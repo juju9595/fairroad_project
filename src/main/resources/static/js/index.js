@@ -30,10 +30,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // ----------------------------
     // 공통 박람회 렌더링
+    // container 인자를 추가해서 regionContent에도 렌더 가능
     // ----------------------------
-    function renderFairs(data){
+    function renderFairs(data, container = contentEl){
         if(!data || data.length === 0){
-            contentEl.innerHTML = "<p>박람회가 없습니다.</p>";
+            container.innerHTML = "<p>박람회가 없습니다.</p>";
             return;
         }
 
@@ -54,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function(){
             `;
         });
         html += "</ul>";
-        contentEl.innerHTML = html;
+        container.innerHTML = html;
     }
 
     // ----------------------------
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function(){
         paginationEl.innerHTML = "";
         if(totalPage <= 1) return;
 
-        // 이전
+        // 이전 버튼
         if(startBtn > 1){
             const prev = document.createElement("button");
             prev.textContent = "<";
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function(){
             paginationEl.appendChild(prev);
         }
 
-        // 숫자 버튼
+        // 페이지 번호 버튼
         for(let i = startBtn; i <= endBtn; i++){
             const btn = document.createElement("button");
             btn.textContent = i;
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function(){
             paginationEl.appendChild(btn);
         }
 
-        // 다음
+        // 다음 버튼
         if(endBtn < totalPage){
             const next = document.createElement("button");
             next.textContent = ">";
@@ -94,13 +95,13 @@ document.addEventListener("DOMContentLoaded", function(){
     // 박람회 가져오기 (회원/비회원 구분 + 검색 + 페이지)
     // ----------------------------
     function fetchFairs(page = 1, key = "", keyword = ""){
-        const count = isMember ? 6 : 6; // 회원이면 10개, 비회원이면 5개
+        const count = isMember ? 6 : 6; // 회원/비회원 수 동일(필요시 조정)
         let url = `/fair/allPostMain?page=${page}&count=${count}`;
         if(key && keyword) url += `&key=${key}&keyword=${keyword}`;
 
         fetchJSON(url, data => {
             pageTitleEl.textContent = isMember ? "추천 박람회" : "전체 박람회";
-            renderFairs(data.data);
+            renderFairs(data.data); // 기본 content 영역 렌더링
             renderPagination(data.currentPage, data.startBtn, data.endBtn, data.totalPage, key, keyword);
         });
     }
@@ -125,23 +126,38 @@ document.addEventListener("DOMContentLoaded", function(){
                 const type = this.dataset.type;
                 if(!url) return;
 
+                // ----------------------------
+                // 인기순 박람회
+                // ----------------------------
                 if(type === "popular"){
                     fetchJSON(url, data => {
                         pageTitleEl.textContent = "인기순 박람회";
                         renderFairs(data);
                         paginationEl.innerHTML = "";
                     });
+
+                // ----------------------------
+                // 지역별 박람회
+                // ----------------------------
                 } else if(type === "region"){
                     fetchJSON(url, dataMap => {
                         pageTitleEl.textContent = "지역별 박람회";
-                        let html = `<label for="regionSelect">지역 선택:</label>`;
-                        html += `<select id="regionSelect"><option value="">--지역 선택--</option></select>`;
-                        html += `<div id="regionContent"></div>`;
-                        contentEl.innerHTML = html;
+
+                        // 1. select + regionContent 분리
+                        contentEl.innerHTML = `
+                            <div id="regionWrapper">
+                                <label for="regionSelect">지역 선택:</label>
+                                <select id="regionSelect">
+                                    <option value="">-- 지역 선택 --</option>
+                                </select>
+                                <div id="regionContent"></div>
+                            </div>
+                        `;
 
                         const select = document.getElementById("regionSelect");
                         const regionContainer = document.getElementById("regionContent");
 
+                        // 2. select 옵션 생성
                         Object.keys(dataMap).forEach(region => {
                             const option = document.createElement("option");
                             option.value = region;
@@ -149,22 +165,35 @@ document.addEventListener("DOMContentLoaded", function(){
                             select.appendChild(option);
                         });
 
+                        // 3. select change 이벤트
                         select.addEventListener("change", function(){
                             const selectedRegion = this.value;
+
                             if(!selectedRegion){
-                                regionContainer.innerHTML = "";
+                                regionContainer.innerHTML = ""; // 카드만 지우기
                                 return;
                             }
-                            renderFairs(dataMap[selectedRegion]);
+
+                            // 선택된 지역 박람회만 regionContent에 렌더링
+                            renderFairs(dataMap[selectedRegion], regionContainer);
                         });
+
                         paginationEl.innerHTML = "";
                     });
+
+                // ----------------------------
+                // 최근 본 박람회
+                // ----------------------------
                 } else if(type === "recent"){
                     fetchJSON(url, data => {
                         pageTitleEl.textContent = "최근 본 박람회";
-                        renderFairs(data);
+                        renderFairs(data.lastvisitfair);
                         paginationEl.innerHTML = "";
                     });
+
+                // ----------------------------
+                // 즐겨찾기 목록
+                // ----------------------------
                 } else if(type === "favorite"){
                     fetchJSON(`/wish/member?mno=${memberNo}`, data => {
                         pageTitleEl.textContent = "즐겨찾기 목록";

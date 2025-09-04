@@ -43,7 +43,7 @@
         <div class="content-wrapper">
             <div class="search-bar">
                 <select id="searchKey">
-                    <option value="fname">박람회 이름</option>
+                    <option value="fname"> 박람회 제목 </option>
                     <option value="fplace">장소</option>
                     <option value="finfo">상세정보</option>
                 </select>
