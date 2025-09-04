@@ -15,15 +15,24 @@
 
     <div id="container">
         <h3>즐겨찾기 목록</h3>
-        <table border="1">
-            <div id = "wishlistBox"> </div> <br/>
+        <table>
+           <thead>
+                <tr>
+                    <th style="width:50px">선택</th>
+                    <th>박람회 이름</th>
+                </tr>
+            </thead>
+            <tbody id="wishlistBox">
+                <tr><td colspan="2">불러오는 중...</td></tr>
+            </tbody>
         </table>
+</div>
     </div>
     <button type="button" onclick="wishlistDelete()">삭제</button>
 
 
     <jsp:include page="/footer.jsp"></jsp:include>
-    <script src="/js/Members/wishlist.js"></script>
+    <script src="/js/Members/wishList.js"></script>
     
 </body>
 </html>
