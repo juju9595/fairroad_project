@@ -18,8 +18,8 @@ public class ReviewService {
     }
 
     // [2] 방문 리뷰 전체 조회
-    public List< ReviewDto > reviewPrint(){
-        return reviewDao.reviewPrint();
+    public List< ReviewDto > reviewPrint( int fno ){
+        return reviewDao.reviewPrint( fno );
     }
 
     // [3] 방문 리뷰 개별 조회

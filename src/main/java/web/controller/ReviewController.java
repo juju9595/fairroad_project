@@ -24,11 +24,8 @@ public class ReviewController { // class start
 
     // [1] 방문 리뷰 등록 (로그인 필수)
     @PostMapping("/write")
-    public ResponseEntity<?> reviewWrite(@RequestBody ReviewDto reviewDto , HttpSession session ) {
+    public int reviewWrite( @RequestBody ReviewDto reviewDto , HttpSession session ) {
         Integer loginMno = (Integer) session.getAttribute("loginMno");
-        if (loginMno == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("LOGIN_REQUIRED");
-        }
 
         // 로그인 회원번호 주입
         reviewDto.setMno(loginMno);
@@ -38,18 +35,18 @@ public class ReviewController { // class start
             reviewDto.setRdate(java.time.LocalDate.now().toString());
         }
 
-        int rno = reviewService.reviewWrite(reviewDto);
+        int rno = reviewService.reviewWrite( reviewDto );
         if (rno > 0) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("rno", rno));
+            return rno;
         }
-        return ResponseEntity.badRequest().body("FAIL");
+        return 0;
     }
 
     // [2] 방문 리뷰 전체 조회
     // spec: GET /fair/review/print (queryString: 없음)
     @GetMapping("/print")
-    public List< ReviewDto > reviewPrint(){
-        return reviewService.reviewPrint();
+    public List< ReviewDto > reviewPrint( @RequestParam int fno ){
+        return reviewService.reviewPrint( fno );
     }
 
 
@@ -74,12 +71,16 @@ public class ReviewController { // class start
 
 
     // [4] 방문 리뷰 수정
+    // [PUT 요청] 클라이언트에서 "/update" 주소로 PUT 방식 요청이 들어오면 실행
     @PutMapping("/update")
-    public int reviewUpdate( @RequestBody ReviewDto reviewDto ) {
-        if ( reviewDto.getRno() <= 0 ) return 0;
-        if ( reviewDto.getRcontent() == null || reviewDto.getRcontent().isBlank() ) return 0;
+    public int reviewUpdate(
+            // [요청 본문(JSON)] 데이터를 ReviewDto 객체로 자동 매핑하여 전달받음
+            @RequestBody ReviewDto reviewDto ) {
+
 
         return reviewService.reviewUpdate(reviewDto.getRno(), reviewDto.getRtitle() , reviewDto.getRcontent() );
+
+        
     }
 
     // [5] 방문 리뷰 삭제

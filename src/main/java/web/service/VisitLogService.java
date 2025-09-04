@@ -160,24 +160,24 @@ public class VisitLogService {
         return readAllLogs().stream()
                 .filter(log -> log.getMno() != null && log.getMno() == mno)
                 .sorted(Comparator.comparing(VisitLogDto::getVdate).reversed())
-                .limit(10)
                 .map(log -> {
+                    FairDto fair = fairDao.getFairbyFno(log.getFno());
+                    if (fair == null) return null; // DB에 없는 박람회 무시
                     Map<String, Object> map = new HashMap<>();
                     map.put("vdate", log.getVdate());
-
-                    FairDto fair = fairDao.getFairbyFno(log.getFno());
-                    if (fair != null) {
-                        map.put("fno", fair.getFno());
-                        map.put("fname", fair.getFname());
-                        map.put("fplace", fair.getFplace());
-                        map.put("fprice", fair.getFprice());
-                        map.put("furl", fair.getFurl());
-                        map.put("fimg", fair.getFimg()); // 이미지가 있으면 추가
-                    }
+                    map.put("fno", fair.getFno());
+                    map.put("fname", fair.getFname());
+                    map.put("fplace", fair.getFplace());
+                    map.put("fprice", fair.getFprice());
+                    map.put("furl", fair.getFurl());
+                    map.put("fimg", fair.getFimg());
                     return map;
                 })
+                .filter(Objects::nonNull)
+                .limit(10)
                 .collect(Collectors.toList());
     }
+
 
     // 하루 단위 아카이브 (매일 자정 실행)
     @Scheduled(cron = "0 0 0 * * ?")
