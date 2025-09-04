@@ -29,5 +29,7 @@ public class AppStart { // class start
             System.out.println("logs 폴더 이미 존재");
         }
 
+
+
     } // main end
 } // class end 1234567678912543

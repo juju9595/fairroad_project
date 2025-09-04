@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import web.model.dto.FairDto;
 import web.model.dao.VisitLogDao;
+import web.model.dto.VisitLogDto;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,11 +24,30 @@ public class VisitLogDaoImpl implements VisitLogDao{
 
     // 오늘 날짜 기준  csv파일명
 
+    private int currentVno = 0;
+    private final Object lock = new Object(); // 동기화 테스트용
+
     private String getCsvPath() {
         String folder = "logs";
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String today = java.time.LocalDate.now().format(formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String today = LocalDate.now().format(formatter);
         return folder + "/visitlog_" + today + ".csv";
+    }
+
+    // CSV 저장 메소드 (멀티스레드 안전 테스트용)
+    public void saveVisitLog(VisitLogDto log) {
+        synchronized (lock) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(getCsvPath(), true))) {
+                // vno 자동 증가
+                log.setVno(++currentVno);
+                // 현재 시간 적용
+                log.setVdate(java.time.LocalDateTime.now());
+                bw.write(log.toCsv());
+                bw.newLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // 회원별 방문 fno 조회
