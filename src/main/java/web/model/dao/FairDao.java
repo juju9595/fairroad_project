@@ -99,6 +99,7 @@ public class FairDao extends Dao{
                 fairDto.setFname(rs.getString("fname"));
                 fairDto.setFprice(rs.getInt("fprice"));
                 fairDto.setFno(rs.getInt("fno"));
+                fairDto.setFplace(rs.getString("fplace"));
                 list.add(fairDto);
 
             }//while end
