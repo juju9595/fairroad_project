@@ -332,7 +332,7 @@ public class FairDao extends Dao{
     public List<FairCountDto> fcountList(){
         List<FairCountDto> list = new ArrayList<>();
         try{
-            String sql = " select fno , fname , fcount from fair order by fcount desc ";
+            String sql = "SELECT fno, fname, fcount, fplace, fprice FROM fair ORDER BY fcount DESC";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -341,13 +341,15 @@ public class FairDao extends Dao{
                 dto.setFno(rs.getInt("fno"));
                 dto.setFname(rs.getString("fname"));
                 dto.setFcount(rs.getInt("fcount"));
+                dto.setFplace(rs.getString("fplace"));
+                dto.setFprice(rs.getInt("fprice"));
                 list.add(dto);
             }
-        }catch (Exception e ){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return list;
-    } // func e
+    }
 
     // 지역별 그룹핑용 전체 박람회 조회
     public List<FairDto> selectAllFairs(){
