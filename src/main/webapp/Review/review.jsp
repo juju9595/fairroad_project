@@ -15,7 +15,7 @@
     <table border="1" cellpadding="6" cellspacing="0">
         <thead>
             <tr>
-                <th></a> 리뷰번호 </th>
+                <th></a> 작성날짜 </th>
                 <th> 리뷰제목 </th>
             </tr>
         </thead>
