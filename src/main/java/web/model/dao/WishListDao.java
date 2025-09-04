@@ -14,18 +14,22 @@ import java.util.List;
 @Repository
 public class WishListDao extends Dao{
 
-    // 회원별 즐겨찾기 목록 조회 ( 박람회 상세정보 조회로 확장)
-    public List<WishListDto> memberWishList(int mno){
+    // 회원별 즐겨찾기 목록 조회 (페이징 적용)
+    public List<WishListDto> memberWishList(int mno, int page, int count){
         List<WishListDto> list = new ArrayList<>();
         String sql = "SELECT f.fno, f.fname, f.fimg, f.fplace, f.fprice, f.furl " +
                 "FROM wishlist w " +
                 "JOIN fair f ON w.fno = f.fno " +
-                "WHERE w.mno = ?";
+                "WHERE w.mno = ? " +
+                "ORDER BY w.fno DESC " +  // 최신 즐겨찾기 순서
+                "LIMIT ? OFFSET ?";        // 페이징
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) { // PreparedStatement 블록 끝나면 자동 close
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, mno);
+            ps.setInt(2, count);                 // 한 페이지당 갯수
+            ps.setInt(3, (page - 1) * count);   // OFFSET 계산
 
-            try (ResultSet rs = ps.executeQuery()) { // ResultSet 블록 끝나면 자동 close
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     WishListDto dto = new WishListDto(
                             rs.getInt("fno"),
@@ -41,8 +45,21 @@ public class WishListDao extends Dao{
         } catch (Exception e) {
             System.out.println(e);
         }
-
         return list;
+    } // func e
+
+    // 전체 즐겨찾기 수 조회 (페이징 버튼용)
+    public int getTotalWishCount(int mno){
+        String sql = "SELECT COUNT(*) FROM wishlist WHERE mno = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, mno);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     } // func e
 
     // ------------------------------ 추천 알고리즘 ----------------------- //

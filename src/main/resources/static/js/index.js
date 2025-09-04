@@ -198,21 +198,29 @@ document.addEventListener("DOMContentLoaded", function(){
                 // ----------------------------
                 // 즐겨찾기 목록 (페이징 적용 가능)
                 // ----------------------------
-                } else if(type === "favorite"){
-                    const count = 6;
-                    let currentPage = 1;
+                } 
+                else if(type === "favorite"){
+                const count = 6; // 한 페이지당 보여줄 아이템 수
+                let currentPage = 1;
 
-                    function loadFavorite(page = 1){
-                        currentPage = page;
-                        fetchJSON(`/wish/member?mno=${memberNo}&page=${page}&count=${count}`, data => {
-                            pageTitleEl.textContent = "즐겨찾기 목록";
-                            renderFairs(data.wishfair);
-                            renderPagination(currentPage, data.totalCount, count, loadFavorite);
-                        });
-                    }
+                function loadFavorite(page = 1){
+                    currentPage = page;
+                    fetchJSON(`/wish/member?mno=${memberNo}&page=${page}&count=${count}`, data => {
+                        pageTitleEl.textContent = "즐겨찾기 목록";
+                        renderFairs(data.wishList); // 즐겨찾기 배열 렌더링
 
-                    loadFavorite();
+                        // 기존 renderPagination 사용
+                        renderPagination(
+                            currentPage,       // 현재 페이지
+                            data.totalCount,   // 총 아이템 수
+                            count,             // 한 페이지당 아이템 수
+                            loadFavorite       // 페이지 버튼 클릭 시 호출 함수
+                        );
+                    });
                 }
+
+                loadFavorite();
+            }
             });
         });
     }
