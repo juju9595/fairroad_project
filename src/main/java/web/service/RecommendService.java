@@ -132,6 +132,16 @@ public class RecommendService {
             }
         }
 
+        // ===== RECOMMEND_COUNT보다 적으면 일반 박람회로 채우기 =====
+        if (resultList.size() < RECOMMEND_COUNT) {
+            for (FairDto fair : allFairs) {
+                if (!resultList.contains(fair)) {
+                    resultList.add(fair);
+                    if (resultList.size() == RECOMMEND_COUNT) break;
+                }
+            }
+        } // if e
+
         return resultList;
     }
 
