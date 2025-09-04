@@ -47,6 +47,28 @@ public class FairDao extends Dao{
 
     //-----------------------------------------------------------------------------------------------------------//
 
+    //박람회 수정
+    public int fairUpdate(FairDto fairDto){
+        try{
+            String sql = "UPDATE fair SET fname=?,fplace=?,fprice=?,furl=?,finfo=?,start_date=?,end_date=? where fno=?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,fairDto.getFname());
+            ps.setString(2,fairDto.getFplace());
+            ps.setInt(3,fairDto.getFprice());
+            ps.setString(4,fairDto.getFurl());
+            ps.setString(5,fairDto.getFinfo());
+            ps.setString(6,fairDto.getStart_date());
+            ps.setString(7,fairDto.getEnd_date());
+            ps.setInt(8,fairDto.getFno());
+            int count = ps.executeUpdate();
+            if(count==1){ return fairDto.getFno();}
+            ps.close();
+        } catch (Exception e) {System.out.println("박람회등록"+e);}//catch end
+        return 0;
+    }//func end
+
+    //-----------------------------------------------------------------------------------------------------------//
+
     //박람회 대표 이미지 등록
     public boolean fairImg(String fimg,int fno){
         try{

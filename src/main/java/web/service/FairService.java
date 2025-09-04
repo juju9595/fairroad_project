@@ -28,6 +28,12 @@ public class FairService {
         return result;
     }//func end
 
+    //박람회 수정
+    public int fairUpdate(FairDto fairDto){
+        int result = fairDao.fairUpdate(fairDto);
+        return result;
+    }//func end
+
     //박람회 대표 이미지 등록
     public boolean fairImg(String fimg,int fno){
         boolean result = fairDao.fairImg(fimg,fno);
