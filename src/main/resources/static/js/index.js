@@ -59,10 +59,14 @@ document.addEventListener("DOMContentLoaded", function(){
             return;
         }
 
+        // 최대 10개까지만 자르기
+        data = data.slice(0, 10);
+
         // HTML 생성
         let html = title ? `<h2>${title}</h2>` : "";
         html += "<ul class='fair-list'>";
 
+        // 데이터 길이만큼만 반복 → 남는 빈 칸 없음
         data.forEach(fair => {
             html += `
                 <li class="fair-item">
