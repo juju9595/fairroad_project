@@ -133,12 +133,28 @@ public class FairController { // class start
         return fairDto;
     }//func end
 
-    // 조회수별 박람회 조회
     @GetMapping("/visitlog/fcount")
-    public List<FairCountDto> fcountList(){
-        List<FairCountDto> result = fairService.fcountList();
-        return result;
-    } // func e
+    @ResponseBody
+    public Map<String, Object> fcountList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "6") int count) {
+
+        List<FairCountDto> result = fairService.fcountList(page, count);
+        int totalCount = fairService.getTotalFcount();
+        int totalPage = (int) Math.ceil(totalCount / (double) count);
+
+        int startBtn = Math.max(1, page - 2);
+        int endBtn = Math.min(totalPage, page + 2);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", result);
+        map.put("currentPage", page);
+        map.put("totalPage", totalPage);
+        map.put("startBtn", startBtn);
+        map.put("endBtn", endBtn);
+
+        return map;
+    }
 
     // 지역별 박람회 조회
     @GetMapping("/visitlog/fregion")
