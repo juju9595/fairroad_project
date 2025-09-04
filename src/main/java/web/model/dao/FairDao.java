@@ -7,8 +7,7 @@ import web.model.dto.FairCountDto;
 import web.model.dto.FairDto;
 
 import javax.xml.transform.Result;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -222,11 +221,11 @@ public class FairDao extends Dao{
     // 게시물 조회수 증가
     public void incrementCount(int fno){
         try{
-            String sql = "UPDATE fair SET fcount = count + 1 WHERE fno=?;";
+            String sql = "UPDATE fair SET fcount = fcount + 1 WHERE fno=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,fno);
             ps.executeUpdate();
-        } catch (Exception e) {System.out.println(e);}//catch end
+        } catch (Exception e) {System.out.println("게시물조회수증가"+e);}//catch end
     }//func end
 
     //-----------------------------------------------------------------------------------------------------------//
