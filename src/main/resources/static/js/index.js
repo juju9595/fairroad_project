@@ -130,12 +130,23 @@ document.addEventListener("DOMContentLoaded", function(){
                 // 인기순 박람회
                 // ----------------------------
                 if(type === "popular"){
-                    fetchJSON(url, data => {
+                const count = 6; // 한 페이지당 보여줄 수
+                function fetchPopular(page = 1){
+                    fetchJSON(`${url}?page=${page}&count=${count}`, data => {
                         pageTitleEl.textContent = "인기순 박람회";
-                        renderFairs(data);
-                        paginationEl.innerHTML = "";
+                        renderFairs(data.data); // JSON에서 data 배열
+                        renderPagination(
+                            data.currentPage,
+                            data.startBtn,
+                            data.endBtn,
+                            data.totalPage,
+                            null,
+                            null,
+                            fetchPopular // 버튼 클릭 시 이 함수 호출
+                        );
                     });
-
+                }
+                fetchPopular(); // 최초 1페이지 로딩
                 // ----------------------------
                 // 지역별 박람회
                 // ----------------------------

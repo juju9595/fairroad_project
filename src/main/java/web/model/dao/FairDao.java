@@ -306,12 +306,19 @@ public class FairDao extends Dao{
 
     //-------------------------------------------------------------------------------------//
 
-    // 조회수별 박람회 조회
-    public List<FairCountDto> fcountList(){
+    // 조회수별 박람회 조회 - 페이징 적용
+    public List<FairCountDto> fcountList(int page, int count){
         List<FairCountDto> list = new ArrayList<>();
         try{
-            String sql = "SELECT fno, fname, fcount, fplace, fprice FROM fair ORDER BY fcount DESC";
+            // MySQL LIMIT OFFSET 적용
+            int offset = (page - 1) * count;
+            String sql = "SELECT fno, fname, fcount, fplace, fprice " +
+                    "FROM fair " +
+                    "ORDER BY fcount DESC " +
+                    "LIMIT ? OFFSET ?";
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, count);
+            ps.setInt(2, offset);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
@@ -327,6 +334,22 @@ public class FairDao extends Dao{
             System.out.println(e);
         }
         return list;
+    }
+
+    // 전체 조회수 기준 박람회 개수 조회 (페이징 계산용)
+    public int getTotalFcount(){
+        int total = 0;
+        try{
+            String sql = "SELECT COUNT(*) FROM fair";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        return total;
     }
 
     // 지역별 그룹핑용 전체 박람회 조회
