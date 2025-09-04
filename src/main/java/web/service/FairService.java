@@ -168,7 +168,7 @@ public class FairService {
             // 박람회 장소 "서울 코엑스" -> "서울"
 
             regionMap.computeIfAbsent(region , k -> new ArrayList<>())
-                    .add(new FairRegionDto(f.getFno() , f.getFname()));
+                    .add(new FairRegionDto(f.getFno() , f.getFname(), f.getFplace(), f.getFprice()));
             // computeIfAbsent : regionMap 에 region 이미 존재하는 지 확인
             // 존재하면 기존 리스트 그대로 사용
             // 존재하지 않으면 새 ArrayList 생성 후 Map에 추가

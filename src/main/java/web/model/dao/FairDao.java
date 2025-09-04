@@ -379,7 +379,7 @@ public class FairDao extends Dao{
     public List<FairDto> selectAllFairs(){
         List<FairDto> list = new ArrayList<>();
         try {
-            String sql = " select fno , fname , fplace from fair order by fplace , fno ";
+            String sql = " select fno , fname , fplace , fprice from fair order by fplace , fno ";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -388,6 +388,7 @@ public class FairDao extends Dao{
                 dto.setFno(rs.getInt("fno"));
                 dto.setFname(rs.getString("fname"));
                 dto.setFplace(rs.getString("fplace"));
+                dto.setFprice(rs.getInt("fprice"));
                 list.add(dto);
             }
         }catch (Exception e ){
