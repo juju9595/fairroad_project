@@ -48,14 +48,13 @@ public class MembersController { // class start
     // [3] 로그아웃 구현
     @GetMapping("/logout")
     public boolean logout(HttpServletRequest request){
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false); // false로 해야 새 세션 생성 방지
         if(session == null || session.getAttribute("loginMno")==null){
-            return false; // 비로그인상태, 로그아웃 실패
+            return false; // 비로그인 상태
         }
-        //로그인상태면 속성값 제거
         session.removeAttribute("loginMno");
-        return true; // 로그아웃 성공
-    }//func e
+        return true;
+    }
 
 
 // -----------------------------------------------------------------------------------------//
