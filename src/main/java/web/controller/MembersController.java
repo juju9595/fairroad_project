@@ -96,7 +96,7 @@ public class MembersController { // class start
         Object obj = session.getAttribute("loginMno");
         int loginMno = (int)obj;
         boolean result = membersService.pwdUpdate(loginMno, map);
-        session.removeAttribute("loginMno");
+        session.removeAttribute("loginMno"); // 세션 지우기 // 로그아웃
         return result;
     }
 
