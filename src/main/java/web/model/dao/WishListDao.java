@@ -1,10 +1,12 @@
 package web.model.dao;
 
+import org.springframework.boot.context.event.SpringApplicationEvent;
 import org.springframework.stereotype.Repository;
 import web.model.dto.WishListDto;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,24 +65,36 @@ public class WishListDao extends Dao{
 
     //-------------------------------------------------------------------------------------//
 
-    // 즐겨 찾기 등록 [버튼]
-
-    public int fairWishList(int mno,int fno){
-        try{
-            String sql = "INSERT INTO wishList SET mno=?, fno=?;";
-            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1,mno);
-            ps.setInt(2,fno);
-            int count = ps.executeUpdate();
-            if(count==1){
-                ResultSet rs = ps.getGeneratedKeys();
-                if(rs.next()){
-                    return rs.getInt(1);
+    // 즐겨 찾기 등록/취소 [버튼]
+    public int fairWishToggle(int mno,int fno){
+        try {
+            String sqlCheck = "SELECT COUNT(*) FROM wishlist WHERE mno=? and fno=? ;";
+            PreparedStatement psCheck = conn.prepareStatement(sqlCheck);
+            psCheck.setInt(1,mno);
+            psCheck.setInt(2,fno);
+            ResultSet rs = psCheck.executeQuery();
+            if(rs.next() && rs.getInt(1)>0){
+                String sqlDelete = "DELETE FROM wishlist WHERE mno=? and fno =?;";
+                PreparedStatement psDel = conn.prepareStatement(sqlDelete);
+                psDel.setInt(1,mno);
+                psDel.setInt(2,fno);
+                psDel.executeUpdate();
+                return -1;
+            }else{
+                String sqlWrite = "INSERT INTO wishlist(mno,fno) values(?,?);";
+                PreparedStatement psAdd = conn.prepareStatement(sqlWrite, Statement.RETURN_GENERATED_KEYS);
+                psAdd.setInt(1,mno);
+                psAdd.setInt(2,fno);
+                int count = psAdd.executeUpdate();
+                if(count==1){
+                    ResultSet rs2 = psAdd.getGeneratedKeys();
+                    if(rs2.next()){
+                        return rs2.getInt(1);
+                    }//if end
                 }//if end
             }//if end
-        } catch (Exception e) {System.out.println("즐겨찾기 등록"+e);}//catch end
+        } catch (SQLException e) {System.out.println(e);}
         return 0;
     }//func end
-
 } // class e
 

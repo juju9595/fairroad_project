@@ -13,7 +13,7 @@ const findAllReview = async () => {
 
     const response = await fetch(`/fair/review/print?fno=${fno}`); // 전체 조회 API
     const data = await response.json();
-
+    console.log(data)
     const reviewTbody = document.querySelector('.reviewTbody');
     let html = '';
     data.forEach(review => {

@@ -1,6 +1,6 @@
 console.log("mypage.js open")
 
-
+// [1] 로그인 후 출력
 const myinfo = async() =>{
     const logMenu= document.querySelector('#log-menu');
     let html = '' //(2) 무엇을
