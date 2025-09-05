@@ -181,17 +181,6 @@ import java.util.List;
         }
 
 
-        // [8] 게시물 조회수 1 증가
-        public void incrementView( int rno ){
-            try{
-                String sql = "UPDATE review SET rview = rview +1 where rno = ?";
-                PreparedStatement ps = conn.prepareStatement( sql );
-                ps.setInt( 1 , rno );
-                ps.executeUpdate();
-            }catch ( Exception e ){
-                System.out.println( e );
-            }
-        }
 
 
 
