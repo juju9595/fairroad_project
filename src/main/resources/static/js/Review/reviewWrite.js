@@ -1,19 +1,22 @@
 
 
-
+const params = new URL(location.href).searchParams;
+const fno = params.get('fno');
 // 리뷰 등록
 const reviewWrite  = async()=>{
+
+
     // 1. 전달할 데이터 준비
     const rtitle = document.querySelector('.rtitle').value;
     const rcontent = document.querySelector('.rcontent').value;
-    const obj = { rtitle , rcontent }
+    const obj = {rtitle , rcontent }
     // 2. fetch 
     const option = {
         method : "POST" , 
         headers : { "content-type" : "application/json"},
         body : JSON.stringify( obj )
     }
-    const response = await fetch( `/fair/review/write` , option );
+    const response = await fetch( `/fair/review/write?fno=${fno}` , option );
     const data = await response.json();
     // 3. 
     if( data == 0 ){ alert('리뷰 등록에 실패했습니다'); }
