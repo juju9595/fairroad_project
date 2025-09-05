@@ -36,32 +36,32 @@ import java.util.List;
 
     //--------------------------------------------------------------------------------------------------//
 
-        // [2] 박람회별 조회
-        public List<ReviewDto> reviewPrint(int fno) {
-            String sql = "SELECT rno, mno, fno, rtitle, rcontent, rdate " +
-                    "FROM review WHERE fno = ? ORDER BY rno DESC";
-            List<ReviewDto> list = new ArrayList<>();
-
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setInt(1, fno);  // ✅ fno 조건 바인딩
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        ReviewDto dto = new ReviewDto();
-                        dto.setRno(rs.getInt("rno"));
-                        dto.setMno(rs.getInt("mno"));
-                        dto.setFno(rs.getInt("fno"));
-                        dto.setRtitle(rs.getString("rtitle"));
-                        dto.setRcontent(rs.getString("rcontent"));
-                        dto.setRdate(String.valueOf(rs.getDate("rdate")));
-
-                        list.add(dto);
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            return list;
-        }
+//        // [2] 박람회별 조회
+//        public List<ReviewDto> reviewPrint(int fno) {
+//            String sql = "SELECT rno, mno, fno, rtitle, rcontent, rdate " +
+//                    "FROM review WHERE fno = ? ORDER BY rno DESC";
+//            List<ReviewDto> list = new ArrayList<>();
+//
+//            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//                ps.setInt(1, fno);
+//                try (ResultSet rs = ps.executeQuery()) {
+//                    while (rs.next()) {
+//                        ReviewDto dto = new ReviewDto();
+//                        dto.setRno(rs.getInt("rno"));
+//                        dto.setMno(rs.getInt("mno"));
+//                        dto.setFno(rs.getInt("fno"));
+//                        dto.setRtitle(rs.getString("rtitle"));
+//                        dto.setRcontent(rs.getString("rcontent"));
+//                        dto.setRdate(String.valueOf(rs.getDate("rdate")));
+//
+//                        list.add(dto);
+//                    }
+//                }
+//            } catch (Exception e) {
+//                System.out.println(e);
+//            }
+//            return list;
+//        }
 
     //--------------------------------------------------------------------------------------------------//
 
@@ -96,46 +96,102 @@ import java.util.List;
 
 
 
-    // [4] 방문 리뷰 수정
-    public int reviewUpdate( int rno, String rtitle, String rcontent ) {
-        String sql = "UPDATE review SET rtitle = ? , rcontent = ? WHERE rno = ?";
-        try ( PreparedStatement ps = conn.prepareStatement( sql ) ) {
-            ps.setString(1, rtitle);
-            ps.setString(2, rcontent);
-            ps.setInt(3, rno);
+        // [4] 방문 리뷰 수정
+        public int reviewUpdate( int rno, int mno, String rtitle, String rcontent ) {
+            String sql = "UPDATE review SET rtitle = ?, rcontent = ? WHERE rno = ? AND mno = ?";
+            try { PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, rtitle);
+                ps.setString(2, rcontent);
+                ps.setInt(3, rno);
+                ps.setInt(4, mno); // 작성자 회원번호 검증
 
-            int count = ps.executeUpdate();
-            if (count == 1) {
-                return rno;
+                int count = ps.executeUpdate();
+                if (count == 1) {
+                    return rno; // 성공
+                }
+            } catch (Exception e) {
+                System.out.println(e);
             }
-        } catch ( Exception e ) {
-            System.out.println( e );
+            return 0;
         }
-        return 0;
-    }
 
 
-    // [5] 방문 리뷰 삭제
-    public boolean reviewDelete( int rno ) {
-        String sql = "DELETE FROM review WHERE rno = ?";
-        try{
-            PreparedStatement ps = conn.prepareStatement( sql );
+        // [5] 방문 리뷰 삭제
+        public boolean reviewDelete(int rno, int mno) {
+            String sql = "DELETE FROM review WHERE rno = ? AND mno = ?";
+            try { PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, rno);
+                ps.setInt(2, mno); // 작성자 회원번호 검증
 
-            ps.setInt(1, rno);
-            int count = ps.executeUpdate();
-
-            if( count == 1 ){
-                return true;
+                int count = ps.executeUpdate();
+                return count == 1;
+            } catch (Exception e) {
+                System.out.println(e);
             }
-        } catch ( Exception e ){
-            System.out.println( e );
+            return false;
         }
-        return false;
-    }
 
 
 
     // ------------------------------------------------------//
+        // [6] 박람회별 게시물 수
+        public int getTotalCount( int fno ){
+            try{
+                String sql = "select count(*) from review where fno = ? ";
+                PreparedStatement ps = conn.prepareStatement( sql );
+                ps.setInt( 1 , fno );
+                ResultSet rs = ps.executeQuery();
+                if( rs.next() ){
+                    return rs.getInt( 1 );
+                }
+            }catch ( Exception e ){
+                System.out.println( e );
+            }
+            return 0;
+        }
+
+        // [7] 게시물 전체 조회
+        public List<ReviewDto> reviewPrint( int fno , int startRow , int count ){
+            List< ReviewDto > list = new ArrayList<>();
+            try{
+                String sql = " select * from review r inner join members m " +
+                            " on r.mno = m.mno" +
+                            " where r.fno = ?" +
+                            " order by r.rno desc" +
+                            " limit ? , ? ";
+                PreparedStatement ps = conn.prepareStatement( sql );
+                ps.setInt( 1 , fno );
+                ps.setInt( 2 , startRow );
+                ps.setInt( 3 , count );
+                ResultSet rs = ps.executeQuery();
+                while ( rs.next() ){
+                    ReviewDto reviewDto = new ReviewDto();
+                    reviewDto.setMno( rs.getInt("mno" ) );
+                    reviewDto.setFno( rs.getInt( "fno" ) );
+                    reviewDto.setRno( rs.getInt( "rno" ) );
+                    reviewDto.setRtitle( rs.getString( "rtitle" ) );
+                    reviewDto.setRcontent( rs.getString( "rcontent" ) );
+                    reviewDto.setRdate(String.valueOf(rs.getDate( "rdate" )));
+                    list.add( reviewDto );
+                }
+            }catch ( Exception e ){
+                System.out.println( e );
+            }
+            return list;
+        }
+
+
+        // [8] 게시물 조회수 1 증가
+        public void incrementView( int rno ){
+            try{
+                String sql = "UPDATE review SET rview = rview +1 where rno = ?";
+                PreparedStatement ps = conn.prepareStatement( sql );
+                ps.setInt( 1 , rno );
+                ps.executeUpdate();
+            }catch ( Exception e ){
+                System.out.println( e );
+            }
+        }
 
 
 
