@@ -55,6 +55,7 @@ public class ReviewController { // class start
     public ResponseEntity<ReviewDto> reviewPrint2( @RequestParam(required = false) Integer rno) {
         // 1. rno가 없거나 잘못 들어온 경우
         if (rno == null) {
+            // ResponseEntity :  Spring의 HTTP 응답(Response) 을 감싸는 객체
             return ResponseEntity.badRequest().build(); // 400 Bad Request
         }
 
@@ -72,21 +73,19 @@ public class ReviewController { // class start
 
     // [4] 방문 리뷰 수정
     // [PUT 요청] 클라이언트에서 "/update" 주소로 PUT 방식 요청이 들어오면 실행
-    @PutMapping("/update")
-    public int reviewUpdate(
-            // [요청 본문(JSON)] 데이터를 ReviewDto 객체로 자동 매핑하여 전달받음
-            @RequestBody ReviewDto reviewDto ) {
-
-
-        return reviewService.reviewUpdate(reviewDto.getRno(), reviewDto.getRtitle() , reviewDto.getRcontent() );
-
-        
+    @PutMapping("/review/update")
+    public int reviewUpdate(@RequestBody ReviewDto reviewDto, HttpSession session) {
+        Integer loginMno = (Integer) session.getAttribute("loginMno"); // 로그인한 회원번호
+        if (loginMno == null) return 0; // 로그인 안됨
+        return reviewService.reviewUpdate(reviewDto.getRno(), loginMno, reviewDto.getRtitle(), reviewDto.getRcontent());
     }
 
     // [5] 방문 리뷰 삭제
-    @DeleteMapping("")
-    public boolean reviewDelete( int rno ){
-        return reviewService.reviewDelete( rno );
+    @DeleteMapping("/review/delete")
+    public boolean reviewDelete(@RequestParam int rno, HttpSession session) {
+        Integer loginMno = (Integer) session.getAttribute("loginMno");
+        if (loginMno == null) return false;
+        return reviewService.reviewDelete(rno, loginMno);
     }
 
 
