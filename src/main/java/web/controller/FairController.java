@@ -35,17 +35,14 @@ public class FairController { // class start
     //박람회 등록
     @PostMapping("/write")
     public int fairWrite(@ModelAttribute FairDto fairDto, HttpSession session){
-        // 세션에서 로그인 정보와 관리자 여부 가져오기
-        Object loginMno = session.getAttribute("loginMno"); // 사용자 로그인세션
+        // 세션에서  관리자 정보 가져오기
         Object loginAdmin = session.getAttribute(("loginAdmin")); // 관리자 로그인 세션
 
-        //비로그인,관리자 아니면 등록 불가 박람회
-        if(loginMno==null&&(loginAdmin==null||!(boolean)loginAdmin)){
+        //관리자 아니면 수정 불가 박람회
+        if(loginAdmin==null||!(boolean)loginAdmin){
             return 0;
-        }//func end
+        }//if end
 
-        // 등록자 mno 설정(관리자 mno 1 으로 설정필요)
-        int mno = (loginMno!=null)?(int)loginMno : 1;
         int result = fairService.fairWrite(fairDto);
 
         //제품 등록했으면서 첨부파일이 비어있지 않고 첨부파일 목록에 첫번째 첨부파일이 비어 있지 않으면
@@ -57,23 +54,29 @@ public class FairController { // class start
                 boolean result2 = fairService.fairImg(fimg,result);
                 if(result2==false)return 0;
             }//for end
-        }//if end
+        }//for end
         return result;
     }//func end
 
     //박람회 수정
     @PutMapping("/update")
-    public int fairUpdate(FairDto fairDto){
-        int result = fairService.fairUpdate(fairDto);
+    public int fairUpdate(@ModelAttribute FairDto fairDto,HttpSession session){
+        // 세션에서  관리자 정보 가져오기
+        Object loginAdmin = session.getAttribute(("loginAdmin")); // 관리자 로그인 세션
 
+        //관리자 아니면 수정 불가 박람회
+        if(loginAdmin==null||!(boolean)loginAdmin){
+            return 0;
+        }//if end
+        int result = fairService.fairUpdate(fairDto);
         if (result > 0 && !fairDto.getUploads().isEmpty() && !fairDto.getUploads().get(0).isEmpty()) {
             for (MultipartFile multipartFile : fairDto.getUploads()) {
                 String fimg = fileService.fileUpload(multipartFile);
                 if (fimg == null) break;
                 boolean result2 = fairService.fairImg(fimg, result);
                 if (!result2) return 0;
-            }
-        }
+            }//for end
+        }//if end
         return result;
     }//func end
 
