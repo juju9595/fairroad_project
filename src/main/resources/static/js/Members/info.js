@@ -18,3 +18,13 @@ const onInfo = async() =>{
     }
 }//func e
 onInfo(); //최초 1번 실행
+
+const onDelete = async () => {
+    let result = confirm('정말 탈퇴 할까요?');
+    if(result == false){return;}
+    try{
+        const option = {method : "DELETE"};
+        const response = await fetch ("/member/delete", option);
+        const data = await response.json();
+    }catch(error){console.log(error);}
+}

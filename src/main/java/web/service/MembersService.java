@@ -109,4 +109,12 @@ public class MembersService {
     //반환
         return resultMap;
     }
+
+// -----------------------------------------------------------------------------------------//
+
+    //[11] 회원탈퇴
+    public boolean delete(int mno){
+        boolean result = memberDao.delete(mno);
+        return result;
+    }
 }//class e
