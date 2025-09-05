@@ -125,7 +125,9 @@ public class MembersController { // class start
 
     // [8] 즐겨찾기 목록 삭제
     @DeleteMapping("/wishlist/delete")
-    public boolean wishListDelete(@RequestParam int mno, @RequestParam int fno){
+    public boolean wishListDelete(@RequestParam int fno, HttpSession session ){
+        Integer mno = (Integer) session.getAttribute("loginMno"); // 로그인 시 넣어둔 세션 키명
+        if (mno == null) return false; // 미로그인 등
         boolean result = membersService.wishListDelete(mno, fno);
         return result;
     }//func e
