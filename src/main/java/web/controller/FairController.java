@@ -110,7 +110,7 @@ public class FairController { // class start
     } // func e
 
     // 박람회 상세 조회
-    @GetMapping("/getpost")
+    @GetMapping("/getPost")
     public FairDto fairInfo(@RequestParam int fno,HttpSession session){
         Object object = session.getAttribute("viewHistory");
         Map<Integer,String> viewHistory;

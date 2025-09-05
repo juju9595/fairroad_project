@@ -40,14 +40,14 @@ data.data.forEach((fair) => {
     // HTML 문자열 생성
     html += `
         <tr>
-            <td><a href="/Fair/getpost.jsp?fno=${fair.fno}">${fair.fname}</a></td>
+            <td><a href="/Fair/getPost.jsp?fno=${fair.fno}">${fair.fname}</a></td>
             <!-- 박람회 이미지 -->
             <td>
-              <a href="/Fair/getpost.jsp?fno=${fair.fno}">
+              <a href="/Fair/getPost.jsp?fno=${fair.fno}">
                 <img src="${imgPath}" alt="${fair.fname}" class="fimg" style="max-width:100px;">
               </a>
             </td>
-            <td><a href="/Fair/getpost.jsp?fno=${fair.fno}">${fair.fprice}</a></td>
+            <td><a href="/Fair/getPost.jsp?fno=${fair.fno}">${fair.fprice}</a></td>
         </tr>
     `;
 });
