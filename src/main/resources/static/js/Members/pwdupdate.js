@@ -1,0 +1,1 @@
+console.log("pwdupdate.js open")

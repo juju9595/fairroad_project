@@ -41,7 +41,7 @@ public class MembersService {
 
 // -----------------------------------------------------------------------------------------//
 
-    // [4] 연락처 수정
+    // [4] 회원정보 수정
     public boolean update(MembersDto membersDto){
         boolean result = memberDao.update(membersDto);
         return result;

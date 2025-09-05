@@ -82,7 +82,7 @@ public class MemberDao extends Dao{
 
     // -----------------------------------------------------------------------------------------//
 
-    // [4] 회원정보수정
+    // [4] 회원 정보 수정
     public boolean update(MembersDto membersDto){
         try{
             String sql = "update members set mphone=?, maddress=? where mno =?";
