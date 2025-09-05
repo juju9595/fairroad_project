@@ -18,6 +18,7 @@ create table members(
 );
 
 insert into members ( mid , mpwd , mname , mbirth , mphone , memail , joindate , maddress ) values
+('admin', 'admin', '관리자', '1972-08-14', '010-1111-2222', 'admin@example.com', '2025-03-01', 'IDC'),
 ('qwe123', 'asd1234', '유재석', '1972-08-14', '010-1111-2222', 'yjs001@example.com', '2025-03-01', '서울특별시 마포구 상암동 100'),
 ('rty234', 'fgh5678', '이순재', '1944-04-02', '010-2222-3333', 'ljs002@example.com', '2025-03-05', '서울특별시 종로구 삼청동 50'),
 ('uio345', 'jkl9012', '김수현', '1988-02-16', '010-3333-4444', 'ksh003@example.com', '2025-03-10', '서울특별시 강남구 청담동 77'),

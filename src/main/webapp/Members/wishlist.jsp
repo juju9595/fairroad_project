@@ -33,6 +33,13 @@
 
     <jsp:include page="/footer.jsp"></jsp:include>
     <script src="/js/Members/wishlist.js"></script>
-    
+
+    <style>
+    /* 제목이 음절 단위로 쪼개지지 않게 */
+    .wishlist td.title { word-break: keep-all; }
+    /* 표가 너무 좁게 잡히지 않게(선택) */
+    .wishlist { width: 100%; border-collapse: collapse; }
+    .wishlist th, .wishlist td { padding: 6px 8px; vertical-align: middle; }
+</style>
 </body>
 </html>
