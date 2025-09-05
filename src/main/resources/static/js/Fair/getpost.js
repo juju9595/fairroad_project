@@ -9,6 +9,18 @@ const getPost = async () => {
     document.querySelector('.fname').innerHTML = data.fname;
     document.querySelector('.fcount').innerHTML = data.fcount;
 
+    
+// 관리자 세션 여부 확인
+// 세션키가  관리자 세션키가 loginAdmin 일때
+if(loginAdmin === true || loginAdmin === 'true') { 
+    //getPost.jsp 패키지에 있는 <div class="etcBox"> 있는곳에 버튼 생성
+    console.log(loginAdmin);
+    document.querySelector('.etcBox').innerHTML = `
+        <!-- 버튼 클릭 시 해당 박람회 수정 페이지로 이동 -->
+        <button type="button" onclick="location.href='/Fair/fairUpdate.jsp?fno=${fno}'">수정</button>
+    `;
+}
+
     // 이미지 처리
     const img = document.createElement('img');
 
