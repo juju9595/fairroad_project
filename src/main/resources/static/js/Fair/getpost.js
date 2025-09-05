@@ -22,7 +22,7 @@ const fno = new URL(location.href).searchParams.get('fno');
 // ------------------------
 const fetchFairDetail = async (fno) => {
     try {
-        const response = await fetch(`/fair/getpost?fno=${fno}`);
+        const response = await fetch(`/fair/getPost?fno=${fno}`);
         if (!response.ok) throw new Error('박람회 정보 가져오기 실패');
         const data = await response.json();
         return data;
