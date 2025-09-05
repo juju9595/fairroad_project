@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 fetch("/member/logout", { method: "GET" })
                     .then(res => res.json())
                     .then(data => {
-                        if(data === true){
+                        if(data === true || data === "true"){
                             location.href = "/index.jsp";
                         } else {
                             alert("비정상 요청, 관리자에게 문의");
