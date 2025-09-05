@@ -12,6 +12,7 @@ $(document).ready(function () {
 const onFairWrite = async() => {
     const fairForm = document.querySelector('#fairForm');
     const fairFormData = new FormData(fairForm);
+
     fairFormData.append('finfo',$('#summernote').summernote('code'))
     let option ={
         method:"POST",
