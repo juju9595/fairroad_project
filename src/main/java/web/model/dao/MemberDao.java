@@ -207,6 +207,18 @@ public class MemberDao extends Dao{
             System.out.println(e);
             return false;
         }
+    }//func e
+
+    // [11] 회원탈퇴
+    public boolean delete(int mno){
+        try{
+            String sql = "delete from members where mno=? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,mno);
+            return ps.executeUpdate() == 1;
+        }catch (Exception e ){
+            System.out.println(e);
+        }return false;
     }
 
 

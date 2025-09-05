@@ -117,8 +117,10 @@ document.addEventListener("DOMContentLoaded", function(){
     // 카테고리 클릭 이벤트
     // ----------------------------
     function initCategoryEvents(){
-        document.querySelectorAll(".category a[data-type]").forEach(a => {
+        document.querySelectorAll(".category a[data-type], .category a[data-cno]").forEach(a => {
             const type = a.dataset.type;
+            const cno = a.dataset.cno;
+
             // ✅ 회원 전용 카테고리 숨김
             if((type === "recent" || type === "favorite") && !isMember){
                 a.parentElement.style.display = "none";
@@ -128,21 +130,42 @@ document.addEventListener("DOMContentLoaded", function(){
             a.addEventListener("click", function(e){
                 e.preventDefault();
                 const url = this.dataset.url;
-                if(!url) return;
 
-                // 인기순
+                // ======================
+                // 📌 cno 카테고리 (웨딩, 취업, 베이비 등)
+                // ======================
+                if(cno){
+                    const categoryName = this.textContent;
+                    const count = 6;
+
+                    function loadCategory(page = 1){
+                        fetchJSON(`/fair/allPostCategory?cno=${cno}&page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = categoryName + " 박람회";
+                            renderFairs(data.data);
+                            renderPagination(data.currentPage, data.totalCount, data.perCount, loadCategory);
+                        });
+                    }
+                    loadCategory();
+                    return;
+                }
+
+                // ======================
+                // 📌 인기순
+                // ======================
                 if(type === "popular"){
                     const count = 6;
                     function fetchPopular(page = 1){
                         fetchJSON(`${url}?page=${page}&count=${count}`, data => {
                             pageTitleEl.textContent = "인기순 박람회";
                             renderFairs(data.data);
-                            renderPagination(data.currentPage, data.totalPage * count, count, fetchPopular);
+                            renderPagination(data.currentPage, data.totalCount, count, fetchPopular);
                         });
                     }
                     fetchPopular();
 
-                // 지역별
+                // ======================
+                // 📌 지역별
+                // ======================
                 } else if(type === "region"){
                     fetchJSON(url, dataMap => {
                         pageTitleEl.textContent = "지역별 박람회";
@@ -176,7 +199,9 @@ document.addEventListener("DOMContentLoaded", function(){
                         paginationEl.innerHTML = "";
                     });
 
-                // 최근 본 (회원)
+                // ======================
+                // 📌 최근 본 (회원)
+                // ======================
                 } else if(type === "recent"){
                     const count = 6;
                     let currentPage = 1;
@@ -192,7 +217,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     loadRecent();
 
-                // 즐겨찾기 (회원)
+                // ======================
+                // 📌 즐겨찾기 (회원)
+                // ======================
                 } else if(type === "favorite"){
                     const count = 6;
                     let currentPage = 1;
@@ -211,6 +238,7 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         });
     }
+
 
     // ----------------------------
     // 초기 로딩

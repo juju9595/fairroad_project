@@ -17,13 +17,12 @@
 
         <div class="category">
             <ul>
-                <!-- 비회원용 기능 -->
                 <li><a href="/Fair/fairWrite.jsp">등록용테스트</a></li>
-                <li><a href="/Fair/allPostCategory.jsp?cno=1">웨딩</a></li>
-                <li><a href="/Fair/allPostCategory.jsp?cno=2">베이비</a></li>
-                <li><a href="/Fair/allPostCategory.jsp?cno=3">취업</a></li>
-                <li><a href="/Fair/allPostCategory.jsp?cno=4">애완</a></li>
-                <li><a href="/Fair/allPostCategory.jsp?cno=5">캠핑</a></li>
+                <li><a href="#" data-cno="1">웨딩</a></li>
+                <li><a href="#" data-cno="2">베이비</a></li>
+                <li><a href="#" data-cno="3">취업</a></li>
+                <li><a href="#" data-cno="4">애완</a></li>
+                <li><a href="#" data-cno="5">캠핑</a></li>
                 <li><a href="#" data-url="/fair/visitlog/fcount" data-type="popular">인기순(비회원 가능)</a></li>
                 <li><a href="#" data-url="/fair/visitlog/fregion" data-type="region">지역별 박람회(비회원 가능)</a></li>
 
