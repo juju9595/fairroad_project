@@ -31,14 +31,19 @@ public class MembersController { // class start
     // [2] 로그인 구현
     @PostMapping("/login")
     public int login(@RequestBody MembersDto membersDto, HttpServletRequest request){
-        //1. 세션 정보 가져오기
+        //1. 사용자 세션 정보 가져오기
         HttpSession session = request.getSession();
-        //2. 로그인 성공한 회원번호 확인
+        //2. 사용자 로그인 성공한 회원번호 확인
         int result = membersService.login(membersDto);
         if(result > 0){
+            //일반 사용자 세션 저장
             session.setAttribute("loginMno", result);
-        }
-        //
+
+            // 회원번호 1=관리자 그외 사용자
+            boolean loginAdmin = (result==1);
+            //관리자 세션 저장
+            session.setAttribute("loginAdmin",loginAdmin);
+        }//if end
         return result;
     }//func e
 
