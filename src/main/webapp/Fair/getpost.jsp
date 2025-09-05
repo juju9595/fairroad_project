@@ -13,6 +13,7 @@
 
     <body>
         <div class="getpostname">
+            <button type="button" onclick="wishWrite()">즐겨찾기</button>
             <div>제목 : <span class="fname"></span>/조회수:<span class="fcount"></span></div>
             <div>이미지 : <span class="fimg"></span></div>
             <div>가격 : <span class="fprice"></span></div>
@@ -40,8 +41,10 @@
                 </table>
 
             </div>
-            <script src='/js/Fair/getpost.js'></script>
+            <script src='/js/Fair/getPost.js'></script>
             <script src='/js/Review/review.js'></script>
+            <script src='/js/wishList/wishWrite.js'></script>
+            
     </body>
 
     </html>

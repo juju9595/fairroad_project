@@ -3,7 +3,7 @@ const fno = params.get('fno');
 
 // 상세정보
 const getPost = async () => {
-    const response = await fetch(`/fair/getpost?fno=${fno}`);
+    const response = await fetch(`/fair/getPost?fno=${fno}`);
     const data = await response.json();
 
     document.querySelector('.fname').innerHTML = data.fname;
