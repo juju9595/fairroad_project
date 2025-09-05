@@ -16,13 +16,14 @@
 
     <div id="container">
         <h3> 회원정보 수정 페이지 </h3>
-        <div> 회원번호 : <span class="mno"></span></div>
-        <div> 아이디 : <span class="mid"></span></div>
-        <div> 이름 : <input class="mname"></div>
-        <div> 연락처 : <input class="mphone"></div>
+        <div> 아이디 : <span class="mid"> </span></div>
+        <div> 이름 : <span class="mname"></span></div>
+        <div> 연락처 : <input class="mphone" /> </div>
+        <div> 주소 : <input class="maddress"/ > </div>
         <button type="button" onclick="onUpdate()"> 정보 변경 </button>
     </div>
 
+    <jsp:include page="/footer.jsp"></jsp:include>
     <script src="/js/Members/update.js"></script>
     
 </body>

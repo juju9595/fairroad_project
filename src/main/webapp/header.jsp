@@ -13,7 +13,7 @@
 <body>
     
     <div class="top">
-        <div class="menu">
+        <div class="menu" id="log-menu">
             <a href="/Members/login.jsp">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill"
                 viewBox="0 0 16 16">

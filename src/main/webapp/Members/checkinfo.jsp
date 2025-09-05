@@ -12,15 +12,17 @@
 <body>
 
     <jsp:include page="/header.jsp"></jsp:include>
-    <div id="container">
-        <h3> 마이페이지 </h3>
-        <ul class="listBox">
-            <li><a href="/Members/info.jsp">내정보</a></li>
-            <li><a href="/Members/wishlist.jsp">즐겨찾기 목록</a></li>
-        </ul>
+    
+    <h3>내 정보 확인을 위해 비밀번호를 입력하세요</h3>
+
+    <div class="container">
+        <input type="password" class="pwdInput" placeholder="비밀번호 입력" />
+        <button type="button" onclick="checkAndGo()">확인</button>
+        <div id="checkMsg" style="margin-top:8px;color:#d33;"></div>
     </div>
 
+
     <jsp:include page="/footer.jsp"></jsp:include>
-    
+    <script src="/js/Members/checkinfo.js"></script>
 </body>
 </html>

@@ -15,7 +15,14 @@
     <jsp:include page="/header.jsp"></jsp:include>
     <div id="container">
         <h3>아이디 찾기</h3>
+        이름 : <input type="text" class="nameInput" id="nameInput" placeholder="이름입력"/><br/>
+        연락처 : <input type="text" class="phoneInput" id="phoneInput" placeholder="연락처입력"><br/>
+        <button type="button" onclick="findId()">아이디찾기</button>
     </div>
 
+    <div id="resultId"></div>
+
+    <jsp:include page="/footer.jsp"></jsp:include>
+    <script src="/js/Members/idFind.js"></script>
 </body>
 </html>

@@ -19,10 +19,10 @@
         비밀번호 : <input onkeyup="pwdCheck()" type="password" class="pwdInput" id="pwdInput"/> <br/>
         <div class="pwdCheck"></div>
         이름 : <input type="text" class="nameInput" id="nameInput"/> <br/>
-        생년월일 : <input type="date" class="birthInput" id="birthInput"/> <br/>
-        연락처 : <input onkeyup="phoneCheck()" type="tel" class="phoneInput" id="phoneInput"/> <br/>
+        생년월일 : <input type="text" class="birthInput" id="birthInput"/> <br/>
+        연락처 : <input onkeyup="phoneCheck()" type="text" class="phoneInput" id="phoneInput"/> <br/>
         <div class="phoneCheck"></div>
-        이메일 : <input onkeyup = "emailCheck()" type="email" class="emailInput" id="emailInput"/> <br/>
+        이메일 : <input onkeyup = "emailCheck()" type="text" class="emailInput" id="emailInput"/> <br/>
         <div class="emailCheck"></div>
         주소 : <input type="text" class="addressInput" id="addressInput"/> <br/>
 
@@ -32,9 +32,10 @@
         <span>|</span>
         <a href="/Members/pwdFind.jsp">비밀번호 찾기</a>
         </div>
-        
-
     </div>
+
+    <jsp:include page="/footer.jsp"></jsp:include>
+    <script src="/js/Members/signup.js"></script>
 
 
 

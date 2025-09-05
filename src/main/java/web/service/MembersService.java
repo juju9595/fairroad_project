@@ -7,8 +7,10 @@ import web.model.dao.WishListDao;
 import web.model.dto.MembersDto;
 import web.model.dto.WishListDto;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class MembersService {
@@ -39,9 +41,9 @@ public class MembersService {
 
 // -----------------------------------------------------------------------------------------//
 
-    // [4] 연락처 수정
-    public boolean phoneUpdate(MembersDto membersDto){
-        boolean result = memberDao.phoneUpdate(membersDto);
+    // [4] 회원정보 수정
+    public boolean update(MembersDto membersDto){
+        boolean result = memberDao.update(membersDto);
         return result;
     }
 
@@ -68,12 +70,43 @@ public class MembersService {
         boolean result = memberDao.wishListDelete(mno, fno);
         return result;
     }
-
+// -----------------------------------------------------------------------------------------//
 
     //[8] 내정보 조회
     public MembersDto info(int mno){
         MembersDto result = memberDao.info(mno);
         return result;
-    }
+    }//func e
 
+// -----------------------------------------------------------------------------------------//
+
+    //[9] 아이디 찾기
+    public Map<String,String> findId(Map<String,String> map){
+        String result = memberDao.findId(map);
+        Map<String, String> resultMap = new HashMap<>();
+        if(result == null){
+            resultMap.put("msg" , null);
+        }else {
+            resultMap.put("msg", result);
+        }return resultMap;
+    }//func e
+
+// -----------------------------------------------------------------------------------------//
+
+    //[10] 비밀번호 찾기
+    public Map<String, String > findPwd(Map<String, String> map){
+    String mpwd = "";
+    for(int i = 1; i<6; i++){
+        Random random = new Random();
+        mpwd += random.nextInt(10);
+    }
+    map.put("mpwd", mpwd);
+    boolean result = memberDao.findPwd(map);
+    Map<String, String> resultMap = new HashMap<>();
+    if(result == true){
+        resultMap.put("msg", mpwd);
+    }else {resultMap.put("msg","회원정보없음");}
+    //반환
+        return resultMap;
+    }
 }//class e
