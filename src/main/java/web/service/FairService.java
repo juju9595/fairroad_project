@@ -141,11 +141,15 @@ public class FairService {
     }//func end
 
 
-    // 조회수별 박람회 조회
-    public List<FairCountDto> fcountList(){
-        List<FairCountDto> result = fairDao.fcountList();
-        return result;
-    } // func e
+    // 페이징 적용된 조회수별 박람회 리스트
+    public List<FairCountDto> fcountList(int page, int count){
+        return fairDao.fcountList(page, count);
+    }
+
+    // 전체 조회수 기준 박람회 개수
+    public int getTotalFcount(){
+        return fairDao.getTotalFcount();
+    }
 
     // 지역별 그룹핑 박람회 조회
     // 전체 조회 하는 이유
@@ -164,7 +168,7 @@ public class FairService {
             // 박람회 장소 "서울 코엑스" -> "서울"
 
             regionMap.computeIfAbsent(region , k -> new ArrayList<>())
-                    .add(new FairRegionDto(f.getFno() , f.getFname()));
+                    .add(new FairRegionDto(f.getFno() , f.getFname(), f.getFplace(), f.getFprice()));
             // computeIfAbsent : regionMap 에 region 이미 존재하는 지 확인
             // 존재하면 기존 리스트 그대로 사용
             // 존재하지 않으면 새 ArrayList 생성 후 Map에 추가
