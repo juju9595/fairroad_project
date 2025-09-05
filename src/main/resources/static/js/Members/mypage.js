@@ -16,11 +16,11 @@ const myinfo = async () => {
     try {
         const option = { method: "GET" }
         const response = await fetch("member/info", option);
-        const data = await response.json(); 
+        const data = await response.json();
         console.log(data);
 
         html += `<li><span>${data.mid}님</span></li>
-                 <li><a href="/Members/mypage.jsp">마이페이지</a></li> 
+                 <li><a href="/Members/mypage.jsp">마이페이지</a></li>
                  <li><a href="#" onclick="logout()">로그아웃</a></li>`;
     } catch (error) {
         console.error('myinfo fetch 에러:', error);
