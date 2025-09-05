@@ -1,4 +1,8 @@
-// console.log("checkinfo.js open");
+console.log("checkinfo.js open");
+
+const checkAndGo = async() =>{
+    const pwdInput = document.querySelector('.pwdInput');
+}
 // const checkAndGo = async () => {
 //     const pwdInput = document.querySelector('.pwdInput');
 //     const msgBox = document.querySelector('#checkMsg');

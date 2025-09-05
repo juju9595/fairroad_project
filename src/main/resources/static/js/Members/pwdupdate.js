@@ -34,6 +34,6 @@ const onPwdUpdate = async()=>{
 
 
 
-            ps.setString(1, map.get("newpwd"));
-            ps.setInt(2, mno);
-            ps.setString(3, map.get("oldpwd"));
+            // ps.setString(1, map.get("newpwd"));
+            // ps.setInt(2, mno);
+            // ps.setString(3, map.get("oldpwd"));
