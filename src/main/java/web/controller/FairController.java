@@ -35,7 +35,7 @@ public class FairController { // class start
     //박람회 등록
     @PostMapping("/write")
     public int fairWrite(@ModelAttribute FairDto fairDto, HttpSession session){
-        // 세션에서  관리자 정보 가져오기
+        //세션에서  관리자 정보 가져오기
         Object loginAdmin = session.getAttribute(("loginAdmin")); // 관리자 로그인 세션
 
         //관리자 아니면 수정 불가 박람회
