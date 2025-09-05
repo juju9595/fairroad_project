@@ -34,7 +34,6 @@
     </div>
 
     <jsp:include page="/footer.jsp"></jsp:include>
-
     <script src="/js/Members/login.js"></script></title>
     
 </body>

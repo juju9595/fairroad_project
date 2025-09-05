@@ -15,8 +15,20 @@
     <jsp:include page="/header.jsp"></jsp:include>
 
     <div id="container">
-        <h3> 내 정보</h3>
-    </div>
+        <h3> 마이페이지 </h3>
+        <div> 아이디 : <span class="mid"></span></div>
+        <div> 이름 : <span class="mname"></span></div>
+        <div> 연락처 : <span class="mphone"></span></div>
+        <div> 생년월일 : <span class="mbirth"></span></div>
+        <div> 이메일 : <span class="memail"></span></div>
+        <div> 주소 : <span class="maddress"></span></div>
+        <div> 가입일 : <span class="joindate"></span></div>
+        <a href="/Members/update.jsp"> 회원정보 수정</a>
+        <a href="/Members/pwdUpdate.jsp"> 비밀번호 수정</a>
+        <a href="#" onclick="onDelete()"> 회원탈퇴 </a> <br/>
+     </div>
+
+     <script src="/js/Members/info.js"></script>
 
     <jsp:include page="/footer.jsp"></jsp:include>
 </body>

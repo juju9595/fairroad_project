@@ -11,18 +11,20 @@
     <script src='main.js'></script>
 </head>
 <body>
-    
+
     <jsp:include page="/header.jsp"></jsp:include>
+
     <div id="container">
-        <h3>아이디 찾기</h3>
-        이름 : <input type="text" class="nameInput" id="nameInput" placeholder="이름입력"/><br/>
-        연락처 : <input type="text" class="phoneInput" id="phoneInput" placeholder="연락처입력"><br/>
-        <button type="button" onclick="findId()">아이디찾기</button>
+        <h3> 회원정보 수정 페이지 </h3>
+        <div> 아이디 : <span class="mid"></span></div>
+        <div> 이름 : <span class="mname"></span></div>
+        <div> 연락처 : <input class="mphone"></div>
+        <div> 주소 : <input class="maddress"></div>
+        <button type="button" onclick="onUpdate()"> 정보 변경 </button>
     </div>
 
-    <div id="resultId"></div>
-
     <jsp:include page="/footer.jsp"></jsp:include>
-    <script src="/js/Members/idFind.js"></script>
+    <script src="/js/Members/update.js"></script>
+    
 </body>
 </html>

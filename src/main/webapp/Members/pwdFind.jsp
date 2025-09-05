@@ -15,6 +15,15 @@
     <div id="container">
         <h3>비밀번호 찾기</h3>
     </div>
+    아이디 : <input type="text" class="idInput" id="idInput" placeholder="아이디입"/><br/>
+    연락처 : <input type="text" class="phoneInput" id="phoneInput" placeholder="연락처입력"><br/>
+    <button type="button" onclick="findPwd()">비밀번호찾기</button>
+    </div>
+
+    <div id="resultPwd"></div>
+
+    <jsp:include page="/footer.jsp"></jsp:include>
+    <script src="/js/Members/pwdFind.js"></script>
     
 </body>
 </html>

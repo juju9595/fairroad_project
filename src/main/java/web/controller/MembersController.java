@@ -60,8 +60,8 @@ public class MembersController { // class start
 
 // -----------------------------------------------------------------------------------------//
 
-    // [3] 회원정보 수정 접근권한
-    @PostMapping("/update")
+    // [4] 회원정보 수정 접근권한
+    @PostMapping("/checkinfo")
     public boolean signUpCheck(@RequestParam String mpwd, HttpSession session){
         if(session == null || session.getAttribute("loginMno") == null)return false;
         int loginMno = (int)session.getAttribute("loginMno");
@@ -72,10 +72,10 @@ public class MembersController { // class start
 
 // -----------------------------------------------------------------------------------------//
 
-    // [5] 연락처 수정
+    // [5] 회원정보 수정
 
-    @PutMapping("/update/phone")
-    public boolean phoneUpdate(@RequestBody MembersDto membersDto, HttpServletRequest request){
+    @PutMapping("/update")
+    public boolean update(@RequestBody MembersDto membersDto, HttpServletRequest request){
         HttpSession session = request.getSession();
         if(session == null || session.getAttribute("loginMno") == null ){
             return false;
@@ -83,7 +83,7 @@ public class MembersController { // class start
         Object obj = session.getAttribute("loginMno");
         int loginMno = (int)obj;
         membersDto.setMno(loginMno);
-        boolean result = membersService.phoneUpdate(membersDto);
+        boolean result = membersService.update(membersDto);
         return result;}
 
 // -----------------------------------------------------------------------------------------//
@@ -124,7 +124,7 @@ public class MembersController { // class start
     public boolean wishListDelete(@RequestParam int mno, @RequestParam int fno){
         boolean result = membersService.wishListDelete(mno, fno);
         return result;
-    }
+    }//func e
 
 //-----------------------------------------------------------------------------
 
@@ -139,6 +139,22 @@ public class MembersController { // class start
         int loginMno = (int)obj;
         MembersDto result = membersService.info(loginMno);
         return result;
+    }//func e
+
+ //-----------------------------------------------------------------------------
+
+    //[10] 아이디 찾기
+    @GetMapping("/findid")
+    public Map<String, String> findId(@RequestParam Map<String, String> map){
+        return membersService.findId(map);
+    }
+
+//-----------------------------------------------------------------------------
+
+    //[11] 비밀번호 찾기
+    @GetMapping("/findpwd")
+    public Map<String,String> findPwd(@RequestParam Map<String, String> map){
+        return membersService.findPwd(map);
     }
 
 } // class e

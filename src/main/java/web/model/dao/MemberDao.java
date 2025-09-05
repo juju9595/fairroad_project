@@ -66,11 +66,13 @@ public class MemberDao extends Dao{
     //[3] 회원정보 수정 접근권한
     public boolean signUpCheck(int mno, String mpwd){
         try{
-            String sql = "slecet 1 from members where mno = ? and mpwd = ? ";
+            String sql = "select mpwd from members where mno = ? and mpwd = ? limit 1";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, mno);
             ps.setString(2, mpwd);
-            return ps.executeUpdate() == 1;
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next(); // 한 행이라도 있으면 일치
+            }
         }catch (Exception e){
             System.out.println(e);
         }return false;
@@ -80,16 +82,16 @@ public class MemberDao extends Dao{
 
     // -----------------------------------------------------------------------------------------//
 
-    // [4] 연락처 수정
-    public boolean phoneUpdate(MembersDto membersDto){
+    // [4] 회원정보수정
+    public boolean update(MembersDto membersDto){
         try{
-            String sql = "update members set mphone=? where mno =?";
+            String sql = "update members set mphone=?, maddress=? where mno =?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, membersDto.getMphone());
+            ps.setString(2, membersDto.getMaddress());
+            ps.setInt(3,membersDto.getMno());
             int count = ps.executeUpdate();
-            if(count == 1){
-                ResultSet rs = ps.getGeneratedKeys();
-            }
+            return count == 1;
         } catch (Exception e) {
             System.out.println(e);
         }return false;
@@ -173,9 +175,40 @@ public class MemberDao extends Dao{
             System.out.println(e);
         }
         return null; // 조회 실패
-    }
+    }//func e
 
 // -----------------------------------------------------------------------------------------//
+
+    //[9] 아이디 찾기
+    public String findId(Map<String, String> map){
+        try{
+            String sql = "select mid from members where mname =? and mphone=? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, map.get("mname"));
+            ps.setString(2, map.get("mphone"));
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())return rs.getString("mid");
+        }catch (Exception e){
+            System.out.println(e);
+        }return null;
+    }//func e
+
+    //[10] 비밀번호 찾기
+    public boolean findPwd(Map<String, String>map){
+        try{
+            String sql = "update members set mpwd = ? where mid = ? and mphone = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, map.get("mpwd"));
+            ps.setString(2, map.get("mid"));
+            ps.setString(3, map.get("mphone"));
+            int count = ps.executeUpdate();
+            return count == 1;
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+    }
+
 
 
 }//class e
