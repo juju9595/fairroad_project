@@ -31,7 +31,7 @@
 
             <div class="reviewname">
                 <h3> 방문 리뷰 전체 조회 </h3>
-                <a href="/Review/reviewWrite.jsp"> 등록페이지로 이동하기 </a>
+                <a href="/Review/reviewWrite.jsp?fno=${param.fno}"> 등록페이지로 이동하기 </a>
                 <table border="1" cellpadding="6" cellspacing="0">
                     <thead>
                         <tr>
