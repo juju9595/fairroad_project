@@ -49,11 +49,17 @@
 
     <!-- 검색창 (초기에는 숨김) -->
     <div class="search-bar" id="search-bar">
-        <input type="text" placeholder="검색어를 입력하세요..." id="search-input" />
-        <div class="search-buttons">
-            <button type="button" id="search-submit">검색</button>
-            <button type="button" id="close-search">✖</button>
-        </div>
+        <!-- 검색 필드 선택 -->
+        <select id="search-key">
+            <option value="fname">제목</option>
+            <option value="fplace">장소</option>
+            <option value="fprice">가격</option>
+            <option value="finfo">설명</option>
+        </select>
+
+        <input type="text" id="search-input" placeholder="검색어를 입력하세요..." />
+        <button type="button" id="search-submit">검색</button>
+        <button type="button" id="close-search">✖</button>
     </div>
     <script src="/js/header.js"></script>
 </body>
