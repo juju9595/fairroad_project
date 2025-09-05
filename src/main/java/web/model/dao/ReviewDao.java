@@ -36,32 +36,32 @@ import java.util.List;
 
     //--------------------------------------------------------------------------------------------------//
 
-        // [2] 박람회별 조회
-        public List<ReviewDto> reviewPrint(int fno) {
-            String sql = "SELECT rno, mno, fno, rtitle, rcontent, rdate " +
-                    "FROM review WHERE fno = ? ORDER BY rno DESC";
-            List<ReviewDto> list = new ArrayList<>();
-
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setInt(1, fno);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        ReviewDto dto = new ReviewDto();
-                        dto.setRno(rs.getInt("rno"));
-                        dto.setMno(rs.getInt("mno"));
-                        dto.setFno(rs.getInt("fno"));
-                        dto.setRtitle(rs.getString("rtitle"));
-                        dto.setRcontent(rs.getString("rcontent"));
-                        dto.setRdate(String.valueOf(rs.getDate("rdate")));
-
-                        list.add(dto);
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            return list;
-        }
+//        // [2] 박람회별 조회
+//        public List<ReviewDto> reviewPrint(int fno) {
+//            String sql = "SELECT rno, mno, fno, rtitle, rcontent, rdate " +
+//                    "FROM review WHERE fno = ? ORDER BY rno DESC";
+//            List<ReviewDto> list = new ArrayList<>();
+//
+//            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//                ps.setInt(1, fno);
+//                try (ResultSet rs = ps.executeQuery()) {
+//                    while (rs.next()) {
+//                        ReviewDto dto = new ReviewDto();
+//                        dto.setRno(rs.getInt("rno"));
+//                        dto.setMno(rs.getInt("mno"));
+//                        dto.setFno(rs.getInt("fno"));
+//                        dto.setRtitle(rs.getString("rtitle"));
+//                        dto.setRcontent(rs.getString("rcontent"));
+//                        dto.setRdate(String.valueOf(rs.getDate("rdate")));
+//
+//                        list.add(dto);
+//                    }
+//                }
+//            } catch (Exception e) {
+//                System.out.println(e);
+//            }
+//            return list;
+//        }
 
     //--------------------------------------------------------------------------------------------------//
 
@@ -151,10 +151,10 @@ import java.util.List;
         }
 
         // [7] 게시물 전체 조회
-        public List<ReviewDto> findAll( int fno , int startRow , int count ){
+        public List<ReviewDto> reviewPrint( int fno , int startRow , int count ){
             List< ReviewDto > list = new ArrayList<>();
             try{
-                String sql = " select * from review r inner join member m " +
+                String sql = " select * from review r inner join members m " +
                             " on r.mno = m.mno" +
                             " where r.fno = ?" +
                             " order by r.rno desc" +

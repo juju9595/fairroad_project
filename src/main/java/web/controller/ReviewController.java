@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import web.model.dto.PageDto;
 import web.model.dto.ReviewDto;
 import web.service.ReviewService;
 
@@ -45,8 +46,12 @@ public class ReviewController { // class start
     // [2] 방문 리뷰 전체 조회
     // spec: GET /fair/review/print (queryString: 없음)
     @GetMapping("/print")
-    public List< ReviewDto > reviewPrint( @RequestParam int fno ){
-        return reviewService.reviewPrint( fno );
+    public PageDto reviewPrint(
+            @RequestParam int fno,
+            @RequestParam(defaultValue = "1") int page,       // 현재 페이지 번호
+            @RequestParam(defaultValue = "5") int count       // 페이지당 개수
+    ) {
+        return reviewService.reviewPrint(fno, page, count);
     }
 
 
