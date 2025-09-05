@@ -22,8 +22,12 @@
             <div>마감일 : <span class="end_date"></span></div>
             <div class="finfo"> <!--상세정보-->
             </div>
-
-            <button type="button" onclick="onReview()">리뷰</button>
+            <div class="etcBox">
+                <!-- 수정 버튼 생기는곳-->
+            </div>
+            
+        </div>
+        
 
             <div class="reviewname">
                 <h3> 방문 리뷰 전체 조회 </h3>
@@ -41,10 +45,14 @@
                 </table>
 
             </div>
+            <script>
+           loginAdmin = <%= Boolean.TRUE.equals(session.getAttribute("loginAdmin")) %>;
+            // 세션에서 loginAdmin 관리자 키를 호출 후 관리자 로그인하면 null -> true 로 변경
+            </script>
             <script src='/js/Fair/getPost.js'></script>
             <script src='/js/Review/review.js'></script>
             <script src='/js/wishList/wishWrite.js'></script>
-            
+        
     </body>
 
     </html>

@@ -9,8 +9,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const searchInputEl = document.getElementById("searchInput");
     const searchBtnEl = document.getElementById("searchBtn");
 
-    const isMember = localStorage.getItem("isMember") === "true";
-    const memberNo = localStorage.getItem("memberNo") ? parseInt(localStorage.getItem("memberNo")) : null;
+    // ✅ 세션스토리지 기반으로 로그인 상태 확인
+    const isMember = sessionStorage.getItem("isMember") === "true";
+    const memberNo = sessionStorage.getItem("memberNo") ? parseInt(sessionStorage.getItem("memberNo")) : null;
 
     let currentKey = "";
     let currentKeyword = "";
@@ -31,9 +32,9 @@ document.addEventListener("DOMContentLoaded", function(){
     // ----------------------------
     // 공통 박람회 렌더링
     // ----------------------------
-    function renderFairs(data){
+    function renderFairs(data, container = contentEl){
         if(!data || data.length === 0){
-            contentEl.innerHTML = "<p>박람회가 없습니다.</p>";
+            container.innerHTML = "<p>박람회가 없습니다.</p>";
             return;
         }
 
@@ -54,54 +55,52 @@ document.addEventListener("DOMContentLoaded", function(){
             `;
         });
         html += "</ul>";
-        contentEl.innerHTML = html;
+        container.innerHTML = html;
     }
 
     // ----------------------------
     // 페이징 버튼 생성
     // ----------------------------
-    function renderPagination(currentPage, startBtn, endBtn, totalPage, key, keyword){
+    function renderPagination(currentPage, totalCount, countPerPage, callback){
         paginationEl.innerHTML = "";
+        const totalPage = Math.ceil(totalCount / countPerPage);
         if(totalPage <= 1) return;
 
-        // 이전
-        if(startBtn > 1){
+        if(currentPage > 1){
             const prev = document.createElement("button");
             prev.textContent = "<";
-            prev.addEventListener("click", () => fetchFairs(startBtn - 1, key, keyword));
+            prev.addEventListener("click", () => callback(currentPage - 1));
             paginationEl.appendChild(prev);
         }
 
-        // 숫자 버튼
-        for(let i = startBtn; i <= endBtn; i++){
+        for(let i = 1; i <= totalPage; i++){
             const btn = document.createElement("button");
             btn.textContent = i;
             if(i === currentPage) btn.disabled = true;
-            btn.addEventListener("click", () => fetchFairs(i, key, keyword));
+            btn.addEventListener("click", () => callback(i));
             paginationEl.appendChild(btn);
         }
 
-        // 다음
-        if(endBtn < totalPage){
+        if(currentPage < totalPage){
             const next = document.createElement("button");
             next.textContent = ">";
-            next.addEventListener("click", () => fetchFairs(endBtn + 1, key, keyword));
+            next.addEventListener("click", () => callback(currentPage + 1));
             paginationEl.appendChild(next);
         }
     }
 
     // ----------------------------
-    // 박람회 가져오기 (회원/비회원 구분 + 검색 + 페이지)
+    // 박람회 가져오기 (회원/비회원 구분 + 검색)
     // ----------------------------
     function fetchFairs(page = 1, key = "", keyword = ""){
-        const count = isMember ? 6 : 6; // 회원이면 10개, 비회원이면 5개
+        const count = 6;
         let url = `/fair/allPostMain?page=${page}&count=${count}`;
         if(key && keyword) url += `&key=${key}&keyword=${keyword}`;
 
         fetchJSON(url, data => {
             pageTitleEl.textContent = isMember ? "추천 박람회" : "전체 박람회";
             renderFairs(data.data);
-            renderPagination(data.currentPage, data.startBtn, data.endBtn, data.totalPage, key, keyword);
+            renderPagination(data.currentPage, data.totalPage * count, count, (p) => fetchFairs(p, key, keyword));
         });
     }
 
@@ -119,26 +118,43 @@ document.addEventListener("DOMContentLoaded", function(){
     // ----------------------------
     function initCategoryEvents(){
         document.querySelectorAll(".category a[data-type]").forEach(a => {
+            const type = a.dataset.type;
+            // ✅ 회원 전용 카테고리 숨김
+            if((type === "recent" || type === "favorite") && !isMember){
+                a.parentElement.style.display = "none";
+                return;
+            }
+
             a.addEventListener("click", function(e){
                 e.preventDefault();
                 const url = this.dataset.url;
-                const type = this.dataset.type;
                 if(!url) return;
 
+                // 인기순
                 if(type === "popular"){
-                    fetchJSON(url, data => {
-                        pageTitleEl.textContent = "인기순 박람회";
-                        renderFairs(data);
-                        paginationEl.innerHTML = "";
-                    });
+                    const count = 6;
+                    function fetchPopular(page = 1){
+                        fetchJSON(`${url}?page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = "인기순 박람회";
+                            renderFairs(data.data);
+                            renderPagination(data.currentPage, data.totalPage * count, count, fetchPopular);
+                        });
+                    }
+                    fetchPopular();
+
+                // 지역별
                 } else if(type === "region"){
                     fetchJSON(url, dataMap => {
                         pageTitleEl.textContent = "지역별 박람회";
-                        let html = `<label for="regionSelect">지역 선택:</label>`;
-                        html += `<select id="regionSelect"><option value="">--지역 선택--</option></select>`;
-                        html += `<div id="regionContent"></div>`;
-                        contentEl.innerHTML = html;
-
+                        contentEl.innerHTML = `
+                            <div id="regionWrapper">
+                                <label for="regionSelect">지역 선택:</label>
+                                <select id="regionSelect">
+                                    <option value="">-- 지역 선택 --</option>
+                                </select>
+                                <div id="regionContent"></div>
+                            </div>
+                        `;
                         const select = document.getElementById("regionSelect");
                         const regionContainer = document.getElementById("regionContent");
 
@@ -155,22 +171,42 @@ document.addEventListener("DOMContentLoaded", function(){
                                 regionContainer.innerHTML = "";
                                 return;
                             }
-                            renderFairs(dataMap[selectedRegion]);
+                            renderFairs(dataMap[selectedRegion], regionContainer);
                         });
                         paginationEl.innerHTML = "";
                     });
+
+                // 최근 본 (회원)
                 } else if(type === "recent"){
-                    fetchJSON(url, data => {
-                        pageTitleEl.textContent = "최근 본 박람회";
-                        renderFairs(data);
-                        paginationEl.innerHTML = "";
-                    });
+                    const count = 6;
+                    let currentPage = 1;
+
+                    function loadRecent(page = 1){
+                        currentPage = page;
+                        fetchJSON(`${url}?mno=${memberNo}&page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = "최근 본 박람회";
+                            renderFairs(data.lastvisitfair);
+                            renderPagination(currentPage, data.totalCount, count, loadRecent);
+                        });
+                    }
+
+                    loadRecent();
+
+                // 즐겨찾기 (회원)
                 } else if(type === "favorite"){
-                    fetchJSON(`/wish/member?mno=${memberNo}`, data => {
-                        pageTitleEl.textContent = "즐겨찾기 목록";
-                        renderFairs(data.wishfair);
-                        paginationEl.innerHTML = "";
-                    });
+                    const count = 6;
+                    let currentPage = 1;
+
+                    function loadFavorite(page = 1){
+                        currentPage = page;
+                        fetchJSON(`/wish/member?mno=${memberNo}&page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = "즐겨찾기 목록";
+                            renderFairs(data.wishList);
+                            renderPagination(currentPage, data.totalCount, count, loadFavorite);
+                        });
+                    }
+
+                    loadFavorite();
                 }
             });
         });
