@@ -34,7 +34,7 @@ public class ReviewController { // class start
         if (rno > 0) {
             return rno;
         }
-        return 0;
+        return 0; //
     }
 
     // [2] 방문 리뷰 전체 조회
