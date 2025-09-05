@@ -161,4 +161,16 @@ public class MembersController { // class start
         return membersService.findPwd(map);
     }
 
+    //-----------------------------------------------------------------------------
+
+    //[12]회원탈퇴
+    @DeleteMapping("/delete")
+    public boolean memberdelete(HttpSession session){
+        if(session == null || session.getAttribute("loginMno") == null)return false;
+        int loginMno = (int)session.getAttribute("loginMno");
+        boolean result = membersService.delete(loginMno);
+        if(result == true) session.getAttribute("loginMno");
+        return result;
+    }
+
 } // class e
