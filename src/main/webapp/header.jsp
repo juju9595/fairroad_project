@@ -12,9 +12,16 @@
     </head>
 
     <body>
+        <%
+            Integer memberNo = (Integer) session.getAttribute("loginMno");
+            Boolean isAdmin = (Boolean) session.getAttribute("loginAdmin");
 
+            boolean isMember = (memberNo != null);
+        %>
         <div class="top">
-            <div class="menu">
+            <div class="menu"
+            data-is-member="<%= isMember ? "true" : "false" %>"
+           data-member-no="<%= (memberNo != null) ? memberNo : "" %>">
                 <!-- 로그인 아이콘 (기본) -->
                 <a href="/Members/login.jsp">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -44,7 +51,6 @@
             </div>
 
         </div>
-
         <script src="js/header.js"></script>
     </body>
 
