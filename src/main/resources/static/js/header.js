@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             logMenu.innerHTML = isAdmin
                 ? `
-                    <li><a href="/Admin/register.jsp">등록</a></li>
+                    <li><a href="/Fair/fairWrite.jsp">등록</a></li>
                     <li><a href="/Admin/memberList.jsp">회원목록</a></li>
                     <li><a href="#" id="logoutBtn">로그아웃</a></li>
                 `
