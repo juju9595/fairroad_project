@@ -78,14 +78,20 @@ body {
   display: flex;
   gap: 8px;
   padding: 12px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 12px;
 }
 
 .search-bar select,
 .search-bar input {
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #333;
 }
 
 .search-bar button {
@@ -95,6 +101,17 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+}
+
+/* 지역 선택 select 박스 스타일 */
+#regionSelect {
+padding: 10px;
+border-radius: 8px;
+border: 1px solid #ddd;
+background-color: #f9f9f9;
+color: #555;
+font-size: 14px;
+cursor: pointer;
 }
 
 /* 추천 박람회 */
