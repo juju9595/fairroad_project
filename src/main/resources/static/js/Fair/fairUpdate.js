@@ -11,6 +11,24 @@ $(document).ready(function () {
 
 });
 
+
+//박람회 기존정보
+const view = async( )=>{
+const url = new URLSearchParams(location.search);
+const fno = url.get('fno');
+const response = await fetch(`/fair/getPost?fno=${fno}`);
+const data = await response.json();
+console.log(data)
+document.querySelector('.fname').value = data.fname;
+document.querySelector('.fplace').value = data.fplace;
+document.querySelector('.fprice').value = data.fprice;
+document.querySelector('.furl').value = data.furl;
+document.querySelector('.finfo').value = data.finfo;
+document.querySelector('.start_date').value = data.start_date;
+document.querySelector('.end_date').value = data.end_date;
+}
+view();
+
 //박람회 수정
 const onFairUpdate = async () =>{
     const fairForm = document.querySelector('#fairForm');
