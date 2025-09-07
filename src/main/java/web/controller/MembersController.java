@@ -125,7 +125,7 @@ public class MembersController { // class start
         boolean result = membersService.wishListDelete(mno, fno);
         return result;
     }//func e
-
+//
 //-----------------------------------------------------------------------------
 
     // [9] 회원번호로 회원 정보 조회
