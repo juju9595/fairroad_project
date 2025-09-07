@@ -44,37 +44,49 @@ body {
 }
 
 .logo img {
-    height: 22px;
+    height: 45px;
     width: auto;
     display: block;
     margin: 0 auto;
 }
 
 /* 로그인 드롭다운 */
+
+/* 메뉴 버튼 기준 위치 */
+.menu {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative; /* 추가 */
+}
+
 #log-menu {
     list-style: none;
     margin: 0;
     padding: 5px 10px;
     display: none;
-    flex-direction: column;
-    gap: 6px;
+    flex-direction: row; /* 세로 → 가로 */
+    gap: 6px; /* 메뉴 간 간격 */
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     position: absolute;
-    top: 50px;
-    right: 10px;
+    top: 100%; /* 버튼 바로 아래 */
+    left: 0;    
     z-index: 1000;
 }
+
 
 #log-menu li a {
     text-decoration: none;
     color: #333;
     font-size: 13px;
     padding: 6px 8px;
-    display: block;
-    transition: background 0.2s;
+    display: block; /* 블록 → inline-block으로 바꾸면 메뉴 크기 최소화 가능 */
 }
 
 #log-menu li a:hover {
