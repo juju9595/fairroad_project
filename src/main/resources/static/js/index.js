@@ -39,15 +39,16 @@ document.addEventListener("DOMContentLoaded", function(){
 
         let html = "<ul class='fair-list'>";
         data.forEach(fair => {
+            // 이미지와 텍스트를 분리하는 새로운 HTML 구조
             html += `
                 <li class="fair-item">
                     <a href="/Fair/getPost.jsp?fno=${fair.fno}">
                         <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/'+fair.fimg) : '/img/default.png'}" class="fair-img" alt="${fair.fname}">
                         <div class="fair-info">
                             <div class="fair-name">${fair.fname}</div>
-                            <div class="fair-place">장소: ${fair.fplace || '정보없음'}</div>
-                            <div class="fair-price">가격: ${(fair.fprice != null && fair.fprice > 0) ? fair.fprice+'원' : '정보없음'}</div>
-                            ${fair.fcount !== undefined ? `<div class="fair-count">조회수: ${fair.fcount}</div>` : ""}
+                            <!-- 새로운 디자인에 맞춰 날짜 정보 추가 -->
+                            <!-- 데이터에 날짜 정보(fstartdate, fenddate)가 있다면 이 부분을 수정해 주세요 -->
+                            <div class="fair-date">25.09.04 - 09.10</div>
                         </div>
                     </a>
                 </li>

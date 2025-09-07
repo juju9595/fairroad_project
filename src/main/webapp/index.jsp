@@ -8,6 +8,7 @@
         <title>Page Title</title>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     </head>
 
@@ -18,11 +19,11 @@
         <div class="category">
             <ul>
                 <li><a href="/Fair/fairWrite.jsp">등록용테스트</a></li>
-                <li><a href="#" data-cno="1">웨딩</a></li>
-                <li><a href="#" data-cno="2">베이비</a></li>
-                <li><a href="#" data-cno="3">취업</a></li>
-                <li><a href="#" data-cno="4">애완</a></li>
-                <li><a href="#" data-cno="5">캠핑</a></li>
+                <li><a href="#" data-cno="1"><i class="fa-solid fa-ring"></i> 웨딩</a></li>
+                <li><a href="#" data-cno="2"><i class="fa-solid fa-baby"></i> 베이비</a></li>
+                <li><a href="#" data-cno="3"><i class="fa-solid fa-briefcase"></i> 취업</a></li>
+                <li><a href="#" data-cno="4"><i class="fa-solid fa-paw"></i> 애완</a></li>
+                <li><a href="#" data-cno="5"><i class="fa-solid fa-campground"></i> 캠핑</a></li>
                 <li><a href="#" data-url="/fair/visitlog/fcount" data-type="popular">인기순(비회원 가능)</a></li>
                 <li><a href="#" data-url="/fair/visitlog/fregion" data-type="region">지역별 박람회(비회원 가능)</a></li>
 
