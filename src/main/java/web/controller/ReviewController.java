@@ -88,10 +88,10 @@ public class ReviewController { // class start
     }
 
     // [5] 방문 리뷰 삭제
-    @DeleteMapping("/review/delete")
+    @DeleteMapping("")
     public boolean reviewDelete(@RequestParam int rno, HttpSession session) {
         Integer loginMno = (Integer) session.getAttribute("loginMno");
-        if (loginMno == null) return false;
+        if ( loginMno == null ) return false;
         return reviewService.reviewDelete(rno, loginMno);
     }
 
