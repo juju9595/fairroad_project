@@ -16,10 +16,10 @@
 
     <div id="container">
         <h3> 회원정보 수정 페이지 </h3>
-        <div> 아이디 : <span class="mid"></span></div>
+        <div> 아이디 : <span class="mid"> </span></div>
         <div> 이름 : <span class="mname"></span></div>
-        <div> 연락처 : <input class="mphone"></div>
-        <div> 주소 : <input class="maddress"></div>
+        <div> 연락처 : <input class="mphone" /> </div>
+        <div> 주소 : <input class="maddress"/ > </div>
         <button type="button" onclick="onUpdate()"> 정보 변경 </button>
     </div>
 

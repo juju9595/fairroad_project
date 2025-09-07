@@ -1,30 +1,25 @@
 document.addEventListener("DOMContentLoaded", function(){
     // ----------------------------
-    // 0. 전역 변수
+    // 전역 변수
     // ----------------------------
-    const isMember = false; // 임시 회원/비회원 구분
-    const memberNo = 1;    // 임시 회원 번호 (로그인 정보에서 실제 값으로 대체)
-    const contentEl = document.getElementById("content"); // 메인 콘텐츠 영역
+    const contentEl = document.getElementById("content");
+    const pageTitleEl = document.getElementById("pageTitle");
+    const paginationEl = document.getElementById("pagination");
+    const searchKeyEl = document.getElementById("searchKey");
+    const searchInputEl = document.getElementById("searchInput");
+    const searchBtnEl = document.getElementById("searchBtn");
+
+    // ✅ 세션스토리지 기반으로 로그인 상태 확인
+    const isMember = sessionStorage.getItem("isMember") === "true";
+    const memberNo = sessionStorage.getItem("memberNo") ? parseInt(sessionStorage.getItem("memberNo")) : null;
+
+    let currentKey = "";
+    let currentKeyword = "";
 
     // ----------------------------
-    // 1. HTML Fetch
+    // Fetch JSON
     // ----------------------------
-    // 지정 URL에서 HTML을 가져와 target 요소에 삽입
-    function fetchHTML(url, target) {
-        fetch(url)
-            .then(res => res.text())
-            .then(html => target.innerHTML = html)
-            .catch(err => {
-                target.innerHTML = "<p>데이터를 불러올 수 없습니다.</p>";
-                console.error(err);
-            });
-    }
-
-    // ----------------------------
-    // 2. JSON Fetch
-    // ----------------------------
-    // 지정 URL에서 JSON 데이터를 가져와 콜백 함수에 전달
-    function fetchJSON(url, callback) {
+    function fetchJSON(url, callback){
         fetch(url)
             .then(res => res.json())
             .then(data => callback(data))
@@ -35,137 +30,219 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     // ----------------------------
-    // 3. 공통 박람회 렌더링 함수
+    // 공통 박람회 렌더링
     // ----------------------------
-    // 배열 여부 확인 + 객체도 배열로 변환 후 카드 형태로 렌더링
-    function renderFairs(data, target, title = "") {
-        if(!data){ // 데이터 없으면 안내문 표시
-            target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
+    function renderFairs(data, container = contentEl){
+        if(!data || data.length === 0){
+            container.innerHTML = "<p>박람회가 없습니다.</p>";
             return;
         }
 
-        // 배열이 아니면 객체 처리 (예: {key: [...]} 형태)
-        if(!Array.isArray(data)){
-            if(typeof data === 'object'){
-                data = Object.values(data).flat();
-            } else {
-                target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
-                return;
-            }
-        }
-
-        if(data.length === 0){ // 배열이 비어있으면 안내문 표시
-            target.innerHTML = `<p>${title} 박람회가 없습니다.</p>`;
-            return;
-        }
-
-        // HTML 생성
-        let html = title ? `<h2>${title}</h2>` : "";
-        html += "<ul class='fair-list'>";
-
+        let html = "<ul class='fair-list'>";
         data.forEach(fair => {
             html += `
                 <li class="fair-item">
-                    <img src="${fair.fimg || '/img/default.png'}" alt="${fair.fname}" class="fair-img">
-                    <div class="fair-info">
-                        <a href="${fair.furl}" target="_blank" class="fair-name">${fair.fname}</a>
-                        <div class="fair-place">장소: ${fair.fplace}</div>
-                        <div class="fair-price">가격: ${fair.fprice ? fair.fprice + '원' : '정보없음'}</div>
-                        ${fair.fcount !== undefined ? `<div class="fair-count">조회수: ${fair.fcount}</div>` : ""}
-                    </div>
+                    <a href="/Fair/getPost.jsp?fno=${fair.fno}">
+                        <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/'+fair.fimg) : '/img/default.png'}" class="fair-img" alt="${fair.fname}">
+                        <div class="fair-info">
+                            <div class="fair-name">${fair.fname}</div>
+                            <div class="fair-place">장소: ${fair.fplace || '정보없음'}</div>
+                            <div class="fair-price">가격: ${(fair.fprice != null && fair.fprice > 0) ? fair.fprice+'원' : '정보없음'}</div>
+                            ${fair.fcount !== undefined ? `<div class="fair-count">조회수: ${fair.fcount}</div>` : ""}
+                        </div>
+                    </a>
                 </li>
             `;
         });
-
         html += "</ul>";
-        target.innerHTML = html;
+        container.innerHTML = html;
     }
 
     // ----------------------------
-    // 4. 지역별 박람회 렌더링
+    // 페이징 버튼 생성
     // ----------------------------
-    // 지역 선택 select와 선택 시 해당 지역 박람회 렌더링
-    function renderRegionSelect(dataMap) {
-        let html = `<h2>지역별 박람회</h2>`;
-        html += `<label for="regionSelect">지역 선택:</label>`;
-        html += `<select id="regionSelect"><option value="">--지역 선택--</option></select>`;
-        html += `<div id="regionContent"></div>`;
-        contentEl.innerHTML = html;
+    function renderPagination(currentPage, totalCount, countPerPage, callback){
+        paginationEl.innerHTML = "";
+        const totalPage = Math.ceil(totalCount / countPerPage);
+        if(totalPage <= 1) return;
 
-        const select = document.getElementById("regionSelect");
-        const regionContainer = document.getElementById("regionContent");
+        if(currentPage > 1){
+            const prev = document.createElement("button");
+            prev.textContent = "<";
+            prev.addEventListener("click", () => callback(currentPage - 1));
+            paginationEl.appendChild(prev);
+        }
 
-        // select 옵션 채우기
-        Object.keys(dataMap).forEach(region => {
-            const option = document.createElement("option");
-            option.value = region;
-            option.textContent = region;
-            select.appendChild(option);
+        for(let i = 1; i <= totalPage; i++){
+            const btn = document.createElement("button");
+            btn.textContent = i;
+            if(i === currentPage) btn.disabled = true;
+            btn.addEventListener("click", () => callback(i));
+            paginationEl.appendChild(btn);
+        }
+
+        if(currentPage < totalPage){
+            const next = document.createElement("button");
+            next.textContent = ">";
+            next.addEventListener("click", () => callback(currentPage + 1));
+            paginationEl.appendChild(next);
+        }
+    }
+
+    // ----------------------------
+    // 박람회 가져오기 (회원/비회원 구분 + 검색)
+    // ----------------------------
+    function fetchFairs(page = 1, key = "", keyword = ""){
+        const count = 6;
+        let url = `/fair/allPostMain?page=${page}&count=${count}`;
+        if(key && keyword) url += `&key=${key}&keyword=${keyword}`;
+
+        fetchJSON(url, data => {
+            pageTitleEl.textContent = isMember ? "추천 박람회" : "전체 박람회";
+            renderFairs(data.data);
+            renderPagination(data.currentPage, data.totalPage * count, count, (p) => fetchFairs(p, key, keyword));
         });
+    }
 
-        // 선택 변경 시 해당 지역 박람회 렌더링
-        select.addEventListener("change", function(){
-            const selectedRegion = this.value;
-            if(!selectedRegion){
-                regionContainer.innerHTML = "";
+    // ----------------------------
+    // 검색 이벤트
+    // ----------------------------
+    searchBtnEl.addEventListener("click", () => {
+        currentKey = searchKeyEl.value;
+        currentKeyword = searchInputEl.value.trim();
+        fetchFairs(1, currentKey, currentKeyword);
+    });
+
+    // ----------------------------
+    // 카테고리 클릭 이벤트
+    // ----------------------------
+    function initCategoryEvents(){
+        document.querySelectorAll(".category a[data-type], .category a[data-cno]").forEach(a => {
+            const type = a.dataset.type;
+            const cno = a.dataset.cno;
+
+            // ✅ 회원 전용 카테고리 숨김
+            if((type === "recent" || type === "favorite") && !isMember){
+                a.parentElement.style.display = "none";
                 return;
             }
 
-            const regionData = dataMap[selectedRegion];
-            renderFairs(regionData, regionContainer, `${selectedRegion} 지역`);
-        });
-    }
-
-    // ----------------------------
-    // 5. 카테고리 클릭 이벤트 초기화
-    // ----------------------------
-    // 인기순 / 지역별 / 최근 본 / 즐겨찾기 / 기타 HTML 링크 처리
-    function initCategoryEvents() {
-        document.querySelectorAll(".category a[data-type]").forEach(a => {
             a.addEventListener("click", function(e){
                 e.preventDefault();
                 const url = this.dataset.url;
-                const type = this.dataset.type;
 
-                if(!url) return;
+                // ======================
+                // 📌 cno 카테고리 (웨딩, 취업, 베이비 등)
+                // ======================
+                if(cno){
+                    const categoryName = this.textContent;
+                    const count = 6;
 
-                if(type === "popular"){ // 인기순
-                    fetchJSON(url, data => renderFairs(data, contentEl, "인기순"));
-                } else if(type === "region"){ // 지역별
-                    fetchJSON(url, renderRegionSelect);
-                } else if(type === "recent"){ // 최근 본
-                    fetchJSON(url, data => renderFairs(data, contentEl, "최근 본 박람회"));
-                } else if(type === "favorite"){ // 즐겨찾기
-                    fetchJSON(`/wish/member?mno=${memberNo}`, data => {
-                        console.log("즐겨찾기 데이터:", data);
-                        renderFairs(data.wishfair, contentEl, "즐겨찾기 목록");
+                    function loadCategory(page = 1){
+                        fetchJSON(`/fair/allPostCategory?cno=${cno}&page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = categoryName + " 박람회";
+                            renderFairs(data.data);
+                            renderPagination(data.currentPage, data.totalCount, data.perCount, loadCategory);
+                        });
+                    }
+                    loadCategory();
+                    return;
+                }
+
+                // ======================
+                // 📌 인기순
+                // ======================
+                if(type === "popular"){
+                    const count = 6;
+                    function fetchPopular(page = 1){
+                        fetchJSON(`${url}?page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = "인기순 박람회";
+                            renderFairs(data.data);
+                            renderPagination(data.currentPage, data.totalCount, count, fetchPopular);
+                        });
+                    }
+                    fetchPopular();
+
+                // ======================
+                // 📌 지역별
+                // ======================
+                } else if(type === "region"){
+                    fetchJSON(url, dataMap => {
+                        pageTitleEl.textContent = "지역별 박람회";
+                        contentEl.innerHTML = `
+                            <div id="regionWrapper">
+                                <label for="regionSelect">지역 선택:</label>
+                                <select id="regionSelect">
+                                    <option value="">-- 지역 선택 --</option>
+                                </select>
+                                <div id="regionContent"></div>
+                            </div>
+                        `;
+                        const select = document.getElementById("regionSelect");
+                        const regionContainer = document.getElementById("regionContent");
+
+                        Object.keys(dataMap).forEach(region => {
+                            const option = document.createElement("option");
+                            option.value = region;
+                            option.textContent = region;
+                            select.appendChild(option);
+                        });
+
+                        select.addEventListener("change", function(){
+                            const selectedRegion = this.value;
+                            if(!selectedRegion){
+                                regionContainer.innerHTML = "";
+                                return;
+                            }
+                            renderFairs(dataMap[selectedRegion], regionContainer);
+                        });
+                        paginationEl.innerHTML = "";
                     });
-                } else { // 일반 HTML 링크
-                    fetchHTML(url, contentEl);
+
+                // ======================
+                // 📌 최근 본 (회원)
+                // ======================
+                } else if(type === "recent"){
+                    const count = 6;
+                    let currentPage = 1;
+
+                    function loadRecent(page = 1){
+                        currentPage = page;
+                        fetchJSON(`${url}?mno=${memberNo}&page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = "최근 본 박람회";
+                            renderFairs(data.lastvisitfair);
+                            renderPagination(currentPage, data.totalCount, count, loadRecent);
+                        });
+                    }
+
+                    loadRecent();
+
+                // ======================
+                // 📌 즐겨찾기 (회원)
+                // ======================
+                } else if(type === "favorite"){
+                    const count = 6;
+                    let currentPage = 1;
+
+                    function loadFavorite(page = 1){
+                        currentPage = page;
+                        fetchJSON(`/wish/member?mno=${memberNo}&page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = "즐겨찾기 목록";
+                            renderFairs(data.wishList);
+                            renderPagination(currentPage, data.totalCount, count, loadFavorite);
+                        });
+                    }
+
+                    loadFavorite();
                 }
             });
         });
     }
 
+
     // ----------------------------
-    // 6. 초기 로딩
+    // 초기 로딩
     // ----------------------------
-    function init() {
-        initCategoryEvents(); // 클릭 이벤트 초기화
-
-        // 회원이면 페이지 로드 시 최근 본 박람회 자동 출력
-        if(isMember){
-            fetchJSON("/recent", data => renderFairs(data, contentEl, "최근 본 박람회"));
-        }
-
-        // 비회원이면 임시 전체조회 자동 렌더링
-        if(!isMember){
-            const allEl = document.querySelector('[data-type="all"]');
-            if(allEl){
-                fetchHTML(allEl.dataset.url, contentEl);
-            }
-        }
-    }
-
-    init(); // 초기화 실행
+    initCategoryEvents();
+    fetchFairs();
 });

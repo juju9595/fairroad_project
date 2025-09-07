@@ -1,4 +1,7 @@
-console.log("fairWrite open");
+console.log("fairUpdate open")
+
+// URL 에서 fno 가져오기
+const fno = new URL(location.href).searchParams.get('fno');
 
 $(document).ready(function () {
     $('#summernote').summernote({
@@ -8,18 +11,18 @@ $(document).ready(function () {
 
 });
 
-// 박람회 등록
-const onFairWrite = async() => {
+//박람회 수정
+const onFairUpdate = async () =>{
     const fairForm = document.querySelector('#fairForm');
     const fairFormData = new FormData(fairForm);
 
     fairFormData.append('finfo',$('#summernote').summernote('code'))
     let option ={
-        method:"POST",
+        method:"PUT",
         body:fairFormData
     }//option end
     try{
-        const response = await fetch("/fair/write",option);
+        const response = await fetch(`/fair/update?fno=${fno}`,option);
         const data = await response.json();
         console.log(data);
         if(data>0){
@@ -31,6 +34,4 @@ const onFairWrite = async() => {
         
     }catch(error){console.log(error)}//catch end
 
-
 }//func end
-

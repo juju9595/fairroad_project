@@ -12,4 +12,6 @@ public class FairCountDto {
     private int fno;
     private String fname;
     private int fcount; // 조회수
+    private int fprice;
+    private String fplace;
 }

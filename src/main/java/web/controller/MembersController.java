@@ -31,14 +31,19 @@ public class MembersController { // class start
     // [2] 로그인 구현
     @PostMapping("/login")
     public int login(@RequestBody MembersDto membersDto, HttpServletRequest request){
-        //1. 세션 정보 가져오기
+        //1. 사용자 세션 정보 가져오기
         HttpSession session = request.getSession();
-        //2. 로그인 성공한 회원번호 확인
+        //2. 사용자 로그인 성공한 회원번호 확인
         int result = membersService.login(membersDto);
         if(result > 0){
+            //일반 사용자 세션 저장
             session.setAttribute("loginMno", result);
-        }
-        //
+
+            // 회원번호 1=관리자 그외 사용자
+            boolean loginAdmin = (result==1);
+            //관리자 세션 저장
+            session.setAttribute("loginAdmin",loginAdmin);
+        }//if end
         return result;
     }//func e
 
@@ -48,14 +53,13 @@ public class MembersController { // class start
     // [3] 로그아웃 구현
     @GetMapping("/logout")
     public boolean logout(HttpServletRequest request){
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false); // false로 해야 새 세션 생성 방지
         if(session == null || session.getAttribute("loginMno")==null){
-            return false; // 비로그인상태, 로그아웃 실패
+            return false; // 비로그인 상태
         }
-        //로그인상태면 속성값 제거
         session.removeAttribute("loginMno");
-        return true; // 로그아웃 성공
-    }//func e
+        return true;
+    }
 
 
 // -----------------------------------------------------------------------------------------//
@@ -96,7 +100,7 @@ public class MembersController { // class start
         Object obj = session.getAttribute("loginMno");
         int loginMno = (int)obj;
         boolean result = membersService.pwdUpdate(loginMno, map);
-        session.removeAttribute("loginMno");
+        session.removeAttribute("loginMno"); // 세션 지우기 // 로그아웃
         return result;
     }
 
@@ -121,7 +125,9 @@ public class MembersController { // class start
 
     // [8] 즐겨찾기 목록 삭제
     @DeleteMapping("/wishlist/delete")
-    public boolean wishListDelete(@RequestParam int mno, @RequestParam int fno){
+    public boolean wishListDelete(@RequestParam int fno, HttpSession session ){
+        Integer mno = (Integer) session.getAttribute("loginMno"); // 로그인 시 넣어둔 세션 키명
+        if (mno == null) return false; // 미로그인 등
         boolean result = membersService.wishListDelete(mno, fno);
         return result;
     }//func e
@@ -155,6 +161,18 @@ public class MembersController { // class start
     @GetMapping("/findpwd")
     public Map<String,String> findPwd(@RequestParam Map<String, String> map){
         return membersService.findPwd(map);
+    }
+
+    //-----------------------------------------------------------------------------
+
+    //[12]회원탈퇴
+    @DeleteMapping("/delete")
+    public boolean memberdelete(HttpSession session){
+        if(session == null || session.getAttribute("loginMno") == null)return false;
+        int loginMno = (int)session.getAttribute("loginMno");
+        boolean result = membersService.delete(loginMno);
+        if(result == true) session.getAttribute("loginMno");
+        return result;
     }
 
 } // class e

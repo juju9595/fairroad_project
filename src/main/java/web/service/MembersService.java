@@ -41,7 +41,7 @@ public class MembersService {
 
 // -----------------------------------------------------------------------------------------//
 
-    // [4] 연락처 수정
+    // [4] 회원정보 수정
     public boolean update(MembersDto membersDto){
         boolean result = memberDao.update(membersDto);
         return result;
@@ -108,5 +108,13 @@ public class MembersService {
     }else {resultMap.put("msg","회원정보없음");}
     //반환
         return resultMap;
+    }
+
+// -----------------------------------------------------------------------------------------//
+
+    //[11] 회원탈퇴
+    public boolean delete(int mno){
+        boolean result = memberDao.delete(mno);
+        return result;
     }
 }//class e

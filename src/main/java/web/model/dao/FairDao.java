@@ -47,6 +47,28 @@ public class FairDao extends Dao{
 
     //-----------------------------------------------------------------------------------------------------------//
 
+    //박람회 수정
+    public int fairUpdate(FairDto fairDto){
+        try{
+            String sql = "UPDATE fair SET fname=?,fplace=?,fprice=?,furl=?,finfo=?,start_date=?,end_date=? where fno=?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,fairDto.getFname());
+            ps.setString(2,fairDto.getFplace());
+            ps.setInt(3,fairDto.getFprice());
+            ps.setString(4,fairDto.getFurl());
+            ps.setString(5,fairDto.getFinfo());
+            ps.setString(6,fairDto.getStart_date());
+            ps.setString(7,fairDto.getEnd_date());
+            ps.setInt(8,fairDto.getFno());
+            int count = ps.executeUpdate();
+            if(count==1){ return fairDto.getFno();}
+            ps.close();
+        } catch (Exception e) {System.out.println("박람회등록"+e);}//catch end
+        return 0;
+    }//func end
+
+    //-----------------------------------------------------------------------------------------------------------//
+
     //박람회 대표 이미지 등록
     public boolean fairImg(String fimg,int fno){
         try{
@@ -77,6 +99,7 @@ public class FairDao extends Dao{
                 fairDto.setFname(rs.getString("fname"));
                 fairDto.setFprice(rs.getInt("fprice"));
                 fairDto.setFno(rs.getInt("fno"));
+                fairDto.setFplace(rs.getString("fplace"));
                 list.add(fairDto);
 
             }//while end
@@ -306,12 +329,19 @@ public class FairDao extends Dao{
 
     //-------------------------------------------------------------------------------------//
 
-    // 조회수별 박람회 조회
-    public List<FairCountDto> fcountList(){
+    // 조회수별 박람회 조회 - 페이징 적용
+    public List<FairCountDto> fcountList(int page, int count){
         List<FairCountDto> list = new ArrayList<>();
         try{
-            String sql = " select fno , fname , fcount from fair order by fcount desc ";
+            // MySQL LIMIT OFFSET 적용
+            int offset = (page - 1) * count;
+            String sql = "SELECT fno, fname, fcount, fplace, fprice " +
+                    "FROM fair " +
+                    "ORDER BY fcount DESC " +
+                    "LIMIT ? OFFSET ?";
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, count);
+            ps.setInt(2, offset);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
@@ -319,19 +349,37 @@ public class FairDao extends Dao{
                 dto.setFno(rs.getInt("fno"));
                 dto.setFname(rs.getString("fname"));
                 dto.setFcount(rs.getInt("fcount"));
+                dto.setFplace(rs.getString("fplace"));
+                dto.setFprice(rs.getInt("fprice"));
                 list.add(dto);
             }
-        }catch (Exception e ){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return list;
-    } // func e
+    }
+
+    // 전체 조회수 기준 박람회 개수 조회 (페이징 계산용)
+    public int getTotalFcount(){
+        int total = 0;
+        try{
+            String sql = "SELECT COUNT(*) FROM fair";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        return total;
+    }
 
     // 지역별 그룹핑용 전체 박람회 조회
     public List<FairDto> selectAllFairs(){
         List<FairDto> list = new ArrayList<>();
         try {
-            String sql = " select fno , fname , fplace from fair order by fplace , fno ";
+            String sql = " select fno , fname , fplace , fprice from fair order by fplace , fno ";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -340,6 +388,7 @@ public class FairDao extends Dao{
                 dto.setFno(rs.getInt("fno"));
                 dto.setFname(rs.getString("fname"));
                 dto.setFplace(rs.getString("fplace"));
+                dto.setFprice(rs.getInt("fprice"));
                 list.add(dto);
             }
         }catch (Exception e ){

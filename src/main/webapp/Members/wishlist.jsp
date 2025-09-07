@@ -32,7 +32,10 @@
 
 
     <jsp:include page="/footer.jsp"></jsp:include>
-    <script src="/js/Members/wishList.js"></script>
-    
+    <script src="/js/Members/wishlist.js"></script>
+
+    <style>
+
+</style>
 </body>
 </html>

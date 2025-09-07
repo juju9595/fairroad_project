@@ -15,12 +15,14 @@
     <div id="container">
         <h3> 마이페이지 </h3>
         <ul class="listBox">
-            <li><a href="/Members/info.jsp">내정보</a></li>
-            <li><a href="/Members/wishList.jsp">즐겨찾기 목록</a></li>
+            <li><a href="/Members/checkinfo.jsp">내정보</a></li>
+            <li><a href="/Members/wishlist.jsp">즐겨찾기 목록</a></li>
         </ul>
     </div>
 
     <jsp:include page="/footer.jsp"></jsp:include>
-    
+
+
+
 </body>
 </html>

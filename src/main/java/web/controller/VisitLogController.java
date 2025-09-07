@@ -64,19 +64,17 @@ public class VisitLogController { // class start
         return visitlogService.getLogsByMember(mno);
     } // func e
 
-    // 회원별 최근 방문 10개 + fname 포함
+    // 회원별 최근 방문 박람회 (페이징)
     @GetMapping("/recent")
-    public Map<String, Object> getRecentVisits(HttpSession session) {
+    public Map<String, Object> getRecentVisits(
+            HttpSession session,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int count
+    ) {
         Integer loginMno = (Integer) session.getAttribute("loginMno");
+        if (loginMno == null) loginMno = 1; // 테스트용
 
-        // 로그인 기능 구현 전이라면 테스트용 가상 Mno
-        if (loginMno == null) loginMno = 1;
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("mno", loginMno);
-        result.put("lastvisitfair", visitlogService.getRecentVisitsWithName(loginMno));
-
-        return result;
-    } // func e
+        return visitlogService.getRecentVisitsWithName(loginMno, page, count);
+    }
 
 } // class end

@@ -23,15 +23,35 @@ const allPostMain = async () =>{
 
         let html=``;
 
-        data.data.forEach((fair) =>{
-            html+=  `
-                    <tr>
-                        <td><a href=/Fair/getpost.jsp?fno=${fair.fno}>${fair.fname} </a></td>
-                        <td><a href=/Fair/getpost.jsp?fno=${fair.fno}>${fair.fimg} </a></td>
-                        <td><a href=/Fair/getpost.jsp?fno=${fair.fno}>${fair.fprice} </a></td>
-                    </tr>
-                    `
-        })
+// 서버에서 내려온 data.data 배열 순회
+data.data.forEach((fair) => {
+    // 기본 이미지 경로 (만약 fimg가 없을 때 보여줄 이미지)
+    let imgPath = '/img/noimage.png'; 
+
+    // fimg 값이 존재할 경우에만 경로를 다시 설정
+    if (fair.fimg) {
+        // fimg 값이 http(s)로 시작하면 → 외부 URL 그대로 사용
+        // 아니라면 → /upload/ 디렉토리 밑의 파일로 경로를 조합
+        imgPath = fair.fimg.startsWith('http')
+            ? fair.fimg
+            : `/upload/${fair.fimg}`;
+    }
+
+    // HTML 문자열 생성
+    html += `
+        <tr>
+            <td><a href="/Fair/getPost.jsp?fno=${fair.fno}">${fair.fname}</a></td>
+            <!-- 박람회 이미지 -->
+            <td>
+              <a href="/Fair/getPost.jsp?fno=${fair.fno}">
+                <img src="${imgPath}" alt="${fair.fname}" class="fimg" style="max-width:100px;">
+              </a>
+            </td>
+            <td><a href="/Fair/getPost.jsp?fno=${fair.fno}">${fair.fprice}</a></td>
+        </tr>
+    `;
+});
+
         fairMainTbody.innerHTML = html;
         viewPageButtons(data); // 페이징 버튼 출력 함수 호출
     }catch(e){console.log(e)}//catch end

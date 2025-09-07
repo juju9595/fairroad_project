@@ -3,6 +3,18 @@ console.log('signup.js open')
 const signup = async() =>{
     //마크업의 DOM 객체 가져오기
     const idInput = document.querySelector('.idInput');
+
+        // JS 정규표현식
+        // 영문자로 시작하는 영문자 또는 숫자 6~20자  ///////////    var regExp = /^[a-z]+[a-z0-9]{5,19}$/g;
+
+    var regExp = /^[a-z]+[a-z0-9]{5,19}$/g;
+
+    if( regExp.test( idInput.value ) ){ // 정규표현식변수.test( 자료 ); 해당 자료를 정해진 정규표현식으로 검사
+        alert('적합');
+    }else{
+        alert('부적합');
+    }
+
     const pwdInput = document.querySelector('.pwdInput');
     const nameInput = document.querySelector('.nameInput');
     const birthInput = document.querySelector('.birthInput');

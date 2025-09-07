@@ -82,7 +82,7 @@ public class MemberDao extends Dao{
 
     // -----------------------------------------------------------------------------------------//
 
-    // [4] 회원정보수정
+    // [4] 회원 정보 수정
     public boolean update(MembersDto membersDto){
         try{
             String sql = "update members set mphone=?, maddress=? where mno =?";
@@ -207,6 +207,18 @@ public class MemberDao extends Dao{
             System.out.println(e);
             return false;
         }
+    }//func e
+
+    // [11] 회원탈퇴
+    public boolean delete(int mno){
+        try{
+            String sql = "delete from members where mno=? ";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,mno);
+            return ps.executeUpdate() == 1;
+        }catch (Exception e ){
+            System.out.println(e);
+        }return false;
     }
 
 

@@ -34,10 +34,17 @@ public class FairController { // class start
 
     //박람회 등록
     @PostMapping("/write")
-    public int fairWrite(@ModelAttribute FairDto fairDto){
-        System.out.println("FairController.fairWrite");
-        System.out.println("fairDto = " + fairDto);
+    public int fairWrite(@ModelAttribute FairDto fairDto, HttpSession session){
+        // 세션에서  관리자 정보 가져오기
+//        Object loginAdmin = session.getAttribute(("loginAdmin")); // 관리자 로그인 세션
+//
+//        //관리자 아니면 수정 불가 박람회
+//        if(loginAdmin==null||!(boolean)loginAdmin){
+//            return 0;
+//        }//if end
+
         int result = fairService.fairWrite(fairDto);
+
         //제품 등록했으면서 첨부파일이 비어있지 않고 첨부파일 목록에 첫번째 첨부파일이 비어 있지 않으면
         if( result > 0 && !fairDto.getUploads().isEmpty() && !fairDto.getUploads().get(0).isEmpty() ){
             //파일업로드,LIST타입을 반복문 이용하여 여러번 업로드
@@ -46,6 +53,28 @@ public class FairController { // class start
                 if(fimg==null)break;
                 boolean result2 = fairService.fairImg(fimg,result);
                 if(result2==false)return 0;
+            }//for end
+        }//for end
+        return result;
+    }//func end
+
+    //박람회 수정
+    @PutMapping("/update")
+    public int fairUpdate(@ModelAttribute FairDto fairDto,HttpSession session){
+        // 세션에서  관리자 정보 가져오기
+        Object loginAdmin = session.getAttribute(("loginAdmin")); // 관리자 로그인 세션
+
+        //관리자 아니면 수정 불가 박람회
+        if(loginAdmin==null||!(boolean)loginAdmin){
+            return 0;
+        }//if end
+        int result = fairService.fairUpdate(fairDto);
+        if (result > 0 && !fairDto.getUploads().isEmpty() && !fairDto.getUploads().get(0).isEmpty()) {
+            for (MultipartFile multipartFile : fairDto.getUploads()) {
+                String fimg = fileService.fileUpload(multipartFile);
+                if (fimg == null) break;
+                boolean result2 = fairService.fairImg(fimg, result);
+                if (!result2) return 0;
             }//for end
         }//if end
         return result;
@@ -84,7 +113,7 @@ public class FairController { // class start
     } // func e
 
     // 박람회 상세 조회
-    @GetMapping("/getpost")
+    @GetMapping("/getPost")
     public FairDto fairInfo(@RequestParam int fno,HttpSession session){
         Object object = session.getAttribute("viewHistory");
         Map<Integer,String> viewHistory;
@@ -106,9 +135,26 @@ public class FairController { // class start
 
     // 조회수별 박람회 조회
     @GetMapping("/visitlog/fcount")
-    public List<FairCountDto> fcountList(){
-        List<FairCountDto> result = fairService.fcountList();
-        return result;
+    @ResponseBody
+    public Map<String, Object> fcountList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "6") int count) {
+
+        List<FairCountDto> result = fairService.fcountList(page, count);
+        int totalCount = fairService.getTotalFcount();
+        int totalPage = (int) Math.ceil(totalCount / (double) count);
+
+        int startBtn = Math.max(1, page - 2);
+        int endBtn = Math.min(totalPage, page + 2);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", result);
+        map.put("currentPage", page);
+        map.put("totalPage", totalPage);
+        map.put("startBtn", startBtn);
+        map.put("endBtn", endBtn);
+
+        return map;
     } // func e
 
     // 지역별 박람회 조회

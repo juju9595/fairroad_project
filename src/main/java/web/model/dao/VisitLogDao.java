@@ -9,4 +9,6 @@ import java.util.List;
 public interface VisitLogDao {
     List<Integer> getVisitFnoByMember(int mno);  // 회원별 방문 fno
     List<FairDto> getTopVisitedFairs(int n);     // 전체 인기 박람회 fno 상위 n개
+
+
 }

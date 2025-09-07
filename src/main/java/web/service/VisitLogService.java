@@ -155,29 +155,40 @@ public class VisitLogService {
                 // { 박람회 번호 = 방문횟수 } 그룹화 해서 Map 반환
     } // func e
 
-    // 회원별 최근 본 박람회 최대 10개 + 박람회 상세정보 가져오기
-    public List<Map<String, Object>> getRecentVisitsWithName(int mno) {
-        return readAllLogs().stream()
+    // 회원별 최근 본 박람회 + 페이징
+    public Map<String, Object> getRecentVisitsWithName(int mno, int page, int count) {
+        List<Map<String, Object>> allLogs = readAllLogs().stream()
                 .filter(log -> log.getMno() != null && log.getMno() == mno)
                 .sorted(Comparator.comparing(VisitLogDto::getVdate).reversed())
-                .limit(10)
                 .map(log -> {
+                    FairDto fair = fairDao.getFairbyFno(log.getFno());
+                    if (fair == null) return null;
                     Map<String, Object> map = new HashMap<>();
                     map.put("vdate", log.getVdate());
-
-                    FairDto fair = fairDao.getFairbyFno(log.getFno());
-                    if (fair != null) {
-                        map.put("fno", fair.getFno());
-                        map.put("fname", fair.getFname());
-                        map.put("fplace", fair.getFplace());
-                        map.put("fprice", fair.getFprice());
-                        map.put("furl", fair.getFurl());
-                        map.put("fimg", fair.getFimg()); // 이미지가 있으면 추가
-                    }
+                    map.put("fno", fair.getFno());
+                    map.put("fname", fair.getFname());
+                    map.put("fplace", fair.getFplace());
+                    map.put("fprice", fair.getFprice());
+                    map.put("furl", fair.getFurl());
+                    map.put("fimg", fair.getFimg());
                     return map;
                 })
-                .collect(Collectors.toList());
+                .filter(Objects::nonNull)
+                .toList();
+
+        int total = allLogs.size();
+        int fromIndex = Math.min((page - 1) * count, total);
+        int toIndex = Math.min(page * count, total);
+
+        List<Map<String, Object>> pagedLogs = allLogs.subList(fromIndex, toIndex);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalCount", total);      // JS에서 페이징 버튼 생성용
+        result.put("lastvisitfair", pagedLogs);
+
+        return result;
     }
+
 
     // 하루 단위 아카이브 (매일 자정 실행)
     @Scheduled(cron = "0 0 0 * * ?")

@@ -13,14 +13,17 @@
 <body>
 
     <jsp:include page="/header.jsp"></jsp:include>
-
-    <div id="container">
-        <h3> 비밀번호 수정 페이지 </h3>
+    <div class="container">
+        <h3> 비밀번호 변경</h3>
+        <div> 현재 비밀번호 : <input type="password" class="oldpwd" /></div>
+        <div> 새 비밀번호 : <input type="password" class="newpwd" /></div>
+        <div> 새 비밀번호 확인 : <input type="password" class="newpwd2"  /></div>
+        <button type="button" onclick="onPwdUpdate()"> 확인 </button>
+        <div><a href="/Members/info.jsp">취소</a></div>
     </div>
 
+     <jsp:include page="/footer.jsp"></jsp:include>
+     <script src="/js/Members/pwdupdate.js"></script>
 
-
-    <jsp:include page="/footer.jsp"></jsp:include>
-    
 </body>
 </html>

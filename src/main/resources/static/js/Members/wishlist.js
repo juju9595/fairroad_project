@@ -28,36 +28,42 @@ const wishlistFind = async() => { console.log('wishlistFind. exe')
 } 
 wishlistFind();
 
-const wishlistRenderRows = async () => {
-  const res = await fetch('/member/wishlist');
-  const data = await res.json();   // [{fno, fname}, ...] 가정
-  const tbody = document.querySelector('#wishlistBox');
+// --- 추가: 체크박스가 달린 목록 렌더 ---
+const wishlistBox = async () => {
+  const data = await (await fetch('/member/wishlist')).json();
+  const box = document.querySelector('#wishlistBox');
 
-  let rows = '';
-  for (const w of data) {
-    rows += `
-      <tr>
-        <td>
-          <button type="button" onclick="wishlistDeleteOne(${w.fno})">삭제</button>
-        </td>
-        <td>${w.fname}</td>
-      </tr>
-    `;
+  // id 필드는 wno/fno/id 중 프로젝트에 맞는 걸로 사용
+  box.innerHTML = data.map(w => `
+    <tr>
+      <td style="text-align:center;">
+      <input type="checkbox" class="wish" value="${w.fno}">
+      </td>
+          <td>${w.fname}</td>
+        </tr>
+      `).join('');
+};
+wishlistBox();
+
+
+// --- 추가: 선택된 체크박스 삭제 ---
+const wishlistDelete = async () => {
+  const checked = [...document.querySelectorAll('.wish:checked')];
+  if (checked.length === 0) return;
+
+  // 컨트롤러 베이스 경로 확인하세요.
+  // 아래는 @RequestMapping("/member") 기준입니다.
+  for (const chk of checked) {
+    const fno = chk.value;
+    const option = { method: "DELETE" };
+    // ★ 파라미터 이름 꼭 붙이기: ?fno=값
+    const response = await fetch(`/member/wishlist/delete?fno=${encodeURIComponent(fno)}`, option);
+    const ok = await response.json();
+    // ok가 false면 필요 시 처리
   }
-  tbody.innerHTML = rows || '<tr><td colspan="2">즐겨찾기가 없습니다.</td></tr>';
+  // 삭제 후 목록 새로고침
+  await wishlistBox();
 };
 
-// // 단일 항목 삭제 → 다시 렌더
-// const wishlistDeleteOne = async (fno) => {
-//   await fetch('/member/wishlist/delete', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     // 서버가 ids 배열을 받는다고 가정. (만약 fno 단일로 받으면 { fno } 로 바꾸세요)
-//     body: JSON.stringify({ ids: [fno] })
-//   });
-//   wishlistRenderRows();
-// };
 
-// // 페이지 진입 시 표 형태로 다시 그려주기
-// document.addEventListener('DOMContentLoaded', wishlistRenderRows);
 
