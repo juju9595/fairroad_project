@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="/css/index.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+
     </head>
 
     <body>
@@ -33,8 +34,13 @@
             </ul>
         </div>
 
-        <div class="banner">
-            <!-- 필요시 배너 영역 -->
+        <div class="banner-slider">
+            <div class="slider-track" id="slider-track">
+                <div class="slide"><img src="https://placehold.co/1200x300/F582A0/FFFFFF?text=광고1" alt="광고 이미지 1"></div>
+                <div class="slide"><img src="https://placehold.co/1200x300/52B2BF/FFFFFF?text=광고2" alt="광고 이미지 2"></div>
+                <div class="slide"><img src="https://placehold.co/1200x300/F4D03F/FFFFFF?text=광고3" alt="광고 이미지 3"></div>
+            </div>
+            <div class="pagination-dots" id="pagination-dots"></div>
         </div>
 
         <div class="content-wrapper">

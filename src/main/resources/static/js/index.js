@@ -254,4 +254,56 @@ document.addEventListener("DOMContentLoaded", function(){
     // ===============================
     initCategoryEvents();
     fetchFairs();
+
+    // ===============================
+    // [8] 배너 슬라이더 기능
+    // ===============================
+    const sliderTrack = document.getElementById('slider-track');
+    const paginationDots = document.getElementById('pagination-dots');
+    
+    // 배너에 사용할 이미지 URL 목록
+    // 여기의 이미지를 실제 광고 이미지로 변경하세요.
+    const images = [
+        'https://placehold.co/1200x300/F582A0/FFFFFF?text=광고1',
+        'https://placehold.co/1200x300/52B2BF/FFFFFF?text=광고2',
+        'https://placehold.co/1200x300/F4D03F/FFFFFF?text=광고3'
+    ];
+    
+    // 이미지에 따라 점(dot) 생성
+    images.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        if (index === 0) dot.classList.add('active');
+        paginationDots.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+    let currentIndex = 0;
+    const totalSlides = images.length;
+
+    function updateSlider() {
+        const transformValue = -currentIndex * 100;
+        sliderTrack.style.transform = `translateX(${transformValue}%)`;
+        
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[currentIndex].classList.add('active');
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+    }
+    
+    // 5초마다 자동으로 다음 슬라이드로 이동
+    setInterval(nextSlide, 5000);
+
+    // 점(dot) 클릭 이벤트
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentIndex = index;
+            updateSlider();
+        });
+    });
+
+
 });
