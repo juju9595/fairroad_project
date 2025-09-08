@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function(){
             html += `
                 <li class="fair-item">
                     <a href="/Fair/getPost.jsp?fno=${fair.fno}">
-                        <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/'+fair.fimg) : '/img/default.png'}" class="fair-img" alt="${fair.fname}">
+                        <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/'+fair.fimg) : 'https://placehold.co/300x200?text=No+Image'}" class="fair-img" alt="${fair.fname}">
                         <div class="fair-info">
                             <div class="fair-name">${fair.fname}</div>
                             <!-- 새로운 디자인에 맞춰 날짜 정보 추가 -->
