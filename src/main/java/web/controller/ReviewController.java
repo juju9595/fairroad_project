@@ -80,11 +80,18 @@ public class ReviewController { // class start
 
     // [4] 방문 리뷰 수정
     // [PUT 요청] 클라이언트에서 "/update" 주소로 PUT 방식 요청이 들어오면 실행
-    @PutMapping("/review/update")
+    @PutMapping("/update")
     public int reviewUpdate(@RequestBody ReviewDto reviewDto, HttpSession session) {
-        Integer loginMno = (Integer) session.getAttribute("loginMno"); // 로그인한 회원번호
-        if (loginMno == null) return 0; // 로그인 안됨
-        return reviewService.reviewUpdate(reviewDto.getRno(), loginMno, reviewDto.getRtitle(), reviewDto.getRcontent());
+        Integer loginMno = (Integer) session.getAttribute("loginMno");
+        if (loginMno == null) return 0; // 로그인 안됨 → 0
+
+        // rdate 갱신이 필요하면 여기서 처리(선택)
+        return reviewService.reviewUpdate(
+                reviewDto.getRno(),
+                loginMno,
+                reviewDto.getRtitle(),
+                reviewDto.getRcontent()
+        ); // 1: 성공, 0: 실패(권한 없음/존재 안함/유효성 실패)
     }
 
     // [5] 방문 리뷰 삭제

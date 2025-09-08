@@ -99,7 +99,7 @@ import java.util.List;
         // [4] 방문 리뷰 수정
         public int reviewUpdate( int rno, int mno, String rtitle, String rcontent ) {
             String sql = "UPDATE review SET rtitle = ?, rcontent = ? WHERE rno = ? AND mno = ?";
-            try { PreparedStatement ps = conn.prepareStatement(sql);
+            try { PreparedStatement ps = conn.prepareStatement( sql );
                 ps.setString(1, rtitle);
                 ps.setString(2, rcontent);
                 ps.setInt(3, rno);
