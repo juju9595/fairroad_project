@@ -6,6 +6,7 @@ const reviewDetail = async () => {
     // URL에서 rno 가져오기
     const params = new URLSearchParams(window.location.search);
     const rno = params.get("rno");
+    console.log( rno );
     if (!rno) {
       console.error("리뷰 번호(rno)가 없습니다.");
       return;
@@ -40,27 +41,38 @@ const reviewDetail = async () => {
 reviewDetail();
 
 // [1] 삭제처리
-const reviewDelete = async()=>{
+const reviewDelete = async () => {
+  // URL에서 rno 가져오기
+  const params = new URLSearchParams(window.location.search);
+  const rno = params.get("rno");
+  if (!rno) {
+    console.error("리뷰 번호(rno)가 없습니다.");
+    return;
+  }
 
-    // URL에서 rno 가져오기
-    const params = new URLSearchParams(window.location.search);
-    const rno = params.get("rno");   // ✅ 반드시 변수 선언
-    if (!rno) {
-      console.error("리뷰 번호(rno)가 없습니다.");
-      return;
-    }
-    
-    const option = { method : "DELETE" }
-    const response = await fetch( `/fair/review?rno=${ rno }` , option );
-    const data = await response.json(); 
-    
-    if( data == true ){
-        alert('삭제 성공했습니다.');
-        location.href = 'review.jsp';
-    }else{
-        alert('삭제 실패했습니다.');
-    }
-} // func end 
+  const option = { method: "DELETE" };
+  const res = await fetch(`/fair/review?rno=${encodeURIComponent(rno)}`, { method: "DELETE", credentials: "include" });
+
+  if (res.status === 401) { alert("로그인이 필요합니다."); return; }
+
+  let ok = false;
+  try {
+    // 컨트롤러가 boolean을 JSON으로 주는 경우
+    ok = await res.json();  // true 또는 false
+  } catch {
+    // 혹시 text로 내려오면
+    const t = await res.text();
+    ok = (t.trim() === "true");
+  }
+
+  if (ok === true) {
+    alert("삭제되었습니다.");
+    location.href = "review.jsp";
+  } else {
+    // 여기로 오면 '남의 글'이거나 존재하지 않음 등
+    alert("본인 글만 삭제할 수 있거나, 삭제할 대상이 없습니다.");
+  }
+};
 
 
 function goUpdatePage() {
