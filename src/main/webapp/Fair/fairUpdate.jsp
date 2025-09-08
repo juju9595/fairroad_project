@@ -40,13 +40,13 @@
                     <option value="5">캠핑</option>
                 </select>
 
-                제목:<input name="fname" />
-                장소:<input name="fplace" />
-                가격:<input name="fprice" />
-                링크:<input name="furl" />
+                제목:<input name="fname" class="fname" />
+                장소:<input name="fplace" class="fplace"/>
+                가격:<input name="fprice" class="fprice"/>
+                링크:<input name="furl" class="furl"/>
                 이미지:<input type="file" multiple name="uploads" />
-                개최일:<input name="start_date" />
-                마감일:<input name="end_date" />
+                개최일:<input name="start_date" class="start_date"/>
+                마감일:<input name="end_date" class="end_date"/>
 
                 <button type="button" onclick="onFairUpdate()">수정</button>
                 <textarea class="finfo" id="summernote" name="editordata"></textarea> <!--상세정보-->
