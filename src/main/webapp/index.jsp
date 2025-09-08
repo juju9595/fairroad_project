@@ -61,11 +61,22 @@
             <div id="pagination" class="pagination"></div>
         </div>
 
+
+        <script>
+            // 서버 세션에서 loginMno 내려주기 (EL 사용 예시)
+            const loginMno = "${sessionScope.loginMno}";
+        </script>
+        <script src="/js/Alarm/alarm.js"></script>
+
+
+
         <script src="/js/Members/mypage.js"></script>
         <jsp:include page="/footer.jsp"></jsp:include>
 
         <!-- JS -->
         <script src="/js/index.js"></script>
+        <script src="/js/Members/position.js"></script>
+    
 
     </body>
 

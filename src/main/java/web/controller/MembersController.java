@@ -46,7 +46,14 @@ public class MembersController { // class start
         }//if end
         return result;
     }//func e
+//-----------------------------------------------------------------------------------------//
 
+    //중복검사
+    @GetMapping("/check")
+    public boolean check(@RequestParam String type, @RequestParam String data){
+        boolean result = membersService.check(type, data);
+        return result;
+    }
 
 //-----------------------------------------------------------------------------------------//
 
@@ -131,7 +138,7 @@ public class MembersController { // class start
         boolean result = membersService.wishListDelete(mno, fno);
         return result;
     }//func e
-
+//
 //-----------------------------------------------------------------------------
 
     // [9] 회원번호로 회원 정보 조회

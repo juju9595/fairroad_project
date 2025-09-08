@@ -30,23 +30,24 @@
             <div class="etcBox">
                 <!-- 수정 버튼 생기는곳-->
             </div>
-
+            
         </div>
+        
 
-        <div class="reviewname">
-            <h3> 방문 리뷰 전체 조회 </h3>
-            <a href="/Review/reviewWrite.jsp"> 등록페이지로 이동하기 </a>
-            <table border="1" cellpadding="6" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th> 작성날짜 </th>
-                        <th> 리뷰제목 </th>
-                    </tr>
-                </thead>
-                <tbody class="reviewTbody">
+            <div class="reviewname">
+                <h3> 방문 리뷰 전체 조회 </h3>
+                <a href="/Review/reviewWrite.jsp?fno=${param.fno}"> 등록페이지로 이동하기 </a>
+                <table border="1" cellpadding="6" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th> 작성날짜 </th>
+                            <th> 리뷰제목 </th>
+                        </tr>
+                    </thead>
+                    <tbody class="reviewTbody">
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
         </div>
         <jsp:include page="/footer.jsp"></jsp:include>
