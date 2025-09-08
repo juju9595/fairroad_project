@@ -9,18 +9,18 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="stylesheet" href="/css/header.css" />
     <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/login.css" />
 </head>
 
 <body>
 
     <jsp:include page="/header.jsp"></jsp:include>
     <div id="container">
-        <label>아이디</label>
-        <input type="text" class="idInput" id="idInput" placeholder="Value"/>
+
+        <input type="text" class="idInput" id="idInput" placeholder="아이디 입력"/>
         <div class="idCheck"></div>
 
-        <label>비밀번호</label>
-        <input type="password" class="pwdInput" id="pwdInput" placeholder="Value"/>
+        <input type="password" class="pwdInput" id="pwdInput" placeholder="비밀번호 입력"/>
 
         <button type="button" onclick="login()" class="btn-primary">로그인</button>
 

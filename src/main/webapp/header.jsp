@@ -12,9 +12,16 @@
     </head>
 
     <body>
+        <%
+            Integer memberNo = (Integer) session.getAttribute("loginMno");
+            Boolean isAdmin = (Boolean) session.getAttribute("loginAdmin");
 
+            boolean isMember = (memberNo != null);
+        %>
         <div class="top">
-            <div class="menu">
+            <div class="menu"
+            data-is-member="<%= isMember ? "true" : "false" %>"
+           data-member-no="<%= (memberNo != null) ? memberNo : "" %>">
                 <!-- 로그인 아이콘 (기본) -->
                 <a href="/Members/login.jsp">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -45,6 +52,20 @@
 
         </div>
 
+        <!-- 검색창 (초기에는 숨김) -->
+            <div class="search-bar" id="search-bar">
+                <!-- 검색 필드 선택 -->
+                <select id="search-key">
+                    <option value="fname">제목</option>
+                    <option value="fplace">장소</option>
+                    <option value="fprice">가격</option>
+                    <option value="finfo">설명</option>
+                </select>
+
+                <input type="text" id="search-input" placeholder="검색어를 입력하세요..." />
+                <button type="button" id="search-submit">검색</button>
+                <button type="button" id="close-search">✖</button>
+            </div>
         <script src="js/header.js"></script>
     </body>
 

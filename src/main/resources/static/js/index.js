@@ -1,24 +1,23 @@
 document.addEventListener("DOMContentLoaded", function(){
-    // ----------------------------
-    // 전역 변수
-    // ----------------------------
+    // ===============================
+    // [0] 전역 변수
+    // ===============================
     const contentEl = document.getElementById("content");
     const pageTitleEl = document.getElementById("pageTitle");
     const paginationEl = document.getElementById("pagination");
-    const searchKeyEl = document.getElementById("searchKey");
-    const searchInputEl = document.getElementById("searchInput");
-    const searchBtnEl = document.getElementById("searchBtn");
+    const searchKeyEl = document.getElementById("search-key");   // 검색 필드 선택
+    const searchInputEl = document.getElementById("search-input");
+    const searchBtnEl = document.getElementById("search-submit");
 
-    // ✅ 세션스토리지 기반으로 로그인 상태 확인
     const isMember = sessionStorage.getItem("isMember") === "true";
     const memberNo = sessionStorage.getItem("memberNo") ? parseInt(sessionStorage.getItem("memberNo")) : null;
 
     let currentKey = "";
     let currentKeyword = "";
 
-    // ----------------------------
-    // Fetch JSON
-    // ----------------------------
+    // ===============================
+    // [1] Fetch JSON 유틸
+    // ===============================
     function fetchJSON(url, callback){
         fetch(url)
             .then(res => res.json())
@@ -29,9 +28,9 @@ document.addEventListener("DOMContentLoaded", function(){
             });
     }
 
-    // ----------------------------
-    // 공통 박람회 렌더링
-    // ----------------------------
+    // ===============================
+    // [2] 박람회 렌더링
+    // ===============================
     function renderFairs(data, container = contentEl){
         if(!data || data.length === 0){
             container.innerHTML = "<p>박람회가 없습니다.</p>";
@@ -40,15 +39,16 @@ document.addEventListener("DOMContentLoaded", function(){
 
         let html = "<ul class='fair-list'>";
         data.forEach(fair => {
+            // 이미지와 텍스트를 분리하는 새로운 HTML 구조
             html += `
                 <li class="fair-item">
                     <a href="/Fair/getPost.jsp?fno=${fair.fno}">
                         <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/'+fair.fimg) : '/img/default.png'}" class="fair-img" alt="${fair.fname}">
                         <div class="fair-info">
                             <div class="fair-name">${fair.fname}</div>
-                            <div class="fair-place">장소: ${fair.fplace || '정보없음'}</div>
-                            <div class="fair-price">가격: ${(fair.fprice != null && fair.fprice > 0) ? fair.fprice+'원' : '정보없음'}</div>
-                            ${fair.fcount !== undefined ? `<div class="fair-count">조회수: ${fair.fcount}</div>` : ""}
+                            <!-- 새로운 디자인에 맞춰 날짜 정보 추가 -->
+                            <!-- 데이터에 날짜 정보(fstartdate, fenddate)가 있다면 이 부분을 수정해 주세요 -->
+                            <div class="fair-date">25.09.04 - 09.10</div>
                         </div>
                     </a>
                 </li>
@@ -58,9 +58,9 @@ document.addEventListener("DOMContentLoaded", function(){
         container.innerHTML = html;
     }
 
-    // ----------------------------
-    // 페이징 버튼 생성
-    // ----------------------------
+    // ===============================
+    // [3] 페이징 렌더링
+    // ===============================
     function renderPagination(currentPage, totalCount, countPerPage, callback){
         paginationEl.innerHTML = "";
         const totalPage = Math.ceil(totalCount / countPerPage);
@@ -89,9 +89,9 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
-    // ----------------------------
-    // 박람회 가져오기 (회원/비회원 구분 + 검색)
-    // ----------------------------
+    // ===============================
+    // [4] 박람회 가져오기 (회원/비회원 + 검색)
+    // ===============================
     function fetchFairs(page = 1, key = "", keyword = ""){
         const count = 6;
         let url = `/fair/allPostMain?page=${page}&count=${count}`;
@@ -104,22 +104,34 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
-    // ----------------------------
-    // 검색 이벤트
-    // ----------------------------
-    searchBtnEl.addEventListener("click", () => {
-        currentKey = searchKeyEl.value;
-        currentKeyword = searchInputEl.value.trim();
-        fetchFairs(1, currentKey, currentKeyword);
-    });
+    // ===============================
+    // [5] 검색 이벤트
+    // ===============================
+    if(searchBtnEl && searchInputEl && searchKeyEl){
+        searchBtnEl.addEventListener("click", () => {
+            currentKey = searchKeyEl.value;
+            currentKeyword = searchInputEl.value.trim();
+            fetchFairs(1, currentKey, currentKeyword);
+        });
 
-    // ----------------------------
-    // 카테고리 클릭 이벤트
-    // ----------------------------
+        searchInputEl.addEventListener("keypress", e => {
+            if(e.key === "Enter"){
+                currentKey = searchKeyEl.value;
+                currentKeyword = searchInputEl.value.trim();
+                fetchFairs(1, currentKey, currentKeyword);
+            }
+        });
+    }
+
+    // ===============================
+    // [6] 카테고리 이벤트 (cno / 인기 / 지역 / 최근 / 즐겨찾기)
+    // ===============================
     function initCategoryEvents(){
-        document.querySelectorAll(".category a[data-type]").forEach(a => {
+        document.querySelectorAll(".category a[data-type], .category a[data-cno]").forEach(a => {
             const type = a.dataset.type;
-            // ✅ 회원 전용 카테고리 숨김
+            const cno = a.dataset.cno;
+
+            // 회원 전용 숨김 처리
             if((type === "recent" || type === "favorite") && !isMember){
                 a.parentElement.style.display = "none";
                 return;
@@ -128,22 +140,45 @@ document.addEventListener("DOMContentLoaded", function(){
             a.addEventListener("click", function(e){
                 e.preventDefault();
                 const url = this.dataset.url;
-                if(!url) return;
 
-                // 인기순
+                // ---------------------------
+                // 1) cno 카테고리
+                // ---------------------------
+                if(cno){
+                    const categoryName = this.textContent;
+                    const count = 6;
+
+                    function loadCategory(page = 1){
+                        fetchJSON(`/fair/allPostCategory?cno=${cno}&page=${page}&count=${count}`, data => {
+                            pageTitleEl.textContent = categoryName + " 박람회";
+                            renderFairs(data.data);
+                            renderPagination(data.currentPage, data.totalCount, data.perCount, loadCategory);
+                        });
+                    }
+                    loadCategory();
+                    return;
+                }
+
+                // ---------------------------
+                // 2) 인기순
+                // ---------------------------
                 if(type === "popular"){
                     const count = 6;
                     function fetchPopular(page = 1){
                         fetchJSON(`${url}?page=${page}&count=${count}`, data => {
                             pageTitleEl.textContent = "인기순 박람회";
                             renderFairs(data.data);
-                            renderPagination(data.currentPage, data.totalPage * count, count, fetchPopular);
+                            renderPagination(data.currentPage, data.totalCount, count, fetchPopular);
                         });
                     }
                     fetchPopular();
+                    return;
+                }
 
-                // 지역별
-                } else if(type === "region"){
+                // ---------------------------
+                // 3) 지역별
+                // ---------------------------
+                if(type === "region"){
                     fetchJSON(url, dataMap => {
                         pageTitleEl.textContent = "지역별 박람회";
                         contentEl.innerHTML = `
@@ -175,46 +210,100 @@ document.addEventListener("DOMContentLoaded", function(){
                         });
                         paginationEl.innerHTML = "";
                     });
+                    return;
+                }
 
-                // 최근 본 (회원)
-                } else if(type === "recent"){
+                // ---------------------------
+                // 4) 최근 본 (회원)
+                // ---------------------------
+                if(type === "recent"){
                     const count = 6;
-                    let currentPage = 1;
-
                     function loadRecent(page = 1){
-                        currentPage = page;
                         fetchJSON(`${url}?mno=${memberNo}&page=${page}&count=${count}`, data => {
                             pageTitleEl.textContent = "최근 본 박람회";
                             renderFairs(data.lastvisitfair);
-                            renderPagination(currentPage, data.totalCount, count, loadRecent);
+                            renderPagination(page, data.totalCount, count, loadRecent);
                         });
                     }
-
                     loadRecent();
+                    return;
+                }
 
-                // 즐겨찾기 (회원)
-                } else if(type === "favorite"){
+                // ---------------------------
+                // 5) 즐겨찾기 (회원)
+                // ---------------------------
+                if(type === "favorite"){
                     const count = 6;
-                    let currentPage = 1;
-
                     function loadFavorite(page = 1){
-                        currentPage = page;
                         fetchJSON(`/wish/member?mno=${memberNo}&page=${page}&count=${count}`, data => {
                             pageTitleEl.textContent = "즐겨찾기 목록";
                             renderFairs(data.wishList);
-                            renderPagination(currentPage, data.totalCount, count, loadFavorite);
+                            renderPagination(page, data.totalCount, count, loadFavorite);
                         });
                     }
-
                     loadFavorite();
+                    return;
                 }
+
             });
         });
     }
 
-    // ----------------------------
-    // 초기 로딩
-    // ----------------------------
+    // ===============================
+    // [7] 초기 실행
+    // ===============================
     initCategoryEvents();
     fetchFairs();
+
+    // ===============================
+    // [8] 배너 슬라이더 기능
+    // ===============================
+    const sliderTrack = document.getElementById('slider-track');
+    const paginationDots = document.getElementById('pagination-dots');
+    
+    // 배너에 사용할 이미지 URL 목록
+    // 여기의 이미지를 실제 광고 이미지로 변경하세요.
+    const images = [
+        'https://placehold.co/1200x300/F582A0/FFFFFF?text=광고1',
+        'https://placehold.co/1200x300/52B2BF/FFFFFF?text=광고2',
+        'https://placehold.co/1200x300/F4D03F/FFFFFF?text=광고3'
+    ];
+    
+    // 이미지에 따라 점(dot) 생성
+    images.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        if (index === 0) dot.classList.add('active');
+        paginationDots.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+    let currentIndex = 0;
+    const totalSlides = images.length;
+
+    function updateSlider() {
+        const transformValue = -currentIndex * 100;
+        sliderTrack.style.transform = `translateX(${transformValue}%)`;
+        
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[currentIndex].classList.add('active');
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+    }
+    
+    // 5초마다 자동으로 다음 슬라이드로 이동
+    setInterval(nextSlide, 5000);
+
+    // 점(dot) 클릭 이벤트
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentIndex = index;
+            updateSlider();
+        });
+    });
+
+
 });

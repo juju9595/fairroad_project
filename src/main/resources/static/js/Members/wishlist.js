@@ -37,9 +37,9 @@ const wishlistBox = async () => {
   box.innerHTML = data.map(w => `
     <tr>
       <td style="text-align:center;">
-      <input type="checkbox" class="wish" value="${w.wno ?? w.fno ?? w.id}">
+      <input type="checkbox" class="wish" value="${w.fno}">
       </td>
-          <td>${wishlist.fname}</td>
+          <td>${w.fname}</td>
         </tr>
       `).join('');
 };
@@ -48,19 +48,22 @@ wishlistBox();
 
 // --- 추가: 선택된 체크박스 삭제 ---
 const wishlistDelete = async () => {
-  const ids = [...document.querySelectorAll('.wish:checked')].map(el => el.value);
-  if (ids.length === 0) return; // 선택 없으면 그냥 종료
+  const checked = [...document.querySelectorAll('.wish:checked')];
+  if (checked.length === 0) return;
 
-  await fetch('/member/wishlist/delete', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify{ ids }
-});
-
-  // 삭제 후 목록 다시 로드
-  wishlistBox();
+  // 컨트롤러 베이스 경로 확인하세요.
+  // 아래는 @RequestMapping("/member") 기준입니다.
+  for (const chk of checked) {
+    const fno = chk.value;
+    const option = { method: "DELETE" };
+    // ★ 파라미터 이름 꼭 붙이기: ?fno=값
+    const response = await fetch(`/member/wishlist/delete?fno=${encodeURIComponent(fno)}`, option);
+    const ok = await response.json();
+    // ok가 false면 필요 시 처리
+  }
+  // 삭제 후 목록 새로고침
+  await wishlistBox();
 };
-
 
 
 
