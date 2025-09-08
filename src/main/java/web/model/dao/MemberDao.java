@@ -41,6 +41,24 @@ public class MemberDao extends Dao{
             System.out.println(e);
         }return 0; // 회원가입 실패시 0
     }//func e
+
+
+//---------------------------------------------------------------------------------------
+
+    //특정한 필드/열/컬럼 의 값 중복/존재 확인
+    public boolean check(String type, String data){
+        try{
+            String sql = "select * from members where "+type+" = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, data);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return true;//중복이면 true
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }return false; //중복이 아니면 false
+    }
 //-----------------------------------------------------------------------------------------//
 
     // [2] 로그인
@@ -193,6 +211,8 @@ public class MemberDao extends Dao{
         }return null;
     }//func e
 
+// -----------------------------------------------------------------------------------------//
+
     //[10] 비밀번호 찾기
     public boolean findPwd(Map<String, String>map){
         try{
@@ -208,6 +228,8 @@ public class MemberDao extends Dao{
             return false;
         }
     }//func e
+
+// -----------------------------------------------------------------------------------------//
 
     // [11] 회원탈퇴
     public boolean delete(int mno){

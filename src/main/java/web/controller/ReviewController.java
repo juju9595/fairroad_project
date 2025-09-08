@@ -3,6 +3,7 @@ package web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.PageDto;
@@ -19,24 +20,31 @@ public class ReviewController { // class start
 
     // [1] 방문 리뷰 등록 (로그인 필수)
     @PostMapping("/write")
-    public int reviewWrite( @RequestBody ReviewDto reviewDto , HttpSession session ) {
+    public ResponseEntity<?> reviewWrite(@RequestBody ReviewDto reviewDto, HttpSession session) {
+        // 1. 세션에서 로그인 회원번호 확인
         Integer loginMno = (Integer) session.getAttribute("loginMno");
+        if (loginMno == null) {
+            // 로그인 안 된 경우 -> 401 Unauthorized
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("로그인이 필요합니다.");
+        }
 
-        // 로그인 회원번호 주입
+        // 2. 로그인 회원번호 주입
         reviewDto.setMno(loginMno);
 
-        // rdate가 비어있으면 오늘 날짜로
+        // 3. rdate가 비어있으면 오늘 날짜로
         if (reviewDto.getRdate() == null) {
             reviewDto.setRdate(java.time.LocalDate.now().toString());
         }
 
-        int rno = reviewService.reviewWrite( reviewDto );
+        // 4. 서비스 호출
+        int rno = reviewService.reviewWrite(reviewDto);
         if (rno > 0) {
-            return rno;
+            return ResponseEntity.ok(rno);
         }
-        return 0; //
+        return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body("등록 실패");
     }
-
     // [2] 방문 리뷰 전체 조회
     // spec: GET /fair/review/print (queryString: 없음)
     @GetMapping("/print")
@@ -72,18 +80,25 @@ public class ReviewController { // class start
 
     // [4] 방문 리뷰 수정
     // [PUT 요청] 클라이언트에서 "/update" 주소로 PUT 방식 요청이 들어오면 실행
-    @PutMapping("/review/update")
+    @PutMapping("/update")
     public int reviewUpdate(@RequestBody ReviewDto reviewDto, HttpSession session) {
-        Integer loginMno = (Integer) session.getAttribute("loginMno"); // 로그인한 회원번호
-        if (loginMno == null) return 0; // 로그인 안됨
-        return reviewService.reviewUpdate(reviewDto.getRno(), loginMno, reviewDto.getRtitle(), reviewDto.getRcontent());
+        Integer loginMno = (Integer) session.getAttribute("loginMno");
+        if (loginMno == null) return 0; // 로그인 안됨 → 0
+
+        // rdate 갱신이 필요하면 여기서 처리(선택)
+        return reviewService.reviewUpdate(
+                reviewDto.getRno(),
+                loginMno,
+                reviewDto.getRtitle(),
+                reviewDto.getRcontent()
+        ); // 1: 성공, 0: 실패(권한 없음/존재 안함/유효성 실패)
     }
 
     // [5] 방문 리뷰 삭제
-    @DeleteMapping("/review/delete")
+    @DeleteMapping("")
     public boolean reviewDelete(@RequestParam int rno, HttpSession session) {
         Integer loginMno = (Integer) session.getAttribute("loginMno");
-        if (loginMno == null) return false;
+        if ( loginMno == null ) return false;
         return reviewService.reviewDelete(rno, loginMno);
     }
 

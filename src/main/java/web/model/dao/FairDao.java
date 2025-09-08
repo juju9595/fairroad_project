@@ -145,20 +145,28 @@ public class FairDao extends Dao{
     //-----------------------------------------------------------------------------------------------------------//
 
     //박람회 메인 게시물 전체 정보 조회 [검색]
-    public List<FairDto>fairPrintMainSearch(int startRow,int count,String key, String keyword){
-        List<FairDto> list =  new ArrayList<>();
-        try{
-            String sql = "select *from fair where 1=1 ";
-            if(key.equals("fname")){sql+=" and fname like ? ";}
-            else if(key.equals("finfo")){sql+=" and finfo like ? ";}
-            //페이징 처리
+    public List<FairDto> fairPrintMainSearch(int startRow, int count, String key, String keyword){
+        List<FairDto> list = new ArrayList<>();
+        try {
+            String sql = "select * from fair where 1=1 ";
+
+            boolean useKey = key != null && !key.isEmpty() && keyword != null && !keyword.isEmpty();
+            if(useKey) {
+                // key가 fname, fplace, fprice, finfo 중 하나라고 가정
+                sql += " and " + key + " like ? ";
+            }
+
+            // 페이징 처리
             sql += " order by fno desc limit ?,? ";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,"%"+keyword+"%");
-            ps.setInt(2,startRow);
-            ps.setInt(3,count);
+
+            int idx = 1;
+            if(useKey) ps.setString(idx++, "%" + keyword + "%");
+            ps.setInt(idx++, startRow);
+            ps.setInt(idx++, count);
+
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while(rs.next()) {
                 FairDto fairDto = new FairDto();
                 fairDto.setFno(rs.getInt("fno"));
                 fairDto.setFname(rs.getString("fname"));
@@ -171,12 +179,15 @@ public class FairDao extends Dao{
                 fairDto.setEnd_date(rs.getString("end_date"));
                 fairDto.setFcount(rs.getInt("fcount"));
                 list.add(fairDto);
-            }//while end
+            }
+
             ps.close();
             rs.close();
-        }catch(Exception e){System.out.println("메인화면 전체조회[검색]"+e);}//catch end
+        } catch(Exception e) {
+            System.out.println("메인화면 전체조회[검색] " + e);
+        }
         return list;
-    }//func end
+    }
 
     //-----------------------------------------------------------------------------------------------------------//
 

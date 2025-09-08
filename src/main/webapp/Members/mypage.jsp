@@ -7,6 +7,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="/css/mypage.css" />
 
 </head>
 <body>
@@ -20,6 +21,7 @@
         </ul>
     </div>
 
+    <script src="/js/header.js"></script>
     <jsp:include page="/footer.jsp"></jsp:include>
 
 

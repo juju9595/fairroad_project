@@ -2,7 +2,6 @@ console.log("review.js open");
 
 const findAllReview = async () => {
   try {
-
     const params = new URLSearchParams(window.location.search);
     const fno = params.get("fno");
     if (!fno) {
@@ -10,13 +9,15 @@ const findAllReview = async () => {
       return;
     }
 
+    const response = await fetch(`/fair/review/print?fno=${fno}`); 
+    const pageDto = await response.json();   // PageDto 객체
+    console.log(pageDto);
 
-    const response = await fetch(`/fair/review/print?fno=${fno}`); // 전체 조회 API
-    const data = await response.json();
-    console.log(data)
     const reviewTbody = document.querySelector('.reviewTbody');
     let html = '';
-    data.forEach(review => {
+
+
+    pageDto.data.forEach(review => {
       html += `
         <tr>
           <td>${review.rdate}</td>
@@ -36,6 +37,4 @@ const findAllReview = async () => {
 
 // 페이지 로드시 자동 실행
 findAllReview();
-
-
 

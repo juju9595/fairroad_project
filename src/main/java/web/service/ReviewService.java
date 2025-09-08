@@ -8,6 +8,7 @@ import web.model.dto.PageDto;
 import web.model.dto.ReviewDto;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -16,9 +17,11 @@ public class ReviewService {
     private final ReviewDao reviewDao;
 
     // [1] 방문 리뷰 등록
+    // [1] 방문 리뷰 등록
     public int reviewWrite( ReviewDto reviewDto ){
         return reviewDao.reviewWrite( reviewDto );
     }
+
 
 //    // [2] 방문 리뷰 박람회별 조회
 //    public List< ReviewDto > reviewPrint( int fno ){

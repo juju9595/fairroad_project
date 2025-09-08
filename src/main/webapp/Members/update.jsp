@@ -6,9 +6,7 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <link rel="stylesheet" href="/css/update.css" />
 </head>
 <body>
 
@@ -19,11 +17,13 @@
         <div> 아이디 : <span class="mid"> </span></div>
         <div> 이름 : <span class="mname"></span></div>
         <div> 연락처 : <input class="mphone" /> </div>
-        <div> 주소 : <input class="maddress"/ > </div>
+        <div> 주소 : <input class="maddress"/> </div>
         <button type="button" onclick="onUpdate()"> 정보 변경 </button>
+        <div><a href="/Members/info.jsp">취소</a></div>
     </div>
 
     <jsp:include page="/footer.jsp"></jsp:include>
+    <script src="/js/header.js"></script>
     <script src="/js/Members/update.js"></script>
     
 </body>

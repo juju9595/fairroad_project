@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MembersDto;
 import web.model.dto.WishListDto;
+import web.service.AlarmService;
 import web.service.MembersService;
+import web.websocket.FairNotificationScheduler;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,8 @@ public class MembersController { // class start
 
     @Autowired
     private MembersService membersService;
+    @Autowired
+    private FairNotificationScheduler fairNotificationScheduler;
 
     // [1] 회원가입 구현
     @PostMapping("/signup")
@@ -43,22 +47,30 @@ public class MembersController { // class start
             boolean loginAdmin = (result==1);
             //관리자 세션 저장
             session.setAttribute("loginAdmin",loginAdmin);
+            //
+            fairNotificationScheduler.notifyUpcomingFairs();
         }//if end
         return result;
     }//func e
+//-----------------------------------------------------------------------------------------//
 
+    //중복검사
+    @GetMapping("/check")
+    public boolean check(@RequestParam String type, @RequestParam String data){
+        boolean result = membersService.check(type, data);
+        return result;
+    }
 
 //-----------------------------------------------------------------------------------------//
 
     // [3] 로그아웃 구현
     @GetMapping("/logout")
-    public boolean logout(HttpServletRequest request){
-        HttpSession session = request.getSession(false); // false로 해야 새 세션 생성 방지
-        if(session == null || session.getAttribute("loginMno")==null){
-            return false; // 비로그인 상태
+    public boolean logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // 세션이 있으면 무효화
         }
-        session.removeAttribute("loginMno");
-        return true;
+        return true; // 세션 없더라도 성공 처리
     }
 
 
@@ -131,7 +143,7 @@ public class MembersController { // class start
         boolean result = membersService.wishListDelete(mno, fno);
         return result;
     }//func e
-
+//
 //-----------------------------------------------------------------------------
 
     // [9] 회원번호로 회원 정보 조회
