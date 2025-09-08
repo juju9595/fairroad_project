@@ -56,7 +56,7 @@ const signup = async() =>{
 
 //[2] 아이디중복검사 : 입력할때마다 발동
 const idCheck = async() =>{
-    const mid = document.querySelector('.idInput').value;
+    const mid = document.querySelector('#idInput').value;
     const idCheck = document.querySelector('.idCheck');
     //유효성 검사
     var regExp = /^[a-z]+[a-z0-9]{5,19}$/g;
@@ -81,7 +81,7 @@ const idCheck = async() =>{
 
 //[3] 비밀번호 유효성 검사 : 입력할때마다 발동
 const pwdCheck = async() =>{
-    const mpwd = document.querySelector('.pwdInput').value;
+    const mpwd = document.querySelector('#pwdInput').value;
     const pwdCheck = document.querySelector('.pwdCheck');
     //유효성 검사
     var regPw = /^[0-9a-zA-Z]{8,16}$/;
@@ -94,7 +94,7 @@ const pwdCheck = async() =>{
 
 //[3] 연락처 중복 검사 : 입력할때마다 발동
 const phoneCheck = async() =>{
-    const mphone = document.querySelector('.phoneInput').value;
+    const mphone = document.querySelector('#phoneInput').value;
     const phoneCheck = document.querySelector('.phoneCheck');
     //유효성 검사
     if(mphone.length != 13){
@@ -119,7 +119,7 @@ const phoneCheck = async() =>{
 
 //[4] 이메일 중복 검사 : 입력할때마다 발동
 const emailCheck = async() =>{
-    const memail = document.querySelector('.emailInput').value;
+    const memail = document.querySelector('#emailInput').value;
     const emailCheck = document.querySelector('.emailCheck');
     //유효성 검사
     var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
