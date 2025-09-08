@@ -44,7 +44,7 @@ const renderFairDOM = (data) => {
     document.querySelector('.furl').textContent = data.furl;
     document.querySelector('.start_date').textContent = data.start_date;
     document.querySelector('.end_date').textContent = data.end_date;
-    document.querySelector('.finfo').textContent = data.finfo;
+    document.querySelector('.finfo').innerHTML = data.finfo;
 
     
 // 관리자 세션 여부 확인
