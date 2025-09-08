@@ -75,6 +75,8 @@
 
         <!-- JS -->
         <script src="/js/index.js"></script>
+        <script src="/js/Members/position.js"></script>
+    
 
     </body>
 

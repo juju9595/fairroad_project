@@ -9,8 +9,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-    @Repository
+@Repository
     public class ReviewDao extends Dao{
         // [1] 방문 리뷰 등록
         public int reviewWrite(ReviewDto reviewDto) {
