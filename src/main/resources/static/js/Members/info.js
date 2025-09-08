@@ -13,7 +13,7 @@ const onInfo = async() =>{
         document.querySelector('.mbirth').innerHTML = data.mbirth;
         document.querySelector('.memail').innerHTML = data.memail;
         document.querySelector('.maddress').innerHTML = data.maddress;
-        document.querySelector('joindate').innerHTML = data.joindate;
+        document.querySelector('.joindate').innerHTML = data.joindate;
     }catch(error){console.log(error)
     }
 }//func e

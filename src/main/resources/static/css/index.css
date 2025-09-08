@@ -1,76 +1,274 @@
-/* ===== 공통: 414px 고정 ===== */
-html, body { margin:0; padding:0; }
-body{
-  width:414px;
-  margin:0 auto;
-  background:#f3f4f6;
-  font:14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "맑은 고딕", sans-serif;
-  color:#111;
-  overflow-x:hidden;
+/* 전체 레이아웃 기본 */
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #fff;
+  color: #333;
 }
 
-/* 헤더/푸터와 간격 */
-.category, .banner, .content { box-sizing:border-box; }
-
-/* ===== 카테고리 탭 ===== */
-.category{ padding:8px 12px 4px; background:#fff; border-bottom:1px solid #e5e7eb; }
-.category ul{
-  list-style:none; margin:0; padding:0;
-  display:flex; gap:8px; overflow-x:auto; /* 가로 스크롤 */
-}
-.category li{
-  white-space:nowrap;
-  padding:8px 12px;
-  background:#f9fafb;
-  border:1px solid #e5e7eb;
-  border-radius:999px;
-  font-size:13px;
-}
-
-/* ===== 배너 ===== */
-.banner{ padding:12px; }
-.banner::before{
-  content:""; display:block; width:100%; height:160px;
-  background:#fff url('/img/banner.jpg') center/cover no-repeat;
-  border-radius:14px; box-shadow:0 2px 10px rgba(0,0,0,.06);
-}
-
-/* ===== 콘텐츠 카드 2열 ===== */
-.content{
-  padding:4px 12px 18px;
-  display:grid; grid-template-columns:1fr 1fr; gap:12px;
-}
-
-/* ===== 박람회 카드 ===== */
-.fair-list { list-style:none; margin:0 auto; padding:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:12px; width: 380px; }
-.fair-item { background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.06); }
-.fair-item img.fair-img { width:100%; height:auto; display:block; }
-.fair-info { padding:10px 12px 12px; }
-.fair-name { font-size:13px; font-weight:700; line-height:1.25; margin:0 0 4px; }
-.fair-place, .fair-price, .fair-count { font-size:12px; color:#6b7280; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin:2px 0; }
-.fair-item a { text-decoration:none; color:inherit; display:block; }
-
-/* ===== 지역 선택 select ===== */
-#regionSelect {
-  width: 100%;           /* 부모 너비 기준 */
-  max-width: 100%;       /* 넘치지 않게 */
-  padding: 6px 8px;
-  margin-bottom: 12px;   /* 아래 간격 */
-  font-size: 14px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-sizing: border-box;
+/* 상단 헤더 */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
   background: #fff;
-  appearance: none;      /* 모바일 기본 화살표 제거 (선택사항) */
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-/* label 정리 */
-label[for="regionSelect"] {
-  display: block;
+.top .menu svg,
+.top .search svg {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.logo img {
+  height: 40px;
+}
+
+/* 카테고리 */
+.category ul {
+    display: flex; /* 가로로 정렬 */
+    justify-content: center;
+    align-items: center;
+    list-style: none; /* 리스트 점 제거 */
+    padding: 0;
+    margin: 20px 0;
+    flex-wrap: wrap; /* 카테고리가 많아지면 자동으로 줄바꿈 */
+}
+.category li {
+    margin: 5px 10px; /* 각 항목 간 간격 설정 */
+}
+.category a {
+    display: flex; /* 아이콘과 텍스트 정렬 */
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    text-decoration: none; /* 밑줄 제거 */
+    color: #555;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+.category a:hover {
+    background-color: #f9dcdc; /* 호버 효과 */
+    color: #000;
+}
+.category a i {
+    margin-right: 8px; /* 아이콘과 텍스트 간격 */
+    color: #999; /* 아이콘 색상 */
+    font-size: 1.1em;
+}
+
+/* 배너 */
+.banner {
+  margin: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f9dcdc; /* 배너 자리 임시 */
+  height: 120px;
+}
+
+/* 검색 바 */
+.search-bar {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 12px;
+}
+
+.search-bar select,
+.search-bar input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #333;
+}
+
+.search-bar button {
+  padding: 8px 16px;
+  background: #e6005c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 지역 선택 select 박스 스타일 */
+#regionSelect {
+padding: 10px;
+border-radius: 8px;
+border: 1px solid #ddd;
+background-color: #f9f9f9;
+color: #555;
+font-size: 14px;
+cursor: pointer;
+}
+
+/* 추천 박람회 */
+/* 추천 이벤트와 유사한 그리드 레이아웃으로 변경 */
+.fair-list {
+    display: grid;
+    /* 3열로 변경, 간격은 12px */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto; /* 가로 스크롤 가능하도록 */
+    white-space: nowrap; /* 항목이 한 줄에 오도록 */
+}
+
+/* 각 항목의 스타일 */
+.fair-item {
+    display: inline-block; /* 한 줄에 여러 아이템을 표시 */
+    width: 100%; /* 부모에 따라 너비 꽉 채움 */
+    vertical-align: top;
+    box-shadow: none; /* 그림자 제거 */
+    border: none; /* 테두리 제거 */
+}
+
+.fair-item a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+}
+
+/* 이미지 스타일 */
+.fair-item img {
+    width: 100%;
+    height: auto; /* 이미지 비율 유지 */
+    object-fit: cover;
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* 텍스트 정보 스타일 */
+.fair-info {
+    padding: 8px 0; /* 패딩 조정 */
+    font-size: 14px;
+    white-space: normal; /* 텍스트 줄바꿈 허용 */
+}
+
+/* 이벤트 이름 스타일 */
+.fair-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 16px;
+}
+
+/* 추가 정보 (날짜 등) 스타일 */
+.fair-date {
+    font-size: 13px;
+    color: #888;
+}
+
+/* 기존 불필요한 정보 숨김 */
+.fair-place, .fair-price, .fair-count {
+    display: none;
+}
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 20px 0;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
+/* --- 배너 슬라이더 --- */
+.banner-slider {
+    margin: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 120px; /* 배너의 높이 */
+    position: relative;
+}
+
+.slider-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+.slide {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pagination-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.dot.active {
+    opacity: 1;
+}
+
+
+/* 푸터 */
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px;
+  background: #f9f9f9;
+  list-style: none;
+  margin: 0;
+}
+
+.footer li a {
   font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 4px;
+  color: #666;
+  text-decoration: none;
 }
 
-
-
+.copy {
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  color: #aaa;
+}

@@ -6,9 +6,7 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <link rel="stylesheet" href="/css/pwdupdate.css" />
 </head>
 <body>
 
@@ -24,6 +22,6 @@
 
      <jsp:include page="/footer.jsp"></jsp:include>
      <script src="/js/Members/pwdupdate.js"></script>
-    
+
 </body>
 </html>

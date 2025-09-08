@@ -1,0 +1,136 @@
+body {
+    background-color: #f4f5f8;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.title-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.content-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.getpostname {
+    position: relative;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+}
+
+.getpostname h2 {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    display: inline-block;
+}
+
+.getpostname div {
+    margin-bottom: 12px;
+    font-size: 1em;
+    color: #7f8c8d;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.getpostname div span {
+    font-weight: 500;
+    color: #555;
+}
+
+.getpostname img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.finfo {
+    margin-top: 30px;
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #4a4a4a;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+}
+
+.reviewname {
+    margin-top: 40px;
+}
+
+.reviewname h3 {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.reviewname table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.reviewname th,
+.reviewname td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.reviewname th {
+    background-color: #f9dcdc;
+    color: #333;
+    font-weight: bold;
+}
+
+.reviewname tr:hover {
+    background-color: #fcfcfc;
+}
+
+.wish-button-container {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+/* 버튼, 링크 스타일 통일 및 호버 효과 */
+.getpostname button,
+.reviewname a,
+.etcBox button {
+    background-color: #f9dcdc;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.getpostname button:hover,
+.reviewname a:hover,
+.etcBox button:hover {
+    background-color: #f7b7b7;
+    transform: translateY(-2px);
+}
+
+.getpostname .wish-button-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

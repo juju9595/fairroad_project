@@ -4,9 +4,11 @@ package web;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.File;
 
+@EnableScheduling // 스케줄링 써야해서
 @SpringBootApplication
 @EnableAsync // 비동기 처리 활성화
 public class AppStart { // class start
@@ -28,6 +30,9 @@ public class AppStart { // class start
         } else {
             System.out.println("logs 폴더 이미 존재");
         }
+
+
+        System.out.println("notifyUpcomingFairs 실행됨");
 
 
 
