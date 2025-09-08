@@ -1,6 +1,6 @@
 console.log('signup.js open')
 
-const signPass = [false, false, false, false];
+const signPass = [false, false, false];
 
 const signup = async() =>{
 
@@ -67,7 +67,7 @@ const idCheck = async() =>{
     }
     //중복검사 
     try{const option = {method : "GET"}
-    const response = await fetch(`/members/check?type=mid&data=${mid}`, option);
+    const response = await fetch(`/member/check?type=mid&data=${mid}`, option);
     const data = await response.json();
     //fetch 결과
     if(data == true){
@@ -81,14 +81,15 @@ const idCheck = async() =>{
 
 //[3] 비밀번호 유효성 검사 : 입력할때마다 발동
 const pwdCheck = async() =>{
-    const mpwd = document.querySelector('.pwdInput').value;
-    const pwdCheck = document.querySelector('.pwdCheck');
+    const pwdInput = document.querySelector('.pwdInput');
+    const pwdCheck= document.querySelector('.pwdCheck');
+    //입력된 비밀번호
     //유효성 검사
-    var regPw = /^[0-9a-zA-Z]{8,16}$/;
-    if(!regPw.exec(pwdInput.value)){
+    var regPw = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,16}$/
+    if(regPw.test(pwdInput.value)){
+        pwdCheck.innerHTML = "사용가능한 비밀번호 입니다."
+    }else{
         pwdCheck.innerHTML = "8-16자 대문자+소문자+숫자로 입력해주세요."
-        signPass[1] = false;
-        return;// 함수 종료
     }
 }
 
@@ -99,19 +100,19 @@ const phoneCheck = async() =>{
     //유효성 검사
     if(mphone.length != 13){
         phoneCheck.innerHTML = "-(하이픈) 포함한 13글자 연락처를 입력해주세요."
-        signPass[2] = false;
+        signPass[1] = false;
         return;//함수 종료
     }
     //중복검사
     try{
         const option = { method : "GET"}
-        const response = await fetch(`/members/check?type=mphone&data=${mphone}`, option);
+        const response = await fetch(`/member/check?type=mphone&data=${mphone}`, option);
         const data = await response.json();
     if(data == true)
     {phoneCheck.innerHTML = "사용중인 연락처 입니다.";
-        signPass[2] = false;
+        signPass[1] = false;
     }else{phoneCheck.innerHTML = "사용가능한 연락처 입니다.";
-        signPass[2] = true;
+        signPass[1] = true;
     }
 }catch(error){console.log(error)}
 }
@@ -123,21 +124,21 @@ const emailCheck = async() =>{
     const emailCheck = document.querySelector('.emailCheck');
     //유효성 검사
     var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-    if(!regEmail.exec(emailInput.value)){
+    if(!regEmail.test(emailInput.value)){
         emailCheck.innerHTML = "이메일형식이 올바르지 않습니다.";
-        signPass[3] = false;
+        signPass[2] = false;
         return;//함수 종료
     }
     //중복검사
     try{
         const option = {method : "GET"}
-        const response = await fetch(`/members/check?type=memail&data=${memail}`, option);
+        const response = await fetch(`/member/check?type=memail&data=${memail}`, option);
         const data = await response.json();
         if(data == true)
         {emailCheck.innerHTML = "사용중인 이메일 입니다.";
-            signPass[3] = false;
+            signPass[2] = false;
         }else{emailCheck.innerHTML = "사용가능한 이메일 입니다.";
-            signPass[3] = true;
+            signPass[2] = true;
         }
     }catch(error){console.log('error')}
 }

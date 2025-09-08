@@ -48,7 +48,7 @@ public class MemberDao extends Dao{
     //특정한 필드/열/컬럼 의 값 중복/존재 확인
     public boolean check(String type, String data){
         try{
-            String sql = "select * from member where "+type+" = ?";
+            String sql = "select * from members where "+type+" = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, data);
             ResultSet rs = ps.executeQuery();

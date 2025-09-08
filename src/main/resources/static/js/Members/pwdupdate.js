@@ -22,10 +22,10 @@ const onPwdUpdate = async()=>{
         const data = await response.json();
 
         if( data == true ){
-            alert("비밀번호 수정 성공~~ 다시 로그인해주세요.");
+            alert("비밀번호가 변경되었습니다. 다시 로그인해주세요.");
               location.href= "/Members/login.jsp"
         }else{
-            alert("현재 비밀번호 가 일치하지 않습니다. ");
+            alert("현재 비밀번호가 일치하지 않습니다. ");
         }
     }catch(error){econsole.log('error');
     }

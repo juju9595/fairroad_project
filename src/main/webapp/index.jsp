@@ -45,20 +45,7 @@
 
 
 
-    <!-- 세션에서 mno 내려주기 -->
-    <c:if test="${not empty sessionScope.loginMno}">
-        <div id="alarmBox"
-            style="border:1px solid #ccc; padding:10px; margin:10px 0; width:350px; height:150px; overflow-y:auto; background:#fafafa;">
-            📭 아직 도착한 알림이 없습니다.
-        </div>
-        <script>
-            // 세션에서 mno 가져오기
-            const loginMno = "${sessionScope.loginMno}";
-            // JS에서 사용하기 위해 전역 변수로 선언
-            window.loginMno = loginMno;
-        </script>
-        <script src="/js/Alarm/alarm.js"></script>
-    </c:if>
+
 
 
 

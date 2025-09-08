@@ -17,23 +17,23 @@
 
         <div id="container">
 
-            <input onkeyup="idCheck()" type="text" id="idInput" placeholder="아이디 입력">
+            <input onkeyup="idCheck()" type="text" class="idInput" id ="idInput" placeholder="아이디 입력">
             <div class="idCheck"></div>
 
-            <input onkeyup="pwdCheck()" type="password" id="pwdInput" placeholder="비밀번호 입력">
+            <input onkeyup="pwdCheck()" type="password" class="pwdInput" id="pwdInput" placeholder="비밀번호 입력">
             <div class="pwdCheck"></div>
 
-            <input type="text" id="nameInput" placeholder="이름 입력">
+            <input type="text" class="nameInput" id="nameInput" placeholder="이름 입력">
 
-            <input type="text" id="birthInput" placeholder="생년월일 (YYYYMMDD)">
+            <input type="text" class="birthInput" id="birthInput" placeholder="생년월일 (YYYYMMDD)">
 
-            <input onkeyup="phoneCheck()" type="text" id="phoneInput" placeholder="연락처 입력">
+            <input onkeyup="phoneCheck()" type="text" class="phoneInput" id="phoneInput" placeholder="연락처 입력">
             <div class="phoneCheck"></div>
 
-            <input onkeyup="emailCheck()" type="text" id="emailInput" placeholder="이메일 입력">
+            <input onkeyup="emailCheck()" type="text" class="emailInput" id="emailInput" placeholder="이메일 입력">
             <div class="emailCheck"></div>
 
-            <input type="text" id="addressInput" placeholder="주소 입력">
+            <input type="text" class="addressInput" id="addressInput" placeholder="주소 입력">
 
             <button type="button" onclick="signup()">회원가입</button>
 
@@ -46,6 +46,7 @@
 
 
         <jsp:include page="/footer.jsp"></jsp:include>
+        <script src="/js/header.js"></script>
         <script src="/js/Members/signup.js"></script>
 
 

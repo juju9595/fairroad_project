@@ -26,6 +26,7 @@
         <a href="#" onclick="onDelete()"> 회원탈퇴 </a> <br/>
      </div>
 
+     <script src="/js/header.js"></script>
      <script src="/js/Members/info.js"></script>
 
     <jsp:include page="/footer.jsp"></jsp:include>
