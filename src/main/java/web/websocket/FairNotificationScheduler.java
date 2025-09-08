@@ -29,7 +29,7 @@ public class FairNotificationScheduler extends Dao {
         this.alarmService = alarmService;   // DB 저장용
         this.socketHandler = socketHandler; // 웹소켓 전송용
     }
-
+    //
     // [3] 3분마다 실행되는 스케줄러
     // cron = "0 */3 * * * *"
     // 초(0), 분(3분마다), 시, 일, 월, 요일

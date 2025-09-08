@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MembersDto;
 import web.model.dto.WishListDto;
+import web.service.AlarmService;
 import web.service.MembersService;
+import web.websocket.FairNotificationScheduler;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,8 @@ public class MembersController { // class start
 
     @Autowired
     private MembersService membersService;
+    @Autowired
+    private FairNotificationScheduler fairNotificationScheduler;
 
     // [1] 회원가입 구현
     @PostMapping("/signup")
@@ -43,6 +47,8 @@ public class MembersController { // class start
             boolean loginAdmin = (result==1);
             //관리자 세션 저장
             session.setAttribute("loginAdmin",loginAdmin);
+            //
+            fairNotificationScheduler.notifyUpcomingFairs();
         }//if end
         return result;
     }//func e

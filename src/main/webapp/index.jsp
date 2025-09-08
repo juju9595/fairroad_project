@@ -43,40 +43,51 @@
             <div class="pagination-dots" id="pagination-dots"></div>
         </div>
 
-        <div class="content-wrapper">
-            <div class="search-bar">
-                <select id="searchKey">
-                    <option value="fname"> 박람회 제목 </option>
-                    <option value="fplace">장소</option>
-                    <option value="finfo">상세정보</option>
-                </select>
-                <input type="text" id="searchInput" placeholder="검색어 입력">
-                <button id="searchBtn">검색</button>
-            </div>
 
-            <h2 id="pageTitle">박람회 목록</h2>
-            <div class="content" id="content">
-                <!-- JS가 fetch로 가져온 리스트 렌더링 -->
-            </div>
-            <div id="pagination" class="pagination"></div>
+
+    <!-- 세션에서 mno 내려주기 -->
+    <c:if test="${not empty sessionScope.loginMno}">
+        <div id="alarmBox"
+            style="border:1px solid #ccc; padding:10px; margin:10px 0; width:350px; height:150px; overflow-y:auto; background:#fafafa;">
+            📭 아직 도착한 알림이 없습니다.
         </div>
-
-
         <script>
-            // 서버 세션에서 loginMno 내려주기 (EL 사용 예시)
+            // 세션에서 mno 가져오기
             const loginMno = "${sessionScope.loginMno}";
+            // JS에서 사용하기 위해 전역 변수로 선언
+            window.loginMno = loginMno;
         </script>
         <script src="/js/Alarm/alarm.js"></script>
+    </c:if>
 
 
 
-        <script src="/js/Members/mypage.js"></script>
-        <jsp:include page="/footer.jsp"></jsp:include>
 
-        <!-- JS -->
-        <script src="/js/index.js"></script>
-        <script src="/js/Members/position.js"></script>
-    
+    <div class="content-wrapper">
+        <div class="search-bar">
+            <select id="searchKey">
+                <option value="fname"> 박람회 제목 </option>
+                <option value="fplace">장소</option>
+                <option value="finfo">상세정보</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="검색어 입력">
+            <button id="searchBtn">검색</button>
+        </div>
+
+        <h2 id="pageTitle">박람회 목록</h2>
+        <div class="content" id="content">
+            <!-- JS가 fetch로 가져온 리스트 렌더링 -->
+        </div>
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <script src="/js/Members/mypage.js"></script>
+    <jsp:include page="/footer.jsp"></jsp:include>
+
+    <!-- JS -->
+    <script src="/js/index.js"></script>
+    <script src="/js/Alarm/alarm.js"></script>
+    <script src="/js/Members/position.js"></script>
 
     </body>
 
