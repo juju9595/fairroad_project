@@ -45,7 +45,9 @@
 
         </div>
 
-        <script src="js/header.js"></script>
+      
+        <!-- 1) 루트 기준 절대경로로 header.jsp -->
+        <script src="/js/header.js" defer></script>
     </body>
 
     </html>

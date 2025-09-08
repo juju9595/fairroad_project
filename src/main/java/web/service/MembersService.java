@@ -25,6 +25,14 @@ public class MembersService {
 
 //-----------------------------------------------------------------------------------------//
 
+    //중복검사
+    public boolean check(String type, String data){
+        boolean result = memberDao.check(type, data);
+        return result;
+    }
+
+//-----------------------------------------------------------------------------------------//
+
     // [2] 로그인
     public int login(MembersDto membersDto){
         int result = memberDao.login(membersDto);
