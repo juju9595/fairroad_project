@@ -46,6 +46,7 @@
 
 
         <jsp:include page="/footer.jsp"></jsp:include>
+        <script src="/js/header.js"></script>
         <script src="/js/Members/signup.js"></script>
 
 
