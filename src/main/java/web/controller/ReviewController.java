@@ -3,11 +3,14 @@ package web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.PageDto;
 import web.model.dto.ReviewDto;
 import web.service.ReviewService;
+
+import java.util.Map;
 
 
 @RestController
@@ -19,22 +22,29 @@ public class ReviewController { // class start
 
     // [1] 방문 리뷰 등록 (로그인 필수)
     @PostMapping("/write")
-    public int reviewWrite( @RequestBody ReviewDto reviewDto , HttpSession session ) {
+    public ResponseEntity<?> reviewWrite(@RequestBody ReviewDto reviewDto, HttpSession session) {
+        // 1. 세션에서 로그인 회원번호 확인
         Integer loginMno = (Integer) session.getAttribute("loginMno");
-
-        // 로그인 회원번호 주입
+        if (loginMno == null) {
+            // 로그인 안 된 경우 -> 401 Unauthorized
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("로그인이 필요합니다.");
+        }
+        // 2. 로그인 회원번호 주입
         reviewDto.setMno(loginMno);
 
-        // rdate가 비어있으면 오늘 날짜로
+        // 3. rdate가 비어있으면 오늘 날짜로
         if (reviewDto.getRdate() == null) {
             reviewDto.setRdate(java.time.LocalDate.now().toString());
         }
 
-        int rno = reviewService.reviewWrite( reviewDto );
+        // 4. 서비스 호출
+        int rno = reviewService.reviewWrite(reviewDto);
         if (rno > 0) {
-            return rno;
+            return ResponseEntity.ok(rno);
         }
-        return 0; //
+        return ResponseEntity.status( HttpStatus.INTERNAL_SERVER_ERROR ).body("등록 실패");
     }
 
     // [2] 방문 리뷰 전체 조회

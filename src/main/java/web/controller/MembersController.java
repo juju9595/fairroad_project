@@ -46,7 +46,14 @@ public class MembersController { // class start
         }//if end
         return result;
     }//func e
+//-----------------------------------------------------------------------------------------//
 
+    //중복검사
+    @GetMapping("/check")
+    public boolean check(@RequestParam String type, @RequestParam String data){
+        boolean result = membersService.check(type, data);
+        return result;
+    }
 
 //-----------------------------------------------------------------------------------------//
 
