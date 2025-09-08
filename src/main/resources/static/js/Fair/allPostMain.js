@@ -26,7 +26,7 @@ const allPostMain = async () =>{
 // 서버에서 내려온 data.data 배열 순회
 data.data.forEach((fair) => {
     // 기본 이미지 경로 (만약 fimg가 없을 때 보여줄 이미지)
-    let imgPath = '/img/noimage.png'; 
+    let imgPath = '/img/noimage.png';
 
     // fimg 값이 존재할 경우에만 경로를 다시 설정
     if (fair.fimg) {

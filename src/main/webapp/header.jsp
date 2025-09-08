@@ -15,10 +15,9 @@
         <%
             Integer memberNo = (Integer) session.getAttribute("loginMno");
             Boolean isAdmin = (Boolean) session.getAttribute("loginAdmin");
-
             boolean isMember = (memberNo != null);
         %>
-        <div class="top">
+
             <div class="menu"
             data-is-member="<%= isMember ? "true" : "false" %>"
            data-member-no="<%= (memberNo != null) ? memberNo : "" %>">
