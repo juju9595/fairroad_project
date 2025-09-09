@@ -28,7 +28,7 @@
             </a>
 
             <!-- 로그인 메뉴 -->
-            <ul id="log-menu" style="display: none;">
+            <ul id="log-menu">
                 <!-- JS에서 fetch로 로그인 상태 받아서 내용 채움 -->
             </ul>
         </div>
