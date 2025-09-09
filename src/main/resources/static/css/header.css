@@ -213,7 +213,15 @@ body {
     background-color: white;
 
 }
+.banner2_img{
+    width: 260px;
+    margin: 70px 0px 0px 10px;
 
+}
+.qrcode{
+    width: 100px;
+    margin: 0px 0px 0px 15px;
+}
 /* @media only screen and (min-width: 1080px) {
     .banner2 {
         position: none;
