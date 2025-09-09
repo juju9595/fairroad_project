@@ -8,8 +8,6 @@
         <title>박람회 상세 페이지</title>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <link rel="stylesheet" href="/css/getPost.css" />
-        <link rel="stylesheet" href="/css/header.css">
-        <link rel="stylesheet" href="/css/footer.css">
 
     </head>
 

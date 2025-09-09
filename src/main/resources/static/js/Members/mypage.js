@@ -26,7 +26,7 @@ const myinfo = async () => {
         console.error('myinfo fetch 에러:', error);
     }
     logMenu.innerHTML = html;
-    logMenu.style.display = "flex"; // 회원일 때 보이게
+    logMenu.style.display = "none"; // 회원일 때 보이게
 }
 myinfo();
 

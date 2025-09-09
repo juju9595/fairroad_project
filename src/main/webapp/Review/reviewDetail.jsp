@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>리뷰 상세 조회</title>
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/footer.css">
+
 </head>
 <body>
     <jsp:include page="/header.jsp"></jsp:include>
