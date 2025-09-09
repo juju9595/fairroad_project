@@ -15,39 +15,51 @@
         <jsp:include page="/header.jsp"></jsp:include>
         <div class="getpostname">
             <div class="title-container">
-                <div>제목 : <span class="fname"> </div>
+
+                <img src="/img/icon.jpg" alt="아이콘" />
+                <div class="fname"> </div>
+
                 <button type="button" onclick="wishWrite()">즐겨찾기</button>
             </div>
-            </span>조회수:<span class="fcount"></span>
-            <div>이미지 : <span class="fimg"></span></div>
-            <div>가격 : <span class="fprice"></span></div>
-            <div>URL : <span class="furl"></span></div>
-            <div>개최일 : <span class="start_date"></span></div>
-            <div>마감일 : <span class="end_date"></span></div>
+            <div class="countf">조회수: <span class="fcount"></span></div>
+            <div class="imgf"><span class="fimg"></span></div>
+            <div class="pricef">가격 : <span class="fprice"></span></div>
+            <div class="urlf">URL : <span class="furl"></span></div>
+            <div class="date-container">
+                <div class="date_start">
+                    <span class="label">개최일</span>
+                    <span class="start_date"></span>
+                </div>
+                <div class="date_end">
+                    <span class="label">마감일</span>
+                    <span class="end_date"></span>
+                </div>
+            </div>
+
             <div class="finfo">
                 <!--상세정보-->
             </div>
             <div class="etcBox">
                 <!-- 수정 버튼 생기는곳-->
             </div>
-            
+
         </div>
-        
 
-            <div class="reviewname">
-                <h3> 방문 리뷰 전체 조회 </h3>
-                <a href="/Review/reviewWrite.jsp?fno=${param.fno}"> 등록페이지로 이동하기 </a>
-                <table border="1" cellpadding="6" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th> 작성날짜 </th>
-                            <th> 리뷰제목 </th>
-                        </tr>
-                    </thead>
-                    <tbody class="reviewTbody">
 
-                    </tbody>
-                </table>
+        <div class="reviewname">
+            <h3> 방문 리뷰 전체 조회 </h3>
+            <a href="/Review/reviewWrite.jsp?fno=${param.fno}"> 등록페이지로 이동하기 </a>
+            <table border="1" cellpadding="6" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th> 작성날짜 </th>
+                        <th> 리뷰제목 </th>
+                    </tr>
+                </thead>
+                <tbody class="reviewTbody">
+
+                </tbody>
+            </table>
 
         </div>
         <jsp:include page="/footer.jsp"></jsp:include>
