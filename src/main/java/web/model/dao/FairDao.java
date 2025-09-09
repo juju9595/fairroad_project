@@ -100,6 +100,8 @@ public class FairDao extends Dao{
                 fairDto.setFprice(rs.getInt("fprice"));
                 fairDto.setFno(rs.getInt("fno"));
                 fairDto.setFplace(rs.getString("fplace"));
+                fairDto.setStart_date(rs.getString("start_date"));
+                fairDto.setEnd_date(rs.getString("end_date"));
                 list.add(fairDto);
 
             }//while end
