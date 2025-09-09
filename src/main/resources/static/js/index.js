@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const memberNo = sessionStorage.getItem("memberNo") ? parseInt(sessionStorage.getItem("memberNo")) : null;
 
     let currentPage = 1;
-    const countPerPage = 6;
+    let countPerPage = isMember ? 6 : 1000; // 회원이면 6개씩, 비회원이면 충분히 많이
     let currentKey = "";
     let currentKeyword = "";
     let currentCategoryUrl = "";
