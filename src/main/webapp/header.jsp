@@ -62,6 +62,11 @@
         <button type="button" id="close-search">✖</button>
     </div>
 
+
+    <div class="banner2">
+        <img src="../resources/static/img/아이콘.png" alt="아이콘">
+    </div>
+
     <script src="/js/header.js" defer></script>
 </body>
 </html>
