@@ -97,6 +97,7 @@ public class FairController { // class start
                                  @RequestParam (defaultValue = "5")int count,
                                  @RequestParam (required = false) String key,
                                  @RequestParam (required = false) String keyword,
+                                 @RequestParam (required = false) List<Integer> showFno ,
                                  HttpSession session){
         // 세션에서 회원번호(mno) 확인
         Integer mno = (Integer) session.getAttribute("loginMno");
@@ -104,10 +105,10 @@ public class FairController { // class start
         // 회원이면 알고리즘 , 비회원이면 전체 조회
         if(mno != null ){
             // 회원이면
-            return recommendService.getRecommendationsPaged(mno , page , count , key ,keyword);
+            return recommendService.getRecommendationsPaged(mno , page , count , key ,keyword , showFno);
         }else {
             // 비회원이면
-            return fairService.fairMainPrint(page , count , key , keyword);
+            return fairService.fairMainPrint(page , count , key , keyword , showFno);
         } // if e
 
     } // func e
