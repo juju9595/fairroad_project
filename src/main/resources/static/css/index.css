@@ -32,54 +32,105 @@ body {
 
 /* 카테고리 */
 .category ul {
-    display: flex; /* 가로로 정렬 */
-    justify-content: center;
-    align-items: center;
-    list-style: none; /* 리스트 점 제거 */
-    padding: 0;
-    margin: 20px 0;
-    flex-wrap: wrap; /* 카테고리가 많아지면 자동으로 줄바꿈 */
+  display: flex;
+  /* 가로로 정렬 */
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  /* 리스트 점 제거 */
+  padding: 0;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  /* 카테고리가 많아지면 자동으로 줄바꿈 */
 }
+
 .category li {
-    margin: 5px 10px; /* 각 항목 간 간격 설정 */
+  margin: 5px 10px;
+  /* 각 항목 간 간격 설정 */
 }
+
 .category a {
-    display: flex; /* 아이콘과 텍스트 정렬 */
-    align-items: center;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    text-decoration: none; /* 밑줄 제거 */
-    color: #555;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  /* 아이콘과 텍스트 정렬 */
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  text-decoration: none;
+  /* 밑줄 제거 */
+  color: #555;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
 }
+
 .category a:hover {
-    background-color: #f9dcdc; /* 호버 효과 */
-    color: #000;
+  background-color: #f9dcdc;
+  /* 호버 효과 */
+  color: #000;
 }
+
 .category a i {
-    margin-right: 8px; /* 아이콘과 텍스트 간격 */
-    color: #999; /* 아이콘 색상 */
-    font-size: 1.1em;
+  margin-right: 8px;
+  /* 아이콘과 텍스트 간격 */
+  color: #999;
+  /* 아이콘 색상 */
+  font-size: 1.1em;
 }
+
 /* 각 아이콘에 고유 색상 부여 */
-.category li:nth-child(1) a i { color: #f26522; } /* 웨딩 (주황) */
-.category li:nth-child(2) a i { color: #52bf90; } /* 베이비 (민트) */
-.category li:nth-child(3) a i { color: #2e86de; } /* 취업 (파랑) */
-.category li:nth-child(4) a i { color: #8a4a2b; } /* 애완 (갈색) */
-.category li:nth-child(5) a i { color: #1e8449; } /* 캠핑 (녹색) */
-.category li:nth-child(6) a i { color: #f1c40f; } /* 인기순 (노랑) */
-.category li:nth-child(7) a i { color: #3498db; } /* 지역 (하늘) */
-.category li:nth-child(8) a i { color: #8e44ad; } /* 최근 본 (보라) */
-.category li:nth-child(9) a i { color: #e74c3c; } /* 내 찜 (빨강) */
+.category li:nth-child(1) a i {
+  color: #f26522;
+}
+
+/* 웨딩 (주황) */
+.category li:nth-child(2) a i {
+  color: #52bf90;
+}
+
+/* 베이비 (민트) */
+.category li:nth-child(3) a i {
+  color: #2e86de;
+}
+
+/* 취업 (파랑) */
+.category li:nth-child(4) a i {
+  color: #8a4a2b;
+}
+
+/* 애완 (갈색) */
+.category li:nth-child(5) a i {
+  color: #1e8449;
+}
+
+/* 캠핑 (녹색) */
+.category li:nth-child(6) a i {
+  color: #f1c40f;
+}
+
+/* 인기순 (노랑) */
+.category li:nth-child(7) a i {
+  color: #3498db;
+}
+
+/* 지역 (하늘) */
+.category li:nth-child(8) a i {
+  color: #8e44ad;
+}
+
+/* 최근 본 (보라) */
+.category li:nth-child(9) a i {
+  color: #e74c3c;
+}
+
+/* 내 찜 (빨강) */
 
 /* 배너 */
 .banner {
   margin: 12px;
   border-radius: 12px;
   overflow: hidden;
-  background: #f9dcdc; /* 배너 자리 임시 */
+  background: #f9dcdc;
+  /* 배너 자리 임시 */
   height: 120px;
 }
 
@@ -104,87 +155,91 @@ body {
   color: #333;
 }
 
-.search-bar button {
-  padding: 8px 16px;
-  background: #e6005c;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
 
 /* 지역 선택 select 박스 스타일 */
 #regionSelect {
-padding: 10px;
-border-radius: 8px;
-border: 1px solid #ddd;
-background-color: #f9f9f9;
-color: #555;
-font-size: 14px;
-cursor: pointer;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 /* 추천 박람회 */
 /* 추천 이벤트와 유사한 그리드 레이아웃으로 변경 */
 .fair-list {
-    display: grid;
-    /* 3열로 변경, 간격은 12px */
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 12px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    overflow-x: auto; /* 가로 스크롤 가능하도록 */
-    white-space: nowrap; /* 항목이 한 줄에 오도록 */
+  display: grid;
+  /* 3열로 변경, 간격은 12px */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-x: auto;
+  /* 가로 스크롤 가능하도록 */
+  white-space: nowrap;
+  /* 항목이 한 줄에 오도록 */
 }
 
 /* 각 항목의 스타일 */
 .fair-item {
-    display: inline-block; /* 한 줄에 여러 아이템을 표시 */
-    width: 100%; /* 부모에 따라 너비 꽉 채움 */
-    vertical-align: top;
-    box-shadow: none; /* 그림자 제거 */
-    border: none; /* 테두리 제거 */
+  display: inline-block;
+  /* 한 줄에 여러 아이템을 표시 */
+  width: 100%;
+  /* 부모에 따라 너비 꽉 채움 */
+  vertical-align: top;
+  box-shadow: none;
+  /* 그림자 제거 */
+  border: none;
+  /* 테두리 제거 */
 }
 
 .fair-item a {
-    display: block;
-    text-decoration: none;
-    color: #333;
+  display: block;
+  text-decoration: none;
+  color: #333;
 }
 
 /* 이미지 스타일 */
 .fair-item img {
-    width: 100%;
-    height: auto; /* 이미지 비율 유지 */
-    object-fit: cover;
-    border-radius: 8px; /* 모서리 둥글게 */
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  height: auto;
+  /* 이미지 비율 유지 */
+  object-fit: cover;
+  border-radius: 8px;
+  /* 모서리 둥글게 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* 텍스트 정보 스타일 */
 .fair-info {
-    padding: 8px 0; /* 패딩 조정 */
-    font-size: 14px;
-    white-space: normal; /* 텍스트 줄바꿈 허용 */
+  padding: 8px 0;
+  /* 패딩 조정 */
+  font-size: 14px;
+  white-space: normal;
+  /* 텍스트 줄바꿈 허용 */
 }
 
 /* 이벤트 이름 스타일 */
 .fair-name {
-    font-weight: bold;
-    margin-bottom: 4px;
-    font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 16px;
 }
 
 /* 추가 정보 (날짜 등) 스타일 */
 .fair-date {
-    font-size: 13px;
-    color: #888;
+  font-size: 13px;
+  color: #888;
 }
 
 /* 기존 불필요한 정보 숨김 */
-.fair-place, .fair-price, .fair-count {
-    display: none;
+.fair-place,
+.fair-price,
+.fair-count {
+  display: none;
 }
 
 /* 페이지네이션 */
@@ -210,52 +265,54 @@ cursor: pointer;
 
 /* --- 배너 슬라이더 --- */
 .banner-slider {
-    margin: 12px;
-    border-radius: 12px;
-    overflow: hidden;
-    height: 120px; /* 배너의 높이 */
-    position: relative;
+  margin: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 120px;
+  /* 배너의 높이 */
+  position: relative;
 }
 
 .slider-track {
-    display: flex;
-    height: 100%;
-    transition: transform 0.5s ease-in-out; /* 부드러운 전환 효과 */
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+  /* 부드러운 전환 효과 */
 }
 
 .slide {
-    flex-shrink: 0;
-    width: 100%;
-    height: 100%;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .pagination-dots {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
 }
 
 .dot {
-    width: 8px;
-    height: 8px;
-    background-color: #fff;
-    border-radius: 50%;
-    opacity: 0.5;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
 }
 
 .dot.active {
-    opacity: 1;
+  opacity: 1;
 }
 
 
