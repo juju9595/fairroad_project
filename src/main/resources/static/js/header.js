@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li><a href="#" id="logoutBtn">로그아웃</a></li>
                 `;
             }
-            logMenu.style.display = "block";
+            logMenu.style.display = "flex";
 
             // 로그아웃 처리
             document.getElementById("logoutBtn").addEventListener("click", function () {
