@@ -10,12 +10,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const memberNo = sessionStorage.getItem("memberNo") ? parseInt(sessionStorage.getItem("memberNo")) : null;
 
     let currentPage = 1;
-    let countPerPage = isMember ? 6 : 1000; // 회원이면 6개씩, 비회원이면 충분히 많이
+    let countPerPage = 6;
     let currentKey = "";
     let currentKeyword = "";
     let currentCategoryUrl = "";
     let loading = false;
     const shownFnoSet = new Set();
+    
+    if (!isMember) {
+        pageTitleEl.textContent = "박람회 목록";
+        currentPage = 1;
+        countPerPage = 1000; // 비회원은 전체 조회
+    } else {
+        pageTitleEl.textContent = "추천 박람회";
+        currentPage = 1;
+        countPerPage = 6; // 회원은 6개씩
+    }
 
     // ===============================
     // fetch JSON
