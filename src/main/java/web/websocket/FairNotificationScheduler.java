@@ -35,7 +35,7 @@ public class FairNotificationScheduler extends Dao {
     // 초(0), 분(3분마다), 시, 일, 월, 요일
     @Scheduled(cron = "0 */1 * * * *")
     public void notifyUpcomingFairs() {
-
+        //
         // [4] 위시리스트 + 박람회 테이블 조인
         // 시작일이 오늘 기준 3일 후인 박람회 조회
         String sql =
