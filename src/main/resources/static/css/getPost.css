@@ -65,7 +65,12 @@ body {
     background-color: #f9f9f9;
     border-radius: 6px;
 }
-
+<!--가로사이즈 크기맞춤-->
+.finfo img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+}
 .reviewname {
     margin-top: 40px;
 }
