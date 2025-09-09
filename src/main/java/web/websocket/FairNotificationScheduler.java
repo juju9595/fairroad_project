@@ -33,7 +33,7 @@ public class FairNotificationScheduler extends Dao {
     // [3] 3분마다 실행되는 스케줄러
     // cron = "0 */3 * * * *"
     // 초(0), 분(3분마다), 시, 일, 월, 요일
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "0 */10 * * * *")
     public void notifyUpcomingFairs() {
         //
         // [4] 위시리스트 + 박람회 테이블 조인

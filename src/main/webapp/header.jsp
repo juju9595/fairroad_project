@@ -64,7 +64,8 @@
 
 
     <div class="banner2">
-        <img src="../resources/static/img/아이콘.png" alt="아이콘">
+        <img class="banner2_img" src="/img/배너사진.png">
+        <img class="qrcode" src="/img/큐알코드.png">
     </div>
 
     <script src="/js/header.js" defer></script>
