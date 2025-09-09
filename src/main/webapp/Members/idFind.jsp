@@ -30,7 +30,6 @@
         <div id="resultId"></div>
 
         <jsp:include page="/footer.jsp"></jsp:include>
-        <script src="/js/header.js"></script>
         <script src="/js/Members/idFind.js"></script>
     </body>
 

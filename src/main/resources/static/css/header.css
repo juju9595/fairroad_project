@@ -68,7 +68,7 @@ body {
     margin: 0;
     padding: 5px 10px;
     display: none;
-    flex-direction: row; /* 세로 → 가로 */
+    flex-direction: column; /* 가로 → 세로 */
     gap: 6px; /* 메뉴 간 간격 */
     background: #fff;
     border: 1px solid #ddd;

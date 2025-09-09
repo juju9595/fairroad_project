@@ -59,23 +59,23 @@ create table fair(
     foreign key(cno) references category(cno)
 );
 
-insert into fair ( cno , fname , fimg , fplace , fprice , furl , finfo , start_date , end_date , fcount) values
-(1, '서울 국제 게임 전시회 2025', 'https://example.com/images/gamefair2025.jpg', '서울 코엑스', 15000, 'https://www.seoulgamefair2025.com', '최신 게임과 VR 체험, e스포츠 경기 등을 즐길 수 있는 대규모 전시회입니다.', '2025-09-10', '2025-09-15', 87),
-(2, '부산 커피&디저트 박람회', 'https://example.com/images/coffeeexpo2025.jpg', '부산 벡스코', 12000, 'https://www.busancoffeeexpo.com', '국내외 다양한 커피와 디저트 브랜드가 참가하는 박람회입니다.', '2025-06-05', '2025-06-07', 16),
-(3, '대구 국제 뷰티 박람회', 'https://example.com/images/beautyexpo2025.jpg', '대구 EXCO', 10000, 'https://www.daegubeautyexpo.com', '최신 뷰티 제품과 화장품 체험 프로그램 제공.', '2025-07-15', '2025-07-18', 21),
-(4, '광주 친환경 농업 박람회', 'https://example.com/images/agroexpo2025.jpg', '광주 김대중컨벤션센터', 8000, 'https://www.gwangjuagroexpo.com', '친환경 농산물과 농업 기술을 소개하는 박람회.', '2025-05-20', '2025-05-23', 23),
-(5, '인천 스마트 시티 전시회', 'https://example.com/images/smartcity2025.jpg', '인천 송도컨벤시아', 20000, 'https://www.incheonsmartcity.com', '스마트 시티 관련 최신 기술과 솔루션 전시.', '2025-10-01', '2025-10-05', 75),
-(1, '서울 국제 자동차 박람회', 'https://example.com/images/car2025.jpg', '서울 삼성동 코엑스', 18000, 'https://www.seoulcarfair2025.com', '최신 자동차와 모빌리티 기술 전시.', '2025-08-10', '2025-08-15', 23),
-(2, '부산 해양 스포츠 박람회', 'https://example.com/images/marinesport2025.jpg', '부산 해운대 해변', 15000, 'https://www.busanmarinesport.com', '해양 스포츠 체험과 장비 전시.', '2025-07-01', '2025-07-03', 73),
-(3, '대전 로봇&AI 박람회', 'https://example.com/images/robotai2025.jpg', '대전 컨벤션센터', 12000, 'https://www.daejeonrobotai.com', '최신 로봇 기술과 AI 솔루션 전시.', '2025-09-20', '2025-09-22', 16),
-(4, '광주 문화 예술 박람회', 'https://example.com/images/cultureexpo2025.jpg', '광주 비엔날레 전시장', 10000, 'https://www.gwangjucultureexpo.com', '국내외 예술 작품과 문화 체험.', '2025-06-10', '2025-06-14', 4),
-(5, '인천 국제 항공 박람회', 'https://example.com/images/airexpo2025.jpg', '인천 송도컨벤시아', 25000, 'https://www.incheonairexpo.com', '항공기 전시와 최신 항공 기술 소개.', '2025-11-05', '2025-11-10', 57),
-(1, '서울 IT 스타트업 박람회', 'https://example.com/images/itstartup2025.jpg', '서울 코엑스', 10000, 'https://www.seoulitstartup.com', '스타트업과 IT 기술을 연결하는 박람회.', '2025-04-10', '2025-04-12', 66),
-(2, '부산 국제 와인 박람회', 'https://example.com/images/wineexpo2025.jpg', '부산 벡스코', 20000, 'https://www.busanwineexpo.com', '전세계 다양한 와인을 시음하고 체험할 수 있는 박람회.', '2025-05-15', '2025-05-18', 31),
-(3, '대구 건강&웰니스 박람회', 'https://example.com/images/healthwellness2025.jpg', '대구 EXCO', 8000, 'https://www.daeguhealthwellness.com', '건강 관련 제품과 웰니스 체험 프로그램.', '2025-08-05', '2025-08-08', 12),
-(4, '광주 전통 공예 박람회', 'https://example.com/images/craftexpo2025.jpg', '광주 김대중컨벤션센터', 5000, 'https://www.gwangjucraftexpo.com', '전통 공예품 전시 및 체험 행사.', '2025-09-01', '2025-09-03', 44),
-(5, '인천 국제 전자기기 박람회', 'https://example.com/images/electroexpo2025.jpg', '인천 송도컨벤시아', 18000, 'https://www.incheonelectro.com', '최신 전자제품과 스마트 기기 전시.', '2025-10-20', '2025-10-25', 3),
-(5,'테스트 게임 박람회','https://example.com/testfair.jpg','서울 코엑스',10000,'https://www.testfair.com','테스트 알림용 박람회입니다.','2025-09-11','2025-09-12',0);
+insert into fair ( cno , fname , fplace , fprice , furl , finfo , start_date , end_date , fcount) values
+(1, '서울 국제 게임 전시회 2025','서울 코엑스', 15000, 'https://www.seoulgamefair2025.com', '최신 게임과 VR 체험, e스포츠 경기 등을 즐길 수 있는 대규모 전시회입니다.', '2025-09-10', '2025-09-15', 87),
+(2, '부산 커피&디저트 박람회', '부산 벡스코', 12000, 'https://www.busancoffeeexpo.com', '국내외 다양한 커피와 디저트 브랜드가 참가하는 박람회입니다.', '2025-06-05', '2025-06-07', 16),
+(3, '대구 국제 뷰티 박람회', '대구 EXCO', 10000, 'https://www.daegubeautyexpo.com', '최신 뷰티 제품과 화장품 체험 프로그램 제공.', '2025-07-15', '2025-07-18', 21),
+(4, '광주 친환경 농업 박람회', '광주 김대중컨벤션센터', 8000, 'https://www.gwangjuagroexpo.com', '친환경 농산물과 농업 기술을 소개하는 박람회.', '2025-05-20', '2025-05-23', 23),
+(5, '인천 스마트 시티 전시회', '인천 송도컨벤시아', 20000, 'https://www.incheonsmartcity.com', '스마트 시티 관련 최신 기술과 솔루션 전시.', '2025-10-01', '2025-10-05', 75),
+(1, '서울 국제 자동차 박람회', '서울 삼성동 코엑스', 18000, 'https://www.seoulcarfair2025.com', '최신 자동차와 모빌리티 기술 전시.', '2025-08-10', '2025-08-15', 23),
+(2, '부산 해양 스포츠 박람회', '부산 해운대 해변', 15000, 'https://www.busanmarinesport.com', '해양 스포츠 체험과 장비 전시.', '2025-07-01', '2025-07-03', 73),
+(3, '대전 로봇&AI 박람회', '대전 컨벤션센터', 12000, 'https://www.daejeonrobotai.com', '최신 로봇 기술과 AI 솔루션 전시.', '2025-09-20', '2025-09-22', 16),
+(4, '광주 문화 예술 박람회','광주 비엔날레 전시장', 10000, 'https://www.gwangjucultureexpo.com', '국내외 예술 작품과 문화 체험.', '2025-06-10', '2025-06-14', 4),
+(5, '인천 국제 항공 박람회','인천 송도컨벤시아', 25000, 'https://www.incheonairexpo.com', '항공기 전시와 최신 항공 기술 소개.', '2025-11-05', '2025-11-10', 57),
+(1, '서울 IT 스타트업 박람회','서울 코엑스', 10000, 'https://www.seoulitstartup.com', '스타트업과 IT 기술을 연결하는 박람회.', '2025-04-10', '2025-04-12', 66),
+(2, '부산 국제 와인 박람회', '부산 벡스코', 20000, 'https://www.busanwineexpo.com', '전세계 다양한 와인을 시음하고 체험할 수 있는 박람회.', '2025-05-15', '2025-05-18', 31),
+(3, '대구 건강&웰니스 박람회', '대구 EXCO', 8000, 'https://www.daeguhealthwellness.com', '건강 관련 제품과 웰니스 체험 프로그램.', '2025-08-05', '2025-08-08', 12),
+(4, '광주 전통 공예 박람회', '광주 김대중컨벤션센터', 5000, 'https://www.gwangjucraftexpo.com', '전통 공예품 전시 및 체험 행사.', '2025-09-01', '2025-09-03', 44),
+(5, '인천 국제 전자기기 박람회','인천 송도컨벤시아', 18000, 'https://www.incheonelectro.com', '최신 전자제품과 스마트 기기 전시.', '2025-10-20', '2025-10-25', 3);
+
 select * from fair;
 select * from category;
 
@@ -87,15 +87,14 @@ create table wishlist(
     fno int ,                        -- 박람회 고유번호
     constraint primary key(wno),
     foreign key(mno) references members(mno) on delete cascade,
-    foreign key(fno) references fair(fno) on delete cascade ,
+    foreign key(fno) references fair(fno) on delete cascade , 
     unique(mno,fno)                     -- 같은 회원이 같은 박람회 중복 즐겨찾기 불가
     -- on delete cascade : 부모 데이터가 삭제되면, 자식 데이터도 같이 삭제됨
 );
 
 insert into wishlist ( mno , fno ) values
-(3, 1), (3, 5), (2, 12), (2, 11), (3, 3), (3, 10), (4, 4), (4, 12),
-(5, 5), (5, 9), (6, 6), (6, 14), (7, 7), (8, 8),(9, 11), (10, 15),
-(2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8) , (2, 9) , (2, 10),(2,16);
+(1, 1), (1, 5), (2, 2), (2, 7), (3, 3), (3, 10), (4, 4), (4, 12), 
+(5, 5), (5, 9), (6, 6), (6, 14), (7, 7), (8, 8),(9, 11), (10, 15);
 
 select * from wishlist;
 
@@ -110,7 +109,7 @@ create table review(
     rdate date default (current_date()),   -- 리뷰 작성일자
     constraint primary key(rno) ,
     foreign key(mno) references members(mno) on delete cascade ,
-    foreign key(fno) references fair(fno) on delete cascade
+    foreign key(fno) references fair(fno) on delete cascade 
 );
 
 INSERT INTO review (mno, fno, rtitle, rcontent, rdate) VALUES
@@ -152,7 +151,7 @@ create table visitlog(
     foreign key(mno) references members(mno) on delete set null,
     foreign key(fno) references fair(fno) on delete set null
     -- on delete set null : 부모 데이터 삭제 시, 자식 FK 값을 NULL로 만들어서 데이터는 유지하되 관계만 끊는다
-    -- 회원(members)이 삭제되면 visitlog.mno = null , (로그 기록은 유지)
+    -- 회원(members)이 삭제되면 visitlog.mno = null , (로그 기록은 유지) 
     -- 박람회(fair)가 삭제되면 visitlog.fno = null , (방문 로그 남김)
 );
 
@@ -179,17 +178,6 @@ insert into visitlog ( mno , fno , vdate ) values
 (NULL, 5, '2025-03-10 12:45:55');  # 비회원 방문 예시
 
 select * from visitlog;
-
-create table alarm (
-    ano int auto_increment,          -- 알림 고유번호
-    mno int not null,                -- 회원 번호
-    fno int not null,                -- 박람회 번호
-    message varchar(255) not null,   -- 알림 내용
-    created_at timestamp default current_timestamp, -- 알림 생성 시간
-    primary key(ano),
-    foreign key(mno) references members(mno) on delete cascade,
-    foreign key(fno) references fair(fno) on delete cascade
-);
-
-select * from alarm;
-
+select * from wishList;
+select * from members;
+select *from fair;
