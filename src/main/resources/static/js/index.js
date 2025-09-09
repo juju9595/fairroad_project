@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
     const contentEl = document.getElementById("content");
     const pageTitleEl = document.getElementById("pageTitle");
 
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // ===============================
     // fetch JSON
     // ===============================
-    function fetchJSON(url, callback){
+    function fetchJSON(url, callback) {
         fetch(url)
             .then(res => res.json())
             .then(data => callback(data))
@@ -33,25 +33,25 @@ document.addEventListener("DOMContentLoaded", function(){
     // ===============================
     // 박람회 렌더링
     // ===============================
-    function renderFairs(data, container = contentEl){
-        if(!data || data.length === 0){
-            if(currentPage === 1) container.innerHTML = "<p>박람회가 없습니다.</p>";
+    function renderFairs(data, container = contentEl) {
+        if (!data || data.length === 0) {
+            if (currentPage === 1) container.innerHTML = "<p>박람회가 없습니다.</p>";
             return;
         }
 
         let html = "";
         data.forEach(fair => {
-            if(shownFnoSet.has(fair.fno)) return;
+            if (shownFnoSet.has(fair.fno)) return;
             shownFnoSet.add(fair.fno);
 
             html += `
                 <li class="fair-item">
                     <a href="/Fair/getPost.jsp?fno=${fair.fno}">
-                        <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/'+fair.fimg) : 'https://placehold.co/300x200?text=No+Image'}" 
+                        <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/' + fair.fimg) : 'https://placehold.co/300x200?text=No+Image'}" 
                              class="fair-img" alt="${fair.fname}">
                         <div class="fair-info">
                             <div class="fair-name">${fair.fname}</div>
-                            <div class="fair-date">${fair.fstartdate} - ${fair.fenddate}</div>
+                            <div class="fair-date">${fair.fstartdate || ''} - ${fair.fenddate || ''}</div>
                         </div>
                     </a>
                 </li>
@@ -64,30 +64,36 @@ document.addEventListener("DOMContentLoaded", function(){
     // ===============================
     // 무한스크롤 박람회 로드
     // ===============================
-    function loadFairs(){
-        if(loading) return;
+    function loadFairs() {
+        if (loading) return;
         loading = true;
 
-        // 회원 비회원 url 경로 동일
-        let url = currentCategoryUrl || `/fair/allPostMain?page=${currentPage}&count=${countPerPage}`;
-        if(currentKey && currentKeyword) url += `&key=${currentKey}&keyword=${currentKeyword}`;
+        // 비회원이면 전체 조회
+        let url;
+        if (!isMember) {
+            url = `/fair/allPostMain?page=1&count=1000`; // 일단 큰수로 지정
+        } else {
+            url = currentCategoryUrl || `/fair/allPostMain?page=${currentPage}&count=${countPerPage}`;
+        }
+
+        if (currentKey && currentKeyword) url += `&key=${currentKey}&keyword=${currentKeyword}`;
 
         fetchJSON(url, data => {
-            if(currentPage === 1) {
+            if (currentPage === 1) {
                 contentEl.innerHTML = "";
                 shownFnoSet.clear();
             }
 
-            // 즐겨찾기, 최근 API 대응
             const fairsData = data.data || data.wishList || data.lastvisitfair || [];
             renderFairs(fairsData);
 
-            // 페이지 제목 업데이트
-            if(data.pageTitle) pageTitleEl.textContent = data.pageTitle;
+            if (data.pageTitle) pageTitleEl.textContent = data.pageTitle;
 
-            // 다음 페이지 없으면 observer 해제
-            if(!fairsData || fairsData.length < countPerPage) observer.disconnect();
-            else currentPage++;
+            if (!fairsData || fairsData.length < countPerPage) {
+                observer.disconnect(); // 끝까지 로드
+            } else {
+                currentPage++;
+            }
 
             loading = false;
         });
@@ -99,15 +105,15 @@ document.addEventListener("DOMContentLoaded", function(){
     const scrollAnchor = document.createElement('div');
     contentEl.parentNode.appendChild(scrollAnchor);
     const observer = new IntersectionObserver(entries => {
-        if(entries[0].isIntersecting) loadFairs();
+        if (entries[0].isIntersecting) loadFairs();
     }, { threshold: 1.0 });
     observer.observe(scrollAnchor);
 
     // ===============================
     // 검색 이벤트
     // ===============================
-    if(searchBtnEl && searchInputEl && searchKeyEl){
-        function handleSearch(){
+    if (searchBtnEl && searchInputEl && searchKeyEl) {
+        function handleSearch() {
             currentKey = searchKeyEl.value;
             currentKeyword = searchInputEl.value.trim();
             currentPage = 1;
@@ -116,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         searchBtnEl.addEventListener("click", handleSearch);
-        searchInputEl.addEventListener("keypress", e => { if(e.key === "Enter") handleSearch(); });
+        searchInputEl.addEventListener("keypress", e => { if (e.key === "Enter") handleSearch(); });
     }
 
     // ===============================
@@ -126,12 +132,12 @@ document.addEventListener("DOMContentLoaded", function(){
         const type = a.dataset.type;
         const cno = a.dataset.cno;
 
-        if((type === "recent" || type === "favorite") && !isMember){
+        if ((type === "recent" || type === "favorite") && !isMember) {
             a.parentElement.style.display = "none";
             return;
         }
 
-        a.addEventListener("click", function(e){
+        a.addEventListener("click", function (e) {
             e.preventDefault();
             currentPage = 1;
             shownFnoSet.clear();
@@ -139,24 +145,23 @@ document.addEventListener("DOMContentLoaded", function(){
             currentKeyword = "";
 
             // 카테고리
-            if(cno){
+            if (cno) {
                 currentCategoryUrl = `/fair/allPostCategory?cno=${cno}&page=${currentPage}&count=${countPerPage}`;
                 pageTitleEl.textContent = this.textContent + " 박람회";
                 loadFairs();
                 return;
             }
 
-            // 인기/추천/전체
-            if(type === "popular" || type === "recommend"){
+            // 인기 / 추천
+            if (type === "popular" || type === "recommend") {
                 currentCategoryUrl = this.dataset.url + `?page=${currentPage}&count=${countPerPage}`;
-                if(isMember) currentCategoryUrl += `&mno=${memberNo}`;
                 pageTitleEl.textContent = this.textContent;
                 loadFairs();
                 return;
             }
 
-            // 최근 본 박람회
-            if(type === "recent"){
+            // 최근 본
+            if (type === "recent") {
                 currentCategoryUrl = `/visitlog/recent?mno=${memberNo}&page=${currentPage}&count=${countPerPage}`;
                 pageTitleEl.textContent = this.textContent;
                 loadFairs();
@@ -164,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
 
             // 즐겨찾기
-            if(type === "favorite"){
+            if (type === "favorite") {
                 currentCategoryUrl = `/wish/member?mno=${memberNo}&page=${currentPage}&count=${countPerPage}`;
                 pageTitleEl.textContent = this.textContent;
                 loadFairs();
@@ -172,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
 
             // 지역
-            if(type === "region"){
+            if (type === "region") {
                 fetchJSON(this.dataset.url, dataMap => {
                     pageTitleEl.textContent = "지역별 박람회";
                     contentEl.innerHTML = `
@@ -192,25 +197,26 @@ document.addEventListener("DOMContentLoaded", function(){
                         select.appendChild(option);
                     });
 
-                    select.addEventListener("change", function(){
+                    select.addEventListener("change", function () {
                         regionContainer.innerHTML = ""; // 이전 결과 초기화
                         const selectedRegion = this.value;
-                        if(selectedRegion) renderFairs(dataMap[selectedRegion], regionContainer);
+                        if (selectedRegion) renderFairs(dataMap[selectedRegion], regionContainer);
                     });
 
-                    observer.disconnect(); // 지역 선택에서는 무한스크롤 사용 안 함
+                    observer.disconnect(); // 지역에서는 무한스크롤 사용 안 함
                 });
                 return;
             }
         });
     });
 
+    // ===============================
     // 초기 로드
+    // ===============================
     loadFairs();
-    initCategoryEvents();
 
     // ===============================
-    // 배너 슬라이더 (기존 그대로)
+    // 배너 슬라이더
     // ===============================
     const sliderTrack = document.getElementById('slider-track');
     const paginationDots = document.getElementById('pagination-dots');
