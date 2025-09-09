@@ -15,17 +15,21 @@
     <body>
         <jsp:include page="/header.jsp"></jsp:include>
         <div class="getpostname">
-            <div class="title-container">
 
+            <div class="title-container">
                 <img src="/img/icon.jpg" alt="아이콘" />
                 <div class="fname"> </div>
-
                 <button type="button" onclick="wishWrite()">즐겨찾기</button>
             </div>
+
             <div class="countf">조회수: <span class="fcount"></span></div>
             <div class="imgf"><span class="fimg"></span></div>
-            <div class="pricef">가격 : <span class="fprice"></span></div>
-            <div class="urlf">URL : <span class="furl"></span></div>
+
+            <div class="pricef">
+                가격 : <span class="fprice"></span>
+                <span class="currency">원</span>
+            </div>
+            <div class="urlf">URL  <span class="furl"></span></div>
             <div class="date-container">
                 <div class="date_start">
                     <span class="label">개최일</span>
@@ -67,8 +71,9 @@
                 <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                     tabindex="0">
                     <div class="reviewname">
-                        <h3> 방문 리뷰 전체 조회 </h3>
-                        <a href="/Review/reviewWrite.jsp?fno=${param.fno}"> 등록페이지로 이동하기 </a>
+                            <div class="review-btn-wrap">
+                                <a href="/Review/reviewWrite.jsp?fno=${param.fno}"> 등록페이지로 이동하기 </a>
+                            </div>
                         <table border="1" cellpadding="6" cellspacing="0">
                             <thead>
                                 <tr>
