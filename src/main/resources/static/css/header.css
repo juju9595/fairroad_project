@@ -204,3 +204,24 @@ body {
     background: #fff;
     flex-shrink: 0; /* input과 높이 맞추기 */
 }
+
+.banner2{
+    position: fixed;
+    right: 100px; top: 0px;
+    width: 280px;
+    height: 716px;
+    background-color: white;
+
+}
+
+/* @media only screen and (min-width: 1080px) {
+    .banner2 {
+        position: none;
+    }
+} */
+
+@media (max-width: 1080px) {
+  .banner2 {
+    display: none;
+  }
+}
