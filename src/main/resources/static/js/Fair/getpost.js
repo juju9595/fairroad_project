@@ -59,12 +59,17 @@ if(loginAdmin === true || loginAdmin === 'true') {
 }
 
     // 이미지 처리
+    // 이미지가 들어갈 컨테이너 요소 선택
     const imgContainer = document.querySelector('.fimg');
-    imgContainer.innerHTML = ''; // 기존 이미지 제거
+    imgContainer.innerHTML = ''; //새로 고침하면은 여러번 중복으로 쌓일수 있으므로 기존 이미지 제거
     if (data.fimg) {
+        //img 태그 동적 생성
         const img = document.createElement('img');
+        //data.fimg URL 확인 하고 URL 이면 true, /upload/ src 설정
         img.src = data.fimg.startsWith('http') ? data.fimg : `/upload/${data.fimg}`;
+
         img.className = 'fimg';
+        // fimg  요소 컨테이너 추가
         imgContainer.appendChild(img);
     }
 };
