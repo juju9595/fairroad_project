@@ -23,7 +23,6 @@ body {
     position: relative;
     padding-bottom: 20px;
     border-bottom: 1px solid #eee;
-    margin-bottom: 30px;
 }
 
 .getpostname h2 {
@@ -61,7 +60,6 @@ body {
     font-size: 1.1em;
     line-height: 1.8;
     color: #4a4a4a;
-    padding: 20px;
     background-color: #f9f9f9;
     border-radius: 6px;
 }
@@ -78,7 +76,6 @@ body {
 .reviewname h3 {
     font-size: 1.5em;
     font-weight: 600;
-    margin-bottom: 20px;
     padding-bottom: 10px;
 }
 
@@ -138,4 +135,65 @@ body {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+/*제목*/
+
+.title-container img {
+  width: 40px;       /* 원하는 크기로 조절하세요 */
+  height: 40px;
+  object-fit: cover; /* 이미지 비율 유지 */
+  margin: 10px 10px;
+}
+
+.title-container .fname {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;       /* 글자 색상도 추가 */
+}
+
+/*조회수*/
+.countf {
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-end;  /* 오른쪽 정렬 */
+    color: #555;
+    margin-bottom: 12px;
+}
+.fcount {
+    font-weight: bold !important;
+    font-size: 16px;
+    color: #555;
+}
+
+/*개최일 마감일*/
+.date-container {
+    display: flex;
+    gap: 20px;         /* 두 날짜 사이 간격 */
+    justify-content: space-evenly;  /* 좌우 및 요소 사이 간격 균등 배분 */
+    align-items: center;            /* 수직 가운데 정렬 */
+    
+}
+
+/* 기존 .date_start, .date_end 스타일 유지 */
+.date_start, .date_end {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.date_start .label, .date_end .label {
+    background-color: #eee;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #555;
+    white-space: nowrap;
+}
+
+.date_start .start_date, .date_end .end_date {
+    font-size: 15px;
+    color: #333;
+    font-weight: bold;
 }
