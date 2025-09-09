@@ -15,7 +15,7 @@
 <div class="bottom-bar">
     <!-- 알림 -->
     <c:if test="${not empty sessionScope.loginMno}">
-        <div class="alarm">📭 아직 도착한 알림이 없습니다.</div>
+        <div id="alarmBox">📭 아직 도착한 알림이 없습니다.</div>
         <script>
             const loginMno = "${sessionScope.loginMno}";
             window.loginMno = loginMno;
@@ -35,6 +35,7 @@
 
     <!-- 카피라이트 -->
     <div class="copy">@COPYCAT.All Rights Reserved</div>
+    
 </div>
 
 </body>

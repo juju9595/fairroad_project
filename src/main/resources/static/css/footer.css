@@ -11,7 +11,7 @@
 }
 
 /* 알림 */
-.bottom-bar .alarm {
+.bottom-bar #alarmBox {
   background: #fffae6;
   color: #333;
   border-bottom: 1px solid #e5e7eb;
@@ -21,7 +21,7 @@
 }
 
 /* footer 메뉴 */
-.bottom-bar .footer {
+.bottom-bar #footer {
   padding: 8px 0;
   text-align: center;
 }
