@@ -11,7 +11,9 @@
 </head>
 <body>
 
-    <!-- 알림 띠 -->
+    <!-- 하단 전체 컨테이너 -->
+<div class="bottom-bar">
+    <!-- 알림 -->
     <c:if test="${not empty sessionScope.loginMno}">
         <div id="alarmBox">📭 아직 도착한 알림이 없습니다.</div>
         <script>
@@ -33,6 +35,8 @@
 
     <!-- 카피라이트 -->
     <div class="copy">@COPYCAT.All Rights Reserved</div>
+    
+</div>
 
 </body>
 </html>

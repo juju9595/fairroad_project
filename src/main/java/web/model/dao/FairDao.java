@@ -88,7 +88,7 @@ public class FairDao extends Dao{
     public List<FairDto>fairPrintMain(int starRow,int count){
         List<FairDto> list = new ArrayList<>();
         try{
-            String sql = "select * from fair order by start_date desc limit ?,?;";
+            String sql = "select * from fair order by fno desc limit ?,?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,starRow);
             ps.setInt(2,count);
