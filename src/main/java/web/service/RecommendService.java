@@ -148,15 +148,14 @@ public class RecommendService {
     }
 
     // 추천 결과 PageDto 로 변환 (검색 + 페이징)
-    public PageDto getRecommendationsPaged(int mno, int page, int count, String key, String keyword , List<Integer> shownFno){
-
+    public PageDto getRecommendationsPaged(int mno, int page, int count, String key, String keyword, List<Integer> shownFno) {
         List<FairDto> allRecommendation = getRecommendations(mno);
 
         // 검색 필터
-        if(key != null && !key.isEmpty() && keyword != null && !keyword.isEmpty()){
+        if (key != null && !key.isEmpty() && keyword != null && !keyword.isEmpty()) {
             String lowerKeyword = keyword.toLowerCase();
             allRecommendation = allRecommendation.stream()
-                    .filter(fair -> fair != null && switch (key){
+                    .filter(fair -> fair != null && switch (key) {
                         case "fname" -> fair.getFname() != null && fair.getFname().toLowerCase().contains(lowerKeyword);
                         case "fplace" -> fair.getFplace() != null && fair.getFplace().toLowerCase().contains(lowerKeyword);
                         case "finfo" -> fair.getFinfo() != null && fair.getFinfo().toLowerCase().contains(lowerKeyword);
@@ -166,40 +165,45 @@ public class RecommendService {
         }
 
         // 중복 제거
-        if(shownFno != null && !shownFno.isEmpty()){
+        if (shownFno != null && !shownFno.isEmpty()) {
             Set<Integer> showSet = new HashSet<>(shownFno);
             allRecommendation = allRecommendation.stream()
                     .filter(fair -> fair != null && !showSet.contains(fair.getFno()))
                     .toList();
         }
 
-        // 종료된 박람회 제외 String -> LocalDate 변환
+        // 종료된 박람회 제외
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         allRecommendation = allRecommendation.stream()
                 .filter(fair -> {
-                    if(fair == null || fair.getEnd_date() == null ) return false;
-                    LocalDate endDate;
+                    if (fair == null || fair.getEnd_date() == null) return false;
                     try {
-                        endDate = LocalDate.parse(fair.getEnd_date() , formatter);
-                    }catch (Exception e ){
+                        LocalDate endDate = LocalDate.parse(fair.getEnd_date(), formatter);
+                        return endDate.isAfter(LocalDate.now());
+                    } catch (Exception e) {
                         return false;
                     }
-                    return endDate.isAfter(LocalDate.now());
                 })
                 .toList();
 
-        // 페이징 slice
-        int startRow = (page -1) * count;
+        // 페이지별 slice
+        int startRow = (page - 1) * count;
         int endRow = Math.min(startRow + count, allRecommendation.size());
         List<FairDto> pageList = (startRow < allRecommendation.size()) ? allRecommendation.subList(startRow, endRow) : Collections.emptyList();
 
+        int totalCount = allRecommendation.size();
+        int totalPage = (int) Math.ceil((double) totalCount / count);
+
         PageDto pageDto = new PageDto();
         pageDto.setCurrentPage(page);
-        pageDto.setTotalCount(allRecommendation.size());
+        pageDto.setTotalCount(totalCount);
         pageDto.setPerCount(count);
+        pageDto.setTotalPage(totalPage);
         pageDto.setData(pageList);
-        return pageDto;
+        pageDto.setLastPage(page >= totalPage);
 
-    } // func e
+        return pageDto;
+    }
+
 
 } // class e
