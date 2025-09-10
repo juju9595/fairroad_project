@@ -93,7 +93,8 @@ public class MembersService {
         String result = memberDao.findId(map);
         Map<String, String> resultMap = new HashMap<>();
         if(result == null){
-            resultMap.put("msg" , null);
+            resultMap.put("status", "fail");
+            resultMap.put("msg" , "해당 정보로 가입된 회원이 없습니다.");
         }else {
             resultMap.put("msg", result);
         }return resultMap;
