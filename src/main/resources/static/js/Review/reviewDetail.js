@@ -45,13 +45,18 @@ const reviewDelete = async () => {
   // URL에서 rno 가져오기
   const params = new URLSearchParams(window.location.search);
   const rno = params.get("rno");
-  if (!rno) {
-    console.error("리뷰 번호(rno)가 없습니다.");
+  const fno = params.get("fno");
+
+  if (!rno || !fno) {
+    console.error("파라미터 부족: rno 또는 fno 없음", { rno, fno });
+    alert("잘못된 접근입니다.");
     return;
   }
-
-  const option = { method: "DELETE" };
-  const res = await fetch(`/fair/review?rno=${encodeURIComponent(rno)}`, { method: "DELETE", credentials: "include" });
+  
+  const res = await fetch(`/fair/review?rno=${encodeURIComponent(rno)}`, {
+    method: "DELETE",
+    credentials: "include"
+  });
 
   if (res.status === 401) { alert("로그인이 필요합니다."); return; }
 
@@ -67,7 +72,9 @@ const reviewDelete = async () => {
 
   if (ok === true) {
     alert("삭제되었습니다.");
-    location.href = "review.jsp";
+    const url = window.location.origin + '/Fair/getPost.jsp?fno=' + encodeURIComponent(fno);
+    console.log('redirect →', url);
+  setTimeout(() => window.location.replace(url), 0);
   } else {
     // 여기로 오면 '남의 글'이거나 존재하지 않음 등
     alert("본인 글만 삭제할 수 있거나, 삭제할 대상이 없습니다.");
