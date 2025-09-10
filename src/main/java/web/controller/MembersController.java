@@ -48,7 +48,7 @@ public class MembersController { // class start
             //관리자 세션 저장
             session.setAttribute("loginAdmin",loginAdmin);
             //
-            fairNotificationScheduler.notifyUpcomingFairs();
+//            fairNotificationScheduler.notifyUpcomingFairsForUser( result );
         }//if end
         return result;
     }//func e

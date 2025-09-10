@@ -10,22 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const memberNo = sessionStorage.getItem("memberNo") ? parseInt(sessionStorage.getItem("memberNo")) : null;
 
     let currentPage = 1;
-    let countPerPage = 6;
+    let countPerPage = isMember ? 50 : 1000;
     let currentKey = "";
     let currentKeyword = "";
     let currentCategoryUrl = "";
     let loading = false;
     const shownFnoSet = new Set();
-    
-    if (!isMember) {
-        pageTitleEl.textContent = "박람회 목록";
-        currentPage = 1;
-        countPerPage = 1000; // 비회원은 전체 조회
-    } else {
-        pageTitleEl.textContent = "추천 박람회";
-        currentPage = 1;
-        countPerPage = 6; // 회원은 6개씩
-    }
 
     // ===============================
     // fetch JSON
@@ -49,10 +39,19 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // container가 UL이 아닌 경우 UL 생성
+        if(container.tagName !== "UL") {
+            const ul = document.createElement("ul");
+            container.appendChild(ul);
+            container = ul;
+        }
+
         let html = "";
         data.forEach(fair => {
-            if (shownFnoSet.has(fair.fno)) return;
-            shownFnoSet.add(fair.fno);
+            const isRecent = currentCategoryUrl.includes("/visitlog/recent");
+            const isRegion = container.id === "regionContent"; 
+            if (!isRecent && !isRegion && shownFnoSet.has(fair.fno)) return;
+            if (!isRecent && !isRegion) shownFnoSet.add(fair.fno);
 
             html += `
                 <li class="fair-item">
@@ -78,18 +77,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if (loading) return;
         loading = true;
 
-        // 비회원이면 전체 조회
-        let url;
-        if (!isMember) {
-            url = `/fair/allPostMain?page=1&count=1000`; // 일단 큰수로 지정
-        } else {
-            url = currentCategoryUrl || `/fair/allPostMain?page=${currentPage}&count=${countPerPage}`;
-        }
-
-        if (currentKey && currentKeyword) url += `&key=${currentKey}&keyword=${currentKeyword}`;
+        let url = currentCategoryUrl || `/fair/allPostMain?page=${currentPage}&count=${countPerPage}`;
+        if(currentKey && currentKeyword) url += `&key=${currentKey}&keyword=${currentKeyword}`;
 
         fetchJSON(url, data => {
-            if (currentPage === 1) {
+            if(currentPage === 1){
                 contentEl.innerHTML = "";
                 shownFnoSet.clear();
             }
@@ -97,13 +89,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const fairsData = data.data || data.wishList || data.lastvisitfair || [];
             renderFairs(fairsData);
 
-            if (data.pageTitle) pageTitleEl.textContent = data.pageTitle;
+            if(data.pageTitle) pageTitleEl.textContent = data.pageTitle;
 
-            if (!fairsData || fairsData.length < countPerPage) {
-                observer.disconnect(); // 끝까지 로드
-            } else {
-                currentPage++;
-            }
+            const isRecent = currentCategoryUrl.includes("/visitlog/recent");
+            if(!fairsData || (fairsData.length < countPerPage && !isRecent)) observer.disconnect();
+            else currentPage++;
 
             loading = false;
         });
@@ -115,24 +105,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const scrollAnchor = document.createElement('div');
     contentEl.parentNode.appendChild(scrollAnchor);
     const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) loadFairs();
+        if(entries[0].isIntersecting) loadFairs();
     }, { threshold: 1.0 });
     observer.observe(scrollAnchor);
 
     // ===============================
     // 검색 이벤트
     // ===============================
-    if (searchBtnEl && searchInputEl && searchKeyEl) {
-        function handleSearch() {
+    if(searchBtnEl && searchInputEl && searchKeyEl){
+        function handleSearch(){
             currentKey = searchKeyEl.value;
             currentKeyword = searchInputEl.value.trim();
             currentPage = 1;
             currentCategoryUrl = "";
             loadFairs();
         }
-
         searchBtnEl.addEventListener("click", handleSearch);
-        searchInputEl.addEventListener("keypress", e => { if (e.key === "Enter") handleSearch(); });
+        searchInputEl.addEventListener("keypress", e => { if(e.key === "Enter") handleSearch(); });
     }
 
     // ===============================
@@ -142,36 +131,36 @@ document.addEventListener("DOMContentLoaded", function () {
         const type = a.dataset.type;
         const cno = a.dataset.cno;
 
-        if ((type === "recent" || type === "favorite") && !isMember) {
+        if((type === "recent" || type === "favorite") && !isMember){
             a.parentElement.style.display = "none";
             return;
         }
 
-        a.addEventListener("click", function (e) {
+        a.addEventListener("click", function(e){
             e.preventDefault();
             currentPage = 1;
-            shownFnoSet.clear();
             currentKey = "";
             currentKeyword = "";
 
             // 카테고리
-            if (cno) {
+            if(cno){
                 currentCategoryUrl = `/fair/allPostCategory?cno=${cno}&page=${currentPage}&count=${countPerPage}`;
                 pageTitleEl.textContent = this.textContent + " 박람회";
                 loadFairs();
                 return;
             }
 
-            // 인기 / 추천
-            if (type === "popular" || type === "recommend") {
+            // 인기/추천
+            if(type === "popular" || type === "recommend"){
                 currentCategoryUrl = this.dataset.url + `?page=${currentPage}&count=${countPerPage}`;
+                if(isMember) currentCategoryUrl += `&mno=${memberNo}`;
                 pageTitleEl.textContent = this.textContent;
                 loadFairs();
                 return;
             }
 
-            // 최근 본
-            if (type === "recent") {
+            // 최근 본 박람회
+            if(type === "recent"){
                 currentCategoryUrl = `/visitlog/recent?mno=${memberNo}&page=${currentPage}&count=${countPerPage}`;
                 pageTitleEl.textContent = this.textContent;
                 loadFairs();
@@ -179,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // 즐겨찾기
-            if (type === "favorite") {
+            if(type === "favorite"){
                 currentCategoryUrl = `/wish/member?mno=${memberNo}&page=${currentPage}&count=${countPerPage}`;
                 pageTitleEl.textContent = this.textContent;
                 loadFairs();
@@ -187,19 +176,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // 지역
-            if (type === "region") {
+            if(type === "region"){
                 fetchJSON(this.dataset.url, dataMap => {
                     pageTitleEl.textContent = "지역별 박람회";
                     contentEl.innerHTML = `
                         <div id="regionWrapper">
                             <label for="regionSelect">지역 선택:</label>
                             <select id="regionSelect"><option value="">-- 지역 선택 --</option></select>
-                            <div id="regionContent"></div>
+                            <ul id="regionContent"></ul>
                         </div>
                     `;
                     const select = document.getElementById("regionSelect");
                     const regionContainer = document.getElementById("regionContent");
 
+                    // select 옵션 생성
                     Object.keys(dataMap).forEach(region => {
                         const option = document.createElement("option");
                         option.value = region;
@@ -207,13 +197,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         select.appendChild(option);
                     });
 
-                    select.addEventListener("change", function () {
-                        regionContainer.innerHTML = ""; // 이전 결과 초기화
+                    // 선택 시 렌더링
+                    select.addEventListener("change", function(){
+                        regionContainer.innerHTML = "";
                         const selectedRegion = this.value;
-                        if (selectedRegion) renderFairs(dataMap[selectedRegion], regionContainer);
+                        if(selectedRegion && dataMap[selectedRegion]){
+                            renderFairs(dataMap[selectedRegion], regionContainer);
+                        }
                     });
 
-                    observer.disconnect(); // 지역에서는 무한스크롤 사용 안 함
+                    // 기본 첫 지역 자동 렌더링
+                    const firstRegion = Object.keys(dataMap)[0];
+                    if(firstRegion) {
+                        select.value = firstRegion;
+                        renderFairs(dataMap[firstRegion], regionContainer);
+                    }
+
+                    observer.disconnect();
                 });
                 return;
             }
