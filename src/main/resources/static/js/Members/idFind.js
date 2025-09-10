@@ -11,6 +11,6 @@ const findId = async() =>{
     const response = await fetch(`/member/findid?mname=${mname}&mphone=${mphone}`);
     const data = await response.json();
 
-    document.querySelector("#resultId").innerHTML = `<p>아이디는${data.msg}입니다.</p>
+    document.querySelector("#resultId").innerHTML = `<p>${data.msg}</p>
                                                     <a href="/Members/login.jsp">로그인하러 가기</a>`;
 }

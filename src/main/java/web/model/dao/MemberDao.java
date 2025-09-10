@@ -186,6 +186,7 @@ public class MemberDao extends Dao{
                 member.setMbirth(rs.getString("mbirth"));
                 member.setMphone(rs.getString("mphone"));
                 member.setMemail(rs.getString("memail"));
+                member.setJoindate(rs.getString("joindate"));
                 member.setMaddress(rs.getString("maddress"));
                 return member;
             }
