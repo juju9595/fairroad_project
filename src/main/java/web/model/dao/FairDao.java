@@ -361,7 +361,7 @@ public class FairDao extends Dao{
         try{
             // MySQL LIMIT OFFSET 적용
             int offset = (page - 1) * count;
-            String sql = "SELECT fno, fname, fcount, fplace, fprice , fimg " +
+            String sql = "SELECT fno, fname, fcount, fplace, fprice , fimg , start_date , end_date " +
                     "FROM fair " +
                     "ORDER BY fcount DESC " +
                     "LIMIT ? OFFSET ?";
@@ -378,6 +378,8 @@ public class FairDao extends Dao{
                 dto.setFplace(rs.getString("fplace"));
                 dto.setFprice(rs.getInt("fprice"));
                 dto.setFimg(rs.getString("fimg"));
+                dto.setStart_date(rs.getString("start_date"));
+                dto.setEnd_date(rs.getString("end_date"));
                 list.add(dto);
             }
         } catch (Exception e) {
@@ -406,7 +408,7 @@ public class FairDao extends Dao{
     public List<FairDto> selectAllFairs(){
         List<FairDto> list = new ArrayList<>();
         try {
-            String sql = " select fno , fname , fplace , fprice , fimg from fair order by fplace , fno ";
+            String sql = " select fno , fname , fplace , fprice , fimg , start_date , end_date from fair order by fplace , fno ";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -417,6 +419,8 @@ public class FairDao extends Dao{
                 dto.setFplace(rs.getString("fplace"));
                 dto.setFprice(rs.getInt("fprice"));
                 dto.setFimg(rs.getString("fimg"));
+                dto.setStart_date(rs.getString("start_date") != null ? rs.getString("start_date") : "");
+                dto.setEnd_date(rs.getString("end_date") != null ? rs.getString("end_date") : "");
                 list.add(dto);
             }
         }catch (Exception e ){
