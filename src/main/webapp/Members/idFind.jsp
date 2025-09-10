@@ -8,6 +8,7 @@
         <title>Page Title</title>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <link rel="stylesheet" href="/css/idFind.css" />
+        <link rel="stylesheet" href="/css/footer.css">
         <script src='main.js'></script>
     </head>
 

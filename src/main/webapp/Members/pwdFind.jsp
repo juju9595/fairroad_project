@@ -7,6 +7,7 @@
         <meta http-equiv='X-UA-Compatible' content='IE=edge'>
         <title>Page Title</title>
         <link rel="stylesheet" href="/css/pwdFind.css" />
+        <link rel="stylesheet" href="/css/footer.css">
     </head>
 
     <body>

@@ -1,5 +1,6 @@
 console.log("reviewDetail.js open");
 
+// 주석확인용
 // 상세 리뷰 조회 함수
 const reviewDetail = async () => {
   try {
@@ -19,6 +20,7 @@ const reviewDetail = async () => {
     }
 
     const review = await res.json();
+    console.log( review );
 
     // DOM에 출력
     const reviewDetailTbody = document.querySelector(".reviewDetailTbody");
@@ -42,40 +44,24 @@ reviewDetail();
 
 // [1] 삭제처리
 const reviewDelete = async () => {
-  // URL에서 rno 가져오기
-  const params = new URLSearchParams(window.location.search);
-  const rno = params.get("rno");
-
-  if (!rno) {
-    console.error("파라미터 부족: rno 또는 fno 없음", { rno });
-    alert("잘못된 접근입니다.");
-    return;
-  }
-  
-  const res = await fetch(`/fair/review?rno=${encodeURIComponent(rno)}`, {
-    method: "DELETE",
-    credentials: "include"
-  });
-
-  if (res.status === 401) { alert("로그인이 필요합니다."); return; }
-
-  let ok = false;
-  try {
-    // 컨트롤러가 boolean을 JSON으로 주는 경우
-    ok = await res.json();  // true 또는 false
-  } catch {
-    // 혹시 text로 내려오면
-    const t = await res.text();
-    ok = (t.trim() === "true");
-  }
-
-  if (ok === true) {
-    alert("삭제되었습니다.");
-    location.href = `/Fair/getPost.jsp?fno=${encodeURIComponent(fno)}`;
-  } else {
-    // 여기로 오면 '남의 글'이거나 존재하지 않음 등
-    alert("본인 글만 삭제할 수 있거나, 삭제할 대상이 없습니다.");
-  }
+    // URL에서 rno 가져오기
+    const params = new URLSearchParams(window.location.search);
+    const rno = params.get("rno");
+    if (!rno) {
+        console.error("파라미터 부족: rno 또는 fno 없음", { rno });
+        alert("잘못된 접근입니다.");
+        return;
+    }
+    const res = await fetch(`/fair/review?rno=${rno}`, {
+        method: "DELETE"
+    });
+    const data = await res.json();
+    if( data > 0 ){
+        alert("삭제되었습니다.");
+        location.href = `/Fair/getPost.jsp?fno=${data}`;
+    }else{
+        alert("삭제 실패 되었습니다. ");
+    }
 };
 
 
