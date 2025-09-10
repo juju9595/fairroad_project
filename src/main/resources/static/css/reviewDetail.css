@@ -1,0 +1,105 @@
+ body {
+            background-color: #f4f5f8;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 가운데 카드 컨테이너 */
+        .content-container {
+            max-width: 800px;
+            margin: 28px auto 80px;
+            padding: 28px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        /* 상단 타이틀 + 메타 */
+        .page-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+        .page-head h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #111;
+        }
+        .meta {
+            font-size: 13px;
+            color: #666;
+        }
+
+
+
+        /* 테이블을 카드처럼 보이게 */
+        .review-detail table {
+            width: 100%;
+
+            border-spacing: 0 14px; /* 행 간격 */
+            border: none;
+        }
+        .review-detail thead { display: none; } /* 헤더 숨김 */
+
+        .review-detail tr {
+            display: block;
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 18px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05)
+        }
+      
+        .review-detail td {
+            display: block;
+            border: none;
+            padding: 4px 0;
+            color: #000;
+            word-break: break-word;
+        }
+        /* 1열(번호)과 4열(작성일)에 살짝 보조톤 */
+        .review-detail td:nth-child(1),
+        .review-detail td:nth-child(4) {
+            font-size: 13px;
+            color: #555;
+        }
+        /* 2열(제목)은 강조 */
+        .review-detail td:nth-child(2) {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+        /* 3열(내용)은 본문 */
+        .review-detail td:nth-child(3) {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #222;
+            margin-top: 6px;
+        }
+
+        /* 수정/삭제 버튼 */
+        .etcBox {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 14px;
+        }
+        .etcBox button {
+            background-color: #f9dcdc;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13px;
+            color: #000;
+            transition: background-color .25s ease, transform .2s ease;
+        }
+        .etcBox button:hover {
+            background-color: #f7b7b7;
+            transform: translateY(-2px);
+        }

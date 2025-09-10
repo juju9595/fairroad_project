@@ -11,6 +11,11 @@ const findId = async() =>{
     const response = await fetch(`/member/findid?mname=${mname}&mphone=${mphone}`);
     const data = await response.json();
 
-    document.querySelector("#resultId").innerHTML = `<p>${data.msg}</p>
-                                                    <a href="/Members/login.jsp">로그인하러 가기</a>`;
+    const resultBox = document.querySelector("#resultId");
+
+    if(!data === "해당 정보로 가입된 회원이 없습니다."){
+        resultBox.innerHTML = `<p>해당 정보로 가입된 회원이 없습니다. 다시입력해주세요</p>`
+    }else{
+        resultBox.innerHTML = `<p>${data.msg}</p>
+                                                    <a href="/Members/login.jsp">로그인하러 가기</a>`;}
 }
