@@ -63,6 +63,16 @@ body {
     color: #999; /* 아이콘 색상 */
     font-size: 1.1em;
 }
+/* 각 아이콘에 고유 색상 부여 */
+.category li:nth-child(1) a i { color: #f26522; } /* 웨딩 (주황) */
+.category li:nth-child(2) a i { color: #52bf90; } /* 베이비 (민트) */
+.category li:nth-child(3) a i { color: #2e86de; } /* 취업 (파랑) */
+.category li:nth-child(4) a i { color: #8a4a2b; } /* 애완 (갈색) */
+.category li:nth-child(5) a i { color: #1e8449; } /* 캠핑 (녹색) */
+.category li:nth-child(6) a i { color: #f1c40f; } /* 인기순 (노랑) */
+.category li:nth-child(7) a i { color: #3498db; } /* 지역 (하늘) */
+.category li:nth-child(8) a i { color: #8e44ad; } /* 최근 본 (보라) */
+.category li:nth-child(9) a i { color: #e74c3c; } /* 내 찜 (빨강) */
 
 /* 배너 */
 .banner {
@@ -272,4 +282,3 @@ cursor: pointer;
   font-size: 12px;
   color: #aaa;
 }
-

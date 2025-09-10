@@ -21,8 +21,9 @@
         </ul>
     </div>
 
-    <script src="/js/header.js"></script>
+
     <jsp:include page="/footer.jsp"></jsp:include>
+
 
 
 

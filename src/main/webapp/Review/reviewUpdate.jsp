@@ -10,6 +10,7 @@
 
 </head>
 <body>
+    <jsp:include page="/header.jsp"></jsp:include>
     제목
     <input type="text" class="rtitle"></br>
     내용
@@ -18,6 +19,7 @@
     <button onclick="reviewUpdate()"> 수정 </button>
 
 
+    <jsp:include page="/footer.jsp"></jsp:include>
     <script src="/js/Review/reviewUpdate.js"></script>
     
 </body>

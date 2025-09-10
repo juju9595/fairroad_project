@@ -19,18 +19,19 @@
 
         <div class="category">
             <ul>
-                <li><a href="/Fair/fairWrite.jsp">등록용테스트</a></li>
                 <li><a href="#" data-cno="1"><i class="fa-solid fa-ring"></i> 웨딩</a></li>
                 <li><a href="#" data-cno="2"><i class="fa-solid fa-baby"></i> 베이비</a></li>
                 <li><a href="#" data-cno="3"><i class="fa-solid fa-briefcase"></i> 취업</a></li>
                 <li><a href="#" data-cno="4"><i class="fa-solid fa-paw"></i> 애완</a></li>
                 <li><a href="#" data-cno="5"><i class="fa-solid fa-campground"></i> 캠핑</a></li>
-                <li><a href="#" data-url="/fair/visitlog/fcount" data-type="popular">인기순(비회원 가능)</a></li>
-                <li><a href="#" data-url="/fair/visitlog/fregion" data-type="region">지역별 박람회(비회원 가능)</a></li>
-
-                <!-- 회원용 기능 -->
-                <li><a href="#" data-url="/visitlog/recent" data-type="recent">최근 본 박람회(회원제)</a></li>
-                <li><a href="#" data-url="/wish/member?mno=1" data-type="favorite">즐겨찾기 목록(회원제)</a></li>
+                <li><a href="#" data-url="/fair/visitlog/fcount" data-type="popular"><i class="fa-solid fa-star"></i>
+                        인기순</a></li>
+                <li><a href="#" data-url="/fair/visitlog/fregion" data-type="region"><i class="fa-solid fa-map"></i>
+                        지역</a></li>
+                <li><a href="#" data-url="/visitlog/recent" data-type="recent"><i class="fa-solid fa-clock"></i> 최근
+                        본</a></li>
+                <li><a href="#" data-url="/wish/member?mno=1" data-type="favorite"><i class="fa-solid fa-heart"></i> 내
+                        찜</a></li>
             </ul>
         </div>
 
@@ -50,31 +51,31 @@
 
 
 
-    <div class="content-wrapper">
-        <div class="search-bar">
-            <select id="searchKey">
-                <option value="fname"> 박람회 제목 </option>
-                <option value="fplace">장소</option>
-                <option value="finfo">상세정보</option>
-            </select>
-            <input type="text" id="searchInput" placeholder="검색어 입력">
-            <button id="searchBtn">검색</button>
+        <div class="content-wrapper">
+            <div class="search-bar">
+                <select id="searchKey">
+                    <option value="fname"> 박람회 제목 </option>
+                    <option value="fplace">장소</option>
+                    <option value="finfo">상세정보</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="검색어 입력">
+                <button id="searchBtn">검색</button>
+            </div>
+
+            <h2 id="pageTitle">박람회 목록</h2>
+            <div class="content" id="content">
+                <!-- JS가 fetch로 가져온 리스트 렌더링 -->
+            </div>
+            <div id="pagination" class="pagination"></div>
         </div>
 
-        <h2 id="pageTitle">박람회 목록</h2>
-        <div class="content" id="content">
-            <!-- JS가 fetch로 가져온 리스트 렌더링 -->
-        </div>
-        <div id="pagination" class="pagination"></div>
-    </div>
+        <script src="/js/Members/mypage.js"></script>
+        <jsp:include page="/footer.jsp"></jsp:include>
 
-    <script src="/js/Members/mypage.js"></script>
-    <jsp:include page="/footer.jsp"></jsp:include>
-
-    <!-- JS -->
-    <script src="/js/index.js"></script>
-    <script src="/js/Alarm/alarm.js"></script>
-    <script src="/js/Members/position.js"></script>
+        <!-- JS -->
+        <script src="/js/index.js"></script>
+        <script src="/js/Alarm/alarm.js"></script>
+        <script src="/js/Members/position.js"></script>
 
     </body>
 

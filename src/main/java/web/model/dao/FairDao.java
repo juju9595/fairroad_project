@@ -88,7 +88,7 @@ public class FairDao extends Dao{
     public List<FairDto>fairPrintMain(int starRow,int count){
         List<FairDto> list = new ArrayList<>();
         try{
-            String sql = "select * from fair order by start_date desc limit ?,?;";
+            String sql = "select * from fair order by fno desc limit ?,?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,starRow);
             ps.setInt(2,count);
@@ -390,7 +390,7 @@ public class FairDao extends Dao{
     public List<FairDto> selectAllFairs(){
         List<FairDto> list = new ArrayList<>();
         try {
-            String sql = " select fno , fname , fplace , fprice from fair order by fplace , fno ";
+            String sql = " select fno , fname , fplace , fprice , fimg from fair order by fplace , fno ";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -400,6 +400,7 @@ public class FairDao extends Dao{
                 dto.setFname(rs.getString("fname"));
                 dto.setFplace(rs.getString("fplace"));
                 dto.setFprice(rs.getInt("fprice"));
+                dto.setFimg(rs.getString("fimg"));
                 list.add(dto);
             }
         }catch (Exception e ){
@@ -443,6 +444,7 @@ public class FairDao extends Dao{
                 dto.setStart_date(rs.getString("start_date"));
                 dto.setEnd_date(rs.getString("end_date"));
                 dto.setFcount(rs.getInt("fcount"));
+                dto.setFimg(rs.getString("fimg"));
                 return dto;
             }
         }catch (Exception e ){
@@ -471,6 +473,7 @@ public class FairDao extends Dao{
                 dto.setStart_date(rs.getString("start_date"));
                 dto.setEnd_date(rs.getString("end_date"));
                 dto.setFcount(rs.getInt("fcount"));
+                dto.setFimg(rs.getString("fimg"));
                 list.add(dto);
             }
         }catch (Exception e ){

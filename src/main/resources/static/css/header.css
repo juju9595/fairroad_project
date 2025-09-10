@@ -56,7 +56,7 @@ body {
 .menu {
     width: 40px;
     height: 40px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -68,7 +68,7 @@ body {
     margin: 0;
     padding: 5px 10px;
     display: none;
-    flex-direction: row; /* 세로 → 가로 */
+    flex-direction: row;
     gap: 6px; /* 메뉴 간 간격 */
     background: #fff;
     border: 1px solid #ddd;
@@ -86,7 +86,8 @@ body {
     color: #333;
     font-size: 13px;
     padding: 6px 8px;
-    display: block; /* 블록 → inline-block으로 바꾸면 메뉴 크기 최소화 가능 */
+    display: inline-block; /* 블록 → inline-block으로 바꾸면 메뉴 크기 최소화 가능 */
+    white-space: nowrap;
 }
 
 #log-menu li a:hover {
@@ -203,4 +204,33 @@ body {
     font-size: 14px;
     background: #fff;
     flex-shrink: 0; /* input과 높이 맞추기 */
+}
+
+.banner2{
+    position: fixed;
+    right: 100px; top: 0px;
+    width: 280px;
+    height: 716px;
+    background-color: white;
+
+}
+.banner2_img{
+    width: 260px;
+    margin: 70px 0px 0px 10px;
+
+}
+.qrcode{
+    width: 100px;
+    margin: 0px 0px 0px 15px;
+}
+/* @media only screen and (min-width: 1080px) {
+    .banner2 {
+        position: none;
+    }
+} */
+
+@media (max-width: 1080px) {
+  .banner2 {
+    display: none;
+  }
 }
