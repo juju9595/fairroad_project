@@ -28,9 +28,6 @@ dependencies {
     //롬복
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
-    //JSTL
-    implementation("javax.servlet:jstl:1.2")
 }
 
 tasks.named('test') {

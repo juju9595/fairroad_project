@@ -41,82 +41,68 @@ public class FairService {
     }//func end
 
     //박람회 메인 전체 조회
-    public PageDto fairMainPrint(int page,int count,String key, String keyword , List<Integer> showFno){
-        int startRow=(page-1)*count;
-
+    public PageDto fairMainPrint(int page, int count, String key, String keyword, List<Integer> showFno, boolean isMember) {
+        int startRow = (page - 1) * count;
         int totalCount;
+        List<FairDto> fairList;
 
-        //자료구하기
-        List<FairDto>fairList;
+        boolean fetchAll = !isMember; // 비회원이면 전체 조회
 
-        if(key!=null&&!key.isEmpty()&&keyword!=null&&!keyword.isEmpty()){
-            //검색일때
-            totalCount=fairDao.getMainTotalCountSearch(key,keyword);
-            fairList=fairDao.fairPrintMainSearch(startRow,count,key,keyword);
-        }else{
-            //검색 아닐때
+        // 검색 여부
+        if(key != null && !key.isEmpty() && keyword != null && !keyword.isEmpty()){
+            totalCount = fairDao.getMainTotalCountSearch(key, keyword);
+            fairList = fairDao.fairPrintMainSearch(startRow, count, key, keyword); // 검색은 페이징 유지
+        } else {
             totalCount = fairDao.getMainTotalCount();
-            fairList = fairDao.fairPrintMain(startRow,count);
-        }//if end
-
-        // 메인 전체 페이지수
-        // int totalPage = totalCount % count == 0? totalCount/count : totalCount/count+1; //나머지 1
+            fairList = fairDao.fairPrintMain(startRow, count, fetchAll); // fetchAll 반영
+        }
 
         // 중복 제거
-        if(showFno != null && showFno.isEmpty()){
+        if(showFno != null && !showFno.isEmpty()){
             Set<Integer> showSet = new HashSet<>(showFno);
             fairList = fairList.stream()
                     .filter(fair -> fair != null && !showSet.contains(fair.getFno()))
                     .toList();
         }
 
-        // 종료된 박람회 제외 String -> LocalDate 변환
+        // 종료된 박람회 제외
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         fairList = fairList.stream()
-                .filter(fair ->{
-                    if(fair == null || fair.getEnd_date() == null ) return false;
-                    LocalDate endDate;
+                .filter(fair -> {
+                    if(fair == null || fair.getEnd_date() == null) return false;
                     try {
-                        endDate = LocalDate.parse(fair.getEnd_date() , formatter);
-                    }catch (Exception e){
+                        LocalDate endDate = LocalDate.parse(fair.getEnd_date(), formatter);
+                        return endDate.isAfter(LocalDate.now());
+                    } catch (Exception e) {
                         return false;
                     }
-                    return endDate.isAfter(LocalDate.now());
                 })
                 .toList();
 
+        // 페이지별 slice (회원만)
+        List<FairDto> pageList;
+        if(isMember) {
+            int endRow = Math.min(startRow + count, fairList.size());
+            pageList = (startRow < fairList.size()) ? fairList.subList(startRow, endRow) : Collections.emptyList();
+        } else {
+            pageList = fairList; // 비회원이면 전체 데이터를 한 번에
+        }
 
+        int totalPage = (int) Math.ceil((double) totalCount / count);
+
+        // PageDto 구성
         PageDto pageDto = new PageDto();
         pageDto.setCurrentPage(page);
-        pageDto.setTotalCount(fairList.size());
+        pageDto.setTotalCount(totalCount);
         pageDto.setPerCount(count);
-        pageDto.setData(fairList);
+        pageDto.setTotalPage(totalPage);
+        pageDto.setData(pageList);
+        pageDto.setLastPage(true); // 비회원은 한 번에 전체 로드
+
         return pageDto;
+    }
 
-        // 페이징 처리 시 썻던 코드
-//        //최대 버튼수
-//        int btnCount=5;
-//
-//        //시작버튼
-//        int startBtn = ((page-1)/btnCount)*btnCount+1;
-//        //int startBtn = ((page-1)/btnCount)*btnCount+1;
-//        // 끝버튼
-//        int endBtn = startBtn + btnCount -1;
-//        //총 페이지 수 끝번호
-//        if(endBtn > totalPage) endBtn = totalPage;
-//
-//        //pageDto 구성하기
-//        PageDto pageDto = new PageDto();
-//        pageDto.setCurrentPage(page);
-//        pageDto.setTotalPage(totalPage);
-//        pageDto.setPerCount(count);
-//        pageDto.setTotalCount(totalCount);
-//        pageDto.setStartBtn(startBtn);
-//        pageDto.setEndBtn(endBtn);
-//        pageDto.setData(fairList);
-//        return pageDto;
 
-    }//func end
 
     //박람회 카테고리별 전체 조회
     public PageDto fairPrint(int cno,int page,int count,String key, String keyword ){

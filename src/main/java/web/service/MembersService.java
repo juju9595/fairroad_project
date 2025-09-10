@@ -93,10 +93,9 @@ public class MembersService {
         String result = memberDao.findId(map);
         Map<String, String> resultMap = new HashMap<>();
         if(result == null){
-            resultMap.put("status", "fail");
             resultMap.put("msg" , "해당 정보로 가입된 회원이 없습니다.");
         }else {
-            resultMap.put("msg", result);
+            resultMap.put("msg", "회원님의 아이디는"+result+"입니다.");
         }return resultMap;
     }//func e
 
@@ -113,8 +112,8 @@ public class MembersService {
     boolean result = memberDao.findPwd(map);
     Map<String, String> resultMap = new HashMap<>();
     if(result == true){
-        resultMap.put("msg", mpwd);
-    }else {resultMap.put("msg","회원정보없음");}
+        resultMap.put("msg", "임시비밀번호는"+mpwd+"입니다. 비밀번호를 수정해주세요.");
+    }else {resultMap.put("msg","해당 정보로 가입된 회원이 없습니다. 다시 입력해주세요.");}
     //반환
         return resultMap;
     }
