@@ -3,7 +3,7 @@ const wish = wishParams.get('fno');
 console.log(wish);
 
 // 버튼 DOM 가져오기 (박람회 상세 제목 옆 버튼)
-const wishBtn = document.querySelector(".title-container button");
+const wishBtn = document.querySelector(".imgf .wish-btn");
 
 const wishWrite = async () => {
     console.log("wishWrite.js open");
