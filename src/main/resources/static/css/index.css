@@ -134,6 +134,9 @@ body {
   height: 120px;
 }
 
+.content-wrapper{
+  padding-bottom: 100px;
+}
 /* 검색 바 */
 .search-bar {
   display: flex;
