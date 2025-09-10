@@ -117,6 +117,7 @@ body {
     line-height: 1;
     cursor: pointer;
     box-sizing: border-box;
+    margin-left: 10px;
 }
 
 /* 조회수 */
@@ -297,13 +298,19 @@ body {
 
 /* 가격 영역 */
 .pricef {
-    margin: 12px 0;
-    font-size: 20px;       /* "가격 :" 텍스트 크기 */
+    display: flex;
+    align-items: center;   /* 가격 텍스트도 flex로 감싸서 수직 가운데 정렬 */
+    margin: 0;             /* margin으로 밀려난 부분 제거 */
+    font-size: 20px;
     font-weight: 600;
     color: #555;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1;        /* 불필요한 여백 제거 */
 }
-
+.pricef .label {
+    font-size: 18px;       /* "가격:"만 작게 */
+    font-weight: 500;       /* 보통 굵기 */
+    color: #7f8c8d;        /* 회색톤 */
+}
 .pricef .fprice {
     font-size: 20px;       /* 금액은 크게 */
     font-weight: 700;      /* 두껍게 */
@@ -314,36 +321,42 @@ body {
 
 .pricef .currency {
     font-size: 18px;       /* "원"은 작게 */
-    font-weight: 400;      /* 보통 굵기 */
+    font-weight: 500;      /* 보통 굵기 */
     color: #7f8c8d;        /* 회색톤 */
 }
 
 /* 가격,URL */
 .price_url_container {
     display: flex;
-    justify-content: space-evenly; /* 또는 space-between */
-    align-items: center;
+    justify-content: space-between; /* 왼쪽-오른쪽으로 벌리기 */
+    align-items: center;            /* 세로 가운데 정렬 */
     margin-top: 10px;
+    margin-left: 30px;
+    margin-right: 30px;             /* 오른쪽 여백 추가 */
 }
 
-.pricef {
-    font-weight: 500;
-    font-size: 16px;
-}
+/* URL*/
 
 .urlf a {
-    display: inline-block;
-    padding: 6px 14px;
-    background-color: #e9ecef;  /* 개최일/마감일 버튼 색상 */
-    color: #212529;             /* 글자색 */
-    border-radius: 20px;        /* pill 버튼 느낌 */
+    display: flex;              /* 인라인 대신 flex */
+    align-items: center;        /* 안 글씨를 수직 가운데 */
+    justify-content: center;
+    height: 32px;               /* 버튼 높이 고정 */
+    padding: 0 14px;            /* 세로 패딩 제거 → 글씨 중앙정렬 */
+    background-color: #eee;
+    color: #555;
+    border: none;
+    border-radius: 20px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
+    margin-right:0px ;
+    margin-right:55px;
 }
 
 .urlf a:hover {
     background-color: #d6d8db;  /* hover 시 살짝 진한 회색 */
     color: #000;
     text-decoration: none;
+    border: none;               /* hover 시에도 테두리 제거 */
 }

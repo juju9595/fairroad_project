@@ -28,16 +28,16 @@
             <div class="imgf">
                 <span class="fimg"></span>
             </div>
-            
+
             <div class="price_url_container">
                 <div class="pricef">
-                    가격 : <span class="fprice"></span>
+                    <span class="label">가격 :</span>
+                    <span class="fprice"></span>
                     <span class="currency">원</span>
-
+                </div>
                     <div class="urlf">
                         <span class="furl"></span>
                     </div>
-                </div>
             </div>
 
 
