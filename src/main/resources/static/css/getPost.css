@@ -318,8 +318,32 @@ body {
     color: #7f8c8d;        /* 회색톤 */
 }
 
-/* URL */
-.urlf .furl a.url-button {
-  background-color: #f28b82 !important;
-  color: #fff !important;
+/* 가격,URL */
+.price_url_container {
+    display: flex;
+    justify-content: space-evenly; /* 또는 space-between */
+    align-items: center;
+    margin-top: 10px;
+}
+
+.pricef {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.urlf a {
+    display: inline-block;
+    padding: 6px 14px;
+    background-color: #e9ecef;  /* 개최일/마감일 버튼 색상 */
+    color: #212529;             /* 글자색 */
+    border-radius: 20px;        /* pill 버튼 느낌 */
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.urlf a:hover {
+    background-color: #d6d8db;  /* hover 시 살짝 진한 회색 */
+    color: #000;
+    text-decoration: none;
 }
