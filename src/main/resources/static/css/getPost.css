@@ -71,56 +71,6 @@ body {
   height: 70px;
   box-sizing: border-box;
 }
-/* 왼쪽 아이콘 (정확히 가운데 맞추기 위해 display:block + margin reset) */
-.title-container img {
-    display: block;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0;                      /* 브라우저 기본 margin 제거 */
-    flex: 0 0 auto;                 /* flex 고정 크기 */
-    align-self: center;
-}
-
-/* 게시판 제목 */
-.title-container .fname {
-  position: relative;
-  flex: 1;
-  text-align: center;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.4;             /* 줄 간격 */
-  display: -webkit-box;         /*  Flex 대신 사용 */
-  -webkit-line-clamp: 2;        /*  최대 2줄 */
-  -webkit-box-orient: vertical; /*  세로 방향 */
-  overflow: hidden;             /*  넘치면 숨김 */
-  text-overflow: ellipsis;      /*  말줄임(...) */
-  white-space: normal;          /*  줄바꿈 허용 */
-  margin-top: 10px;
-}
-
-/* 오른쪽 버튼 — flex 흐름에서 유지 (절대X) */
-.title-container button {
-    margin: 0;
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 44px;
-    min-width: 50px;
-    padding: 8px 16px;
-    border-radius: 25px;
-    border: 2px solid #f28b82;
-    background-color: #fff;
-    color: #f28b82;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 1;
-    cursor: pointer;
-    box-sizing: border-box;
-    margin-left: 10px;
-}
 
 /* 조회수 */
 .countf {
@@ -136,33 +86,6 @@ body {
     color: #555;
 }
 
-/* 개최일 / 마감일 */
-.date-container {
-    display: flex;
-    gap: 20px;
-    justify-content: space-evenly;
-    align-items: center;
-    margin: 20px;
-}
-.date_start, .date_end {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.date_start .label, .date_end .label {
-    background-color: #eee;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 15px;
-    color: #555;
-    white-space: nowrap;
-}
-.date_start .start_date, .date_end .end_date {
-    font-size: 15px;
-    color: #333;
-    font-weight: bold;
-}
 
 /* 즐겨찾기 버튼 */
 .imgf {
@@ -224,7 +147,10 @@ body {
 }
 
 
-/* 탭 버튼 */
+/* 부트스트랩 버튼 */
+.nav-tabs{
+    margin-top: 20px;
+}
 .nav-tabs .nav-link {
     color: #525658 !important;   /* 글씨 색상 */
     font-weight: 700 !important; /* 두껍게 */
@@ -314,44 +240,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* 가격 영역 */
-.pricef {
-    display: flex;
-    align-items: center;   /* 가격 텍스트도 flex로 감싸서 수직 가운데 정렬 */
-    margin: 0;             /* margin으로 밀려난 부분 제거 */
-    font-size: 20px;
-    font-weight: 600;
-    color: #555;
-    line-height: 1;        /* 불필요한 여백 제거 */
-}
-.pricef .label {
-    font-size: 18px;       /* "가격:"만 작게 */
-    font-weight: 500;       /* 보통 굵기 */
-    color: #7f8c8d;        /* 회색톤 */
-}
-.pricef .fprice {
-    font-size: 20px;       /* 금액은 크게 */
-    font-weight: 700;      /* 두껍게 */
-    color: #2c3e50;        /* 진한 남색 */
-    margin-left: 8px;
-    margin-right: 2px;
-}
-
-.pricef .currency {
-    font-size: 18px;       /* "원"은 작게 */
-    font-weight: 500;      /* 보통 굵기 */
-    color: #7f8c8d;        /* 회색톤 */
-}
-
-/* 가격,URL */
-.price_url_container {
-    display: flex;
-    justify-content: space-between; /* 왼쪽-오른쪽으로 벌리기 */
-    align-items: center;            /* 세로 가운데 정렬 */
-    margin-top: 10px;
-    margin-left: 30px;
-    margin-right: 30px;             /* 오른쪽 여백 추가 */
-}
 
 /* URL*/
 
@@ -377,4 +265,36 @@ body {
     color: #000;
     text-decoration: none;
     border: none;               /* hover 시에도 테두리 제거 */
+}
+
+/* 가격,개최일,마감일 */
+.product-info {
+    display: block;
+    border-top: 1px solid #eee;    /* ⬅️ 전체 위쪽 줄 */
+    border-bottom: 1px solid #eee; /* ⬅️ 전체 아래쪽 줄 */
+}
+
+.product-info .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee; /* 각 행 구분선 */
+}
+
+.product-info .info-row:last-child {
+    border-bottom: none; /* 마지막 행은 중복선 제거 */
+}
+
+.product-info .info-label {
+    font-weight: bold;
+    color: #5a3e1b;
+    min-width: 90px;
+}
+
+.product-info .info-value {
+    color: #000;
+    font-weight: 500;
+    text-align: right;
+    flex: 1;
 }
