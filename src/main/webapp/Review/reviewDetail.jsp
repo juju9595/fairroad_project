@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>리뷰 상세 조회</title>
     <link rel="stylesheet" href="/css/reviewDetail.css" />
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 
