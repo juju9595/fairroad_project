@@ -64,18 +64,14 @@ body {
     display: block;
 }
 
-/* ---------- title area (replace existing title-container rules) ---------- */
 .title-container {
-    position: relative;
-    display: flex;
-    align-items: center;           /* 세로 가운데 정렬 */
-    justify-content: space-between;/* 왼쪽(아이콘) / 오른쪽(버튼) 배치 기준 */
-    padding: 0 16px;
-    height: 70px;                  /* 필요하면 조절 */
-    box-sizing: border-box;
-    overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 70px;
+  box-sizing: border-box;
 }
-
 /* 왼쪽 아이콘 (정확히 가운데 맞추기 위해 display:block + margin reset) */
 .title-container img {
     display: block;
@@ -88,23 +84,18 @@ body {
     align-self: center;
 }
 
-/* 제목 — 컨테이너의 정확한 중앙에 고정 (절대 위치) */
+/* 제목 — 컨테이너의 정확한 중앙에 고정 */
 .title-container .fname {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%); /* 수평+수직 중앙 */
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    /* 버튼/아이콘과 겹치지 않도록 최대 너비 확보 */
-    max-width: calc(100% - 200px); /* 아이콘(48) + 버튼(~140) 여유 둠. 필요시 값 조절 */
-    padding: 0 8px; /* 제목이 길 때 좌우 여유 */
-    pointer-events: none; /* 제목이 절대중앙으로 클릭을 가로채지 않게 함 */
+  position: relative;
+  flex: 1;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
 }
 
 /* 오른쪽 버튼 — flex 흐름에서 유지 (절대X) */
@@ -115,7 +106,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 44px;
-    min-width: 88px;
+    min-width: 50px;
     padding: 8px 16px;
     border-radius: 25px;
     border: 2px solid #f28b82;
@@ -327,3 +318,8 @@ body {
     color: #7f8c8d;        /* 회색톤 */
 }
 
+/* URL */
+.urlf .furl a.url-button {
+  background-color: #f28b82 !important;
+  color: #fff !important;
+}

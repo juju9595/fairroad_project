@@ -19,7 +19,7 @@
             <div class="title-container">
                 <img src="/img/icon.jpg" alt="아이콘" />
                 <div class="fname"> </div>
-                <button type="button" onclick="wishWrite()">즐겨찾기</button>
+                <button type="button" onclick="wishWrite()"></button>
             </div>
 
             <div class="countf">조회수: <span class="fcount"></span></div>
@@ -29,7 +29,15 @@
                 가격 : <span class="fprice"></span>
                 <span class="currency">원</span>
             </div>
-            <div class="urlf">URL  <span class="furl"></span></div>
+
+<c:if test="${not empty fair.furl}">
+  <div class="urlf">
+    URL
+    <span class="furl">
+      <a href="${fair.furl}" target="_blank" class="url-button">바로가기</a>
+    </span>
+  </div>
+</c:if>
             <div class="date-container">
                 <div class="date_start">
                     <span class="label">개최일</span>
