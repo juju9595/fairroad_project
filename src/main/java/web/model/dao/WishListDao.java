@@ -17,7 +17,7 @@ public class WishListDao extends Dao{
     // 회원별 즐겨찾기 목록 조회 (페이징 적용)
     public List<WishListDto> memberWishList(int mno, int page, int count){
         List<WishListDto> list = new ArrayList<>();
-        String sql = "SELECT f.fno, f.fname, f.fimg, f.fplace, f.fprice, f.furl " +
+        String sql = "SELECT f.fno, f.fname, f.fimg, f.fplace, f.fprice, f.furl , f.start_date , f.end_date " +
                 "FROM wishlist w " +
                 "JOIN fair f ON w.fno = f.fno " +
                 "WHERE w.mno = ? " +
@@ -37,7 +37,9 @@ public class WishListDao extends Dao{
                             rs.getString("fimg"),
                             rs.getString("fplace"),
                             rs.getInt("fprice"),
-                            rs.getString("furl")
+                            rs.getString("furl"),
+                            rs.getString("start_date"),
+                            rs.getString("end_date")
                     );
                     list.add(dto);
                 }
