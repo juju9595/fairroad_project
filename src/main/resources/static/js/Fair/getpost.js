@@ -41,10 +41,15 @@ const renderFairDOM = (data) => {
     document.querySelector('.fname').textContent = data.fname;
     document.querySelector('.fcount').textContent = data.fcount;
     document.querySelector('.fprice').textContent = data.fprice;
-    document.querySelector('.furl').textContent = data.furl;
+    // document.querySelector('.furl').textContent = data.furl;
     document.querySelector('.start_date').textContent = data.start_date;
     document.querySelector('.end_date').textContent = data.end_date;
     document.querySelector('.finfo').innerHTML = data.finfo;
+    document.querySelector('.furl').innerHTML = `
+        <a href="${data.furl}" target="_blank" class="btn btn-secondary">
+            사이트 이동
+        </a>
+        `;
 
     // 관리자 세션 여부 확인
     // 세션키가 관리자 세션키가 loginAdmin 일때
