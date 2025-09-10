@@ -28,7 +28,6 @@ body {
 }
 
 .getpostname div {
-    margin-bottom: 12px;
     font-size: 1em;
     color: #7f8c8d;
     display: flex;
@@ -84,18 +83,21 @@ body {
     align-self: center;
 }
 
-/* 제목 — 컨테이너의 정확한 중앙에 고정 */
+/* 게시판 제목 */
 .title-container .fname {
   position: relative;
   flex: 1;
   text-align: center;
   font-weight: 700;
   font-size: 20px;
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 8px;
+  line-height: 1.4;             /* 줄 간격 */
+  display: -webkit-box;         /*  Flex 대신 사용 */
+  -webkit-line-clamp: 2;        /*  최대 2줄 */
+  -webkit-box-orient: vertical; /*  세로 방향 */
+  overflow: hidden;             /*  넘치면 숨김 */
+  text-overflow: ellipsis;      /*  말줄임(...) */
+  white-space: normal;          /*  줄바꿈 허용 */
+  margin-top: 10px;
 }
 
 /* 오른쪽 버튼 — flex 흐름에서 유지 (절대X) */
@@ -140,6 +142,7 @@ body {
     gap: 20px;
     justify-content: space-evenly;
     align-items: center;
+    margin: 20px;
 }
 .date_start, .date_end {
     display: flex;
@@ -351,7 +354,7 @@ body {
     text-decoration: none;
     transition: all 0.2s ease;
     margin-right:0px ;
-    margin-right:55px;
+    margin-right:60px;
 }
 
 .urlf a:hover {
