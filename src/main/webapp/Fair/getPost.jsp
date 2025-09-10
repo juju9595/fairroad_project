@@ -17,7 +17,7 @@
         <div class="title-container">
             <img src="/img/icon.jpg" alt="아이콘" />
             <div class="fname"></div>
-            <button type="button" onclick="wishWrite()">즐겨찾기</button>
+            <button type="button" onclick="wishWrite()"></button>
         </div>
 
         <div class="countf">
