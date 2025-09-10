@@ -34,12 +34,24 @@
                         찜</a></li>
             </ul>
         </div>
-
+        
         <div class="banner-slider">
             <div class="slider-track" id="slider-track">
-                <div class="slide"><img src="https://placehold.co/1200x300/F582A0/FFFFFF?text=광고1" alt="광고 이미지 1"></div>
-                <div class="slide"><img src="https://placehold.co/1200x300/52B2BF/FFFFFF?text=광고2" alt="광고 이미지 2"></div>
-                <div class="slide"><img src="https://placehold.co/1200x300/F4D03F/FFFFFF?text=광고3" alt="광고 이미지 3"></div>
+                <div class="slide">
+                    <a href="https://bighorn.co.kr/">
+                        <img src="/img/빅혼3.png">
+                    </a>
+                </div>
+                <div class="slide">
+                    <a href="https://gdppcat.com/">
+                        <img src="/img/궁디팡팡2.png">
+                    </a>
+                </div>
+                <div class="slide">
+                    <a href="https://www.coex.co.kr/exhibitions/%EC%A0%9C48%ED%9A%8C-%EB%B2%A0%ED%8E%98-%EB%B2%A0%EC%9D%B4%EB%B9%84%ED%8E%98%EC%96%B4/">
+                        <img src="/img/베이비페어2.png">
+                    </a>
+                </div>
             </div>
             <div class="pagination-dots" id="pagination-dots"></div>
         </div>
