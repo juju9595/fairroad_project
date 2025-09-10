@@ -71,8 +71,7 @@ const reviewDelete = async () => {
 
   if (ok === true) {
     alert("삭제되었습니다.");
-    location.href = "/Review/review";
-  setTimeout(() => window.location.replace(url), 0);
+    location.href = `/Fair/getPost.jsp?fno=${encodeURIComponent(fno)}`;
   } else {
     // 여기로 오면 '남의 글'이거나 존재하지 않음 등
     alert("본인 글만 삭제할 수 있거나, 삭제할 대상이 없습니다.");
