@@ -84,7 +84,7 @@ public class FairController { // class start
     @GetMapping("/allPostCategory")
     public PageDto fairPrint(@RequestParam (defaultValue = "1")int cno,
                              @RequestParam (defaultValue = "1")int page,
-                             @RequestParam (defaultValue = "5")int count,
+                             @RequestParam (defaultValue = "10")int count,
                              @RequestParam (required = false) String key,
                              @RequestParam (required = false) String keyword){
         PageDto result= fairService.fairPrint(cno,page,count,key,keyword);
@@ -94,21 +94,21 @@ public class FairController { // class start
     //박람회 메인 전체 조회(페이징/검색)
     @GetMapping("/allPostMain")
     public PageDto fairPrintMain(@RequestParam (defaultValue = "1")int page,
-                                 @RequestParam (defaultValue = "5")int count,
+                                 @RequestParam (defaultValue = "10")int count,
                                  @RequestParam (required = false) String key,
                                  @RequestParam (required = false) String keyword,
                                  @RequestParam (required = false) List<Integer> showFno ,
                                  HttpSession session){
         // 세션에서 회원번호(mno) 확인
         Integer mno = (Integer) session.getAttribute("loginMno");
-
+        boolean isMember = (mno != null);
         // 회원이면 알고리즘 , 비회원이면 전체 조회
         if(mno != null ){
             // 회원이면
             return recommendService.getRecommendationsPaged(mno , page , count , key ,keyword , showFno);
         }else {
-            // 비회원이면
-            return fairService.fairMainPrint(page , count , key , keyword , showFno);
+            // 회원 여부를 서비스로 전달
+            return fairService.fairMainPrint(page, count, key, keyword, showFno, isMember);
         } // if e
 
     } // func e

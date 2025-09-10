@@ -84,14 +84,25 @@ public class FairDao extends Dao{
     }//func end
     //-----------------------------------------------------------------------------------------------------------//
 
-    //박람회 메인화면 전체 조회
-    public List<FairDto>fairPrintMain(int starRow,int count){
+    // 박람회 메인화면 전체 조회
+    public List<FairDto> fairPrintMain(int startRow, int count, boolean fetchAll) {
         List<FairDto> list = new ArrayList<>();
-        try{
-            String sql = "select * from fair order by fno desc limit ?,?;";
+        try {
+            String sql;
+            if(fetchAll) {
+                // 비회원 전체 조회: LIMIT 대신 큰 수로 조회
+                sql = "SELECT * FROM fair ORDER BY fno DESC;";
+            } else {
+                // 일반 조회: 페이지 처리
+                sql = "SELECT * FROM fair ORDER BY fno DESC LIMIT ?, ?;";
+            }
+
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1,starRow);
-            ps.setInt(2,count);
+            if(!fetchAll) {
+                ps.setInt(1, startRow);
+                ps.setInt(2, count);
+            }
+
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 FairDto fairDto = new FairDto();
@@ -103,11 +114,13 @@ public class FairDao extends Dao{
                 fairDto.setStart_date(rs.getString("start_date"));
                 fairDto.setEnd_date(rs.getString("end_date"));
                 list.add(fairDto);
-
-            }//while end
-        } catch (Exception e) {System.out.println("메인화면 전체조회"+e);}//catch end
+            }
+        } catch (Exception e) {
+            System.out.println("메인화면 전체조회 오류: " + e);
+        }
         return list;
-    }//func end
+    }
+
 
 
     //-----------------------------------------------------------------------------------------------------------//

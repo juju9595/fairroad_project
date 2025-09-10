@@ -105,6 +105,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentPage++;
             }
 
+
+
             loading = false;
         });
     }
