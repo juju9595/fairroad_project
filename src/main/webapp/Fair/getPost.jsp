@@ -16,13 +16,16 @@
     <body>
         <jsp:include page="/header.jsp"></jsp:include>
         <!-- 조회수 -->
-        <div class="countf">
-            <div class="etcBox">
-                <!-- 수정 버튼 생기는곳 -->
-            </div>
-            조회수: <span class="fcount"></span>
-        </div>
-        <!-- 조회수 및 즐겨찾기 -->
+<div class="countf">
+    <div class="etcBox">
+        <!-- 수정 버튼 생기는곳 -->
+    </div>
+    <div class="viewcount">
+        조회수: <span class="fcount"></span>
+    </div>
+</div>
+
+        <!-- 이미지 및 즐겨찾기 -->
         <div class="imgf">
             <div class="fimg"></div>
             <button type="button" onclick="wishWrite()" class="wish-btn"></button>
@@ -31,10 +34,11 @@
         <div class="getpostname">
             <div class="title-container">
                 <div class="fname"></div>
+                <div class="urlf">
+                    <span class="furl"></span>
+                </div>
             </div>
-            <div class="urlf">
-                <span class="furl"></span>
-            </div>
+
         </div>
         <div class="product-info">
             <div class="info-row">

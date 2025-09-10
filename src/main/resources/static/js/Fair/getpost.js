@@ -44,7 +44,15 @@ const renderFairDOM = (data) => {
     // document.querySelector('.furl').textContent = data.furl;
     document.querySelector('.start_date').textContent = data.start_date;
     document.querySelector('.end_date').textContent = data.end_date;
+
     document.querySelector('.finfo').innerHTML = data.finfo;
+     // ✅ 상세정보 안 모든 img에 img-fluid 클래스 강제 적용 (부트스트랩)
+        document.querySelectorAll('.finfo img').forEach(img => {
+            img.classList.add('img-fluid');
+            img.removeAttribute('width');
+            img.removeAttribute('height');
+    });
+
     document.querySelector('.furl').innerHTML = `
         <a href="${data.furl}" target="_blank" class="btn btn-secondary">
             사이트 이동

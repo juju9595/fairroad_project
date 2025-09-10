@@ -72,21 +72,6 @@ body {
   box-sizing: border-box;
 }
 
-/* 조회수 */
-.countf {
-    font-weight: bold;
-    display: flex;
-    justify-content: flex-end;
-    color: #555;
-    margin-bottom: 12px;
-}
-.fcount {
-    font-weight: bold !important;
-    font-size: 16px;
-    color: #555;
-}
-
-
 /* 즐겨찾기 버튼 */
 .imgf {
     position: relative; /* 버튼 절대위치 기준 */
@@ -239,25 +224,27 @@ body {
     background-color: #e0e0e0;
     transform: translateY(-2px);
 }
-
-
+/* 제목 */
+.fname {
+    font-size: 20px !important;
+    font-weight: bold;
+}
 /* URL*/
 
 .urlf a {
-    display: flex;              /* 인라인 대신 flex */
-    align-items: center;        /* 안 글씨를 수직 가운데 */
+    display: flex;
+    align-items: center;
     justify-content: center;
-    height: 32px;               /* 버튼 높이 고정 */
-    padding: 0 14px;            /* 세로 패딩 제거 → 글씨 중앙정렬 */
+    height: 28px;          /* 조금 낮춤 */
+    padding: 0 12px;       /* 패딩 줄임 */
     background-color: #eee;
     color: #555;
     border: none;
     border-radius: 20px;
     font-weight: 600;
+    font-size: 12px;       /* 글자 크기 줄임 */
     text-decoration: none;
     transition: all 0.2s ease;
-    margin-right:0px ;
-    margin-right:60px;
 }
 
 .urlf a:hover {
@@ -297,31 +284,24 @@ body {
     font-weight: 500;
     text-align: right;
     flex: 1;
-
-
-/* fimg 가로사이즈*/
-.imgf {
-  width: 100%;
-  display: block;         /* inline-block -> block 으로 변경 */
-  position: relative;
+}
+/* 조회수,etc*/
+.countf {
+    display: flex;
+    justify-content: space-between; /* 왼쪽-오른쪽 배치 */
+    align-items: center;            /* 세로 가운데 정렬 */
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 12px;
 }
 
-/* inner image box */
-.fimg {
-  width: 100%;
-  background: #fafafa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 10px;
-  /* 필요하면 padding 으로 여백 조절 */
+.etcBox {
+    display: flex;
+    align-items: center; /* 버튼 수직 가운데 */
 }
 
-/* 모든 .fimg 내부 img 에 적용 (클래스 이름 불일치 문제 방지) */
-.fimg img {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;   /* 절대 잘리지 않고 전체 보이게 */
-  display: block;
+.viewcount {
+    font-weight: bold;
+    font-size: 16px;
+    color: #555;
 }
