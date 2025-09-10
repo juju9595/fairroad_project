@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // container가 UL이 아닌 경우 UL 생성
         if (container.tagName !== "UL") {
             const ul = document.createElement("ul");
             container.appendChild(ul);
@@ -47,24 +46,29 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         let html = "";
+        const isRecommend = currentCategoryUrl.includes("recommend=true");
+        const isRecent = currentCategoryUrl.includes("/visitlog/recent");
+        const isRegion = container.id === "regionContent";
+
         data.forEach(fair => {
-            const isRecent = currentCategoryUrl.includes("/visitlog/recent");
-            const isRegion = container.id === "regionContent";
-            if (!isRecent && !isRegion && shownFnoSet.has(fair.fno)) return;
-            if (!isRecent && !isRegion) shownFnoSet.add(fair.fno);
+            // ✅ 회원 추천만 중복 체크 무시, 나머지는 체크
+            if (!isRecommend && !isRecent && !isRegion) {
+                if (shownFnoSet.has(fair.fno)) return;
+                shownFnoSet.add(fair.fno);
+            }
 
             html += `
-                <li class="fair-item">
-                    <a href="/Fair/getPost.jsp?fno=${fair.fno}">
-                        <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/' + fair.fimg) : 'https://placehold.co/300x200?text=No+Image'}" 
-                             class="fair-img" alt="${fair.fname}">
-                        <div class="fair-info">
-                            <div class="fair-name">${fair.fname}</div>
-                            <div class="fair-date">${fair.start_date || ''} - ${fair.end_date || ''}</div>
-                        </div>
-                    </a>
-                </li>
-            `;
+        <li class="fair-item">
+            <a href="/Fair/getPost.jsp?fno=${fair.fno}">
+                <img src="${fair.fimg ? (fair.fimg.startsWith('http') ? fair.fimg : '/upload/' + fair.fimg) : 'https://placehold.co/300x200?text=No+Image'}" 
+                     class="fair-img" alt="${fair.fname}">
+                <div class="fair-info">
+                    <div class="fair-name">${fair.fname}</div>
+                    <div class="fair-date">${fair.start_date || ''} - ${fair.end_date || ''}</div>
+                </div>
+            </a>
+        </li>
+    `;
         });
 
         container.insertAdjacentHTML('beforeend', html);
@@ -81,21 +85,20 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentKey && currentKeyword) url += `&key=${currentKey}&keyword=${currentKeyword}`;
 
         fetchJSON(url, data => {
+            let fairsData = data.data || data.wishList || data.lastvisitfair || [];
+
             if (currentPage === 1) {
                 contentEl.innerHTML = "";
                 shownFnoSet.clear();
             }
 
-            const fairsData = data.data || data.wishList || data.lastvisitfair || [];
             renderFairs(fairsData);
 
-            if (data.pageTitle) pageTitleEl.textContent = data.pageTitle;
-
-            // ✅ totalPage 기준으로 마지막 페이지 체크
-            if (currentPage >= data.totalPage) {
-                observer.disconnect();   // 끝까지 갔으면 무한스크롤 중단
+            // 무한스크롤 종료 판단
+            if (data.lastPage || fairsData.length === 0) {
+                observer.disconnect();
             } else {
-                currentPage++;           // 다음 페이지 준비
+                currentPage++;
             }
 
             loading = false;
