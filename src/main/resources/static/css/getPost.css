@@ -165,12 +165,25 @@ body {
 }
 
 /* 즐겨찾기 버튼 */
-.getpostname button {
+.imgf {
+    position: relative; /* 버튼 절대위치 기준 */
+    display: inline-block;
+}
+
+.imgf {
+    position: relative; /* 버튼 절대위치 기준 */
+    display: inline-block;
+}
+
+.imgf .wish-btn {
+    position: absolute;
+    top: 10px;      /* 포스터 상단 여백 */
+    left: 10px;    /* 포스터 오른쪽 여백 */
     background-color: #fff;
     border: 2px solid #f28b82;
     color: #f28b82;
-    padding: 8px 16px;
-    border-radius: 25px;
+    padding: 6px 12px;
+    border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
     font-size: 14px;
@@ -178,21 +191,23 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
+    z-index: 10; /* 이미지 위에 항상 보이도록 추가 */
 }
-.getpostname button::before {
-    content: "♡"; /* 빈 하트 */
+
+/* 하트 아이콘 */
+.imgf .wish-btn::before {
+    content: "♡"; /* 기본 빈 하트 */
     font-size: 16px;
 }
-.getpostname button.active {
+.imgf .wish-btn.active {
     background-color: #f28b82;
     color: #fff;
 }
-.getpostname button.active::before {
-    content: "♥"; /* 채워진 하트 */
+.imgf .wish-btn.active::before {
+    content: "♥"; /* 즐겨찾기된 상태 → 채워진 하트 */
 }
-
 /* 수정/삭제 버튼 */
-.etcBox button {
+.countf .etcBox button {
     background-color: #f9dcdc;
     border: none;
     padding: 10px 20px;
@@ -203,7 +218,7 @@ body {
     color: #000;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.etcBox button:hover {
+.countf .etcBox button:hover {
     background-color: #f7b7b7;
     transform: translateY(-2px);
 }

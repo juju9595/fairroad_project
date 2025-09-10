@@ -13,20 +13,22 @@
 
     <body>
         <jsp:include page="/header.jsp"></jsp:include>
+        <!-- 조회수 -->
+        <div class="countf">
+            <div class="etcBox">
+                    <!-- 수정 버튼 생기는곳 -->
+            </div>
+            조회수: <span class="fcount"></span>
+        </div>
+        <!-- 조회수 및 즐겨찾기 -->
+        <div class="imgf">
+            <span class="fimg"></span>
+            <button type="button" onclick="wishWrite()" class="wish-btn"></button>
+        </div>
 
         <div class="getpostname">
             <div class="title-container">
-                <img src="/img/icon.jpg" alt="아이콘" />
                 <div class="fname"></div>
-                <button type="button" onclick="wishWrite()"></button>
-            </div>
-
-            <div class="countf">
-                조회수: <span class="fcount"></span>
-            </div>
-
-            <div class="imgf">
-                <span class="fimg"></span>
             </div>
 
             <div class="price_url_container">
@@ -39,7 +41,7 @@
                         <span class="furl"></span>
                     </div>
             </div>
-            <!--뺵업-->
+
 
                 <div class="date-container">
                     <div class="date_start">
@@ -52,9 +54,7 @@
                     </div>
                 </div>
 
-                <div class="etcBox">
-                    <!-- 수정 버튼 생기는곳 -->
-                </div>
+
             </div>
 
             <!-- 부트스트랩 탭 시작 -->
