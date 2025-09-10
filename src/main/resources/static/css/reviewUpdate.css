@@ -63,5 +63,3 @@ body{
 }
 .updateBox button:hover{ background:#f7b7b7; }
 
-/* 반응형 */
-@media (max-width:560px){ .updateBox{ padding:20px; } }

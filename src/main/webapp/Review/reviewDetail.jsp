@@ -31,7 +31,7 @@
         </div>
 
         <div class="etcBox">
-            <button class="delete" onclick="reviewDelete()">삭제</button>
+            <button type="button" onclick="reviewDelete()">삭제</button>
             <button type="button" onclick="goUpdatePage()">수정</button>
         </div>
     </div>

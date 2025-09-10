@@ -12,13 +12,15 @@
 </head>
 <body>
     <jsp:include page="/header.jsp"></jsp:include>
-    제목
-    <input type="text" class="rtitle"><br/>
-    내용
-    <textarea class="rcontent"></textarea><br/>
+        <div class="updateBox">
+        제목
+        <input type="text" class="rtitle"><br/>
+        내용
+        <textarea class="rcontent"></textarea><br/>
 
-    <button onclick="reviewUpdate()"> 수정 </button>
-
+        <button onclick="reviewUpdate()"> 수정 </button>
+    </div>
+        
 
     <jsp:include page="/footer.jsp"></jsp:include>
     <script src="/js/Review/reviewUpdate.js"></script>
