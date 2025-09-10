@@ -297,4 +297,31 @@ body {
     font-weight: 500;
     text-align: right;
     flex: 1;
+
+
+/* fimg 가로사이즈*/
+.imgf {
+  width: 100%;
+  display: block;         /* inline-block -> block 으로 변경 */
+  position: relative;
+}
+
+/* inner image box */
+.fimg {
+  width: 100%;
+  background: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 10px;
+  /* 필요하면 padding 으로 여백 조절 */
+}
+
+/* 모든 .fimg 내부 img 에 적용 (클래스 이름 불일치 문제 방지) */
+.fimg img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;   /* 절대 잘리지 않고 전체 보이게 */
+  display: block;
 }

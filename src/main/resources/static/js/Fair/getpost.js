@@ -76,7 +76,7 @@ const renderFairDOM = (data) => {
             ? data.fimg
             : `/upload/${data.fimg}`;
 
-        img.className = 'fimg';
+        img.className = 'img-fluid rounded'; //fimg -> img-fluid rounded 문제 있을시 fimg 원복
         // fimg 요소 컨테이너에 추가
         imgContainer.appendChild(img);
     }

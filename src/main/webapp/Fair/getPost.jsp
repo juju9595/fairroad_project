@@ -24,7 +24,7 @@
         </div>
         <!-- 조회수 및 즐겨찾기 -->
         <div class="imgf">
-            <span class="fimg"></span>
+            <div class="fimg"></div>
             <button type="button" onclick="wishWrite()" class="wish-btn"></button>
         </div>
 
