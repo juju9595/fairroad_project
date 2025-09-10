@@ -28,7 +28,6 @@ body {
 }
 
 .getpostname div {
-    margin-bottom: 12px;
     font-size: 1em;
     color: #7f8c8d;
     display: flex;
@@ -72,52 +71,6 @@ body {
   height: 70px;
   box-sizing: border-box;
 }
-/* 왼쪽 아이콘 (정확히 가운데 맞추기 위해 display:block + margin reset) */
-.title-container img {
-    display: block;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0;                      /* 브라우저 기본 margin 제거 */
-    flex: 0 0 auto;                 /* flex 고정 크기 */
-    align-self: center;
-}
-
-/* 제목 — 컨테이너의 정확한 중앙에 고정 */
-.title-container .fname {
-  position: relative;
-  flex: 1;
-  text-align: center;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 8px;
-}
-
-/* 오른쪽 버튼 — flex 흐름에서 유지 (절대X) */
-.title-container button {
-    margin: 0;
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 44px;
-    min-width: 50px;
-    padding: 8px 16px;
-    border-radius: 25px;
-    border: 2px solid #f28b82;
-    background-color: #fff;
-    color: #f28b82;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 1;
-    cursor: pointer;
-    box-sizing: border-box;
-}
 
 /* 조회수 */
 .countf {
@@ -133,40 +86,27 @@ body {
     color: #555;
 }
 
-/* 개최일 / 마감일 */
-.date-container {
-    display: flex;
-    gap: 20px;
-    justify-content: space-evenly;
-    align-items: center;
-}
-.date_start, .date_end {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.date_start .label, .date_end .label {
-    background-color: #eee;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 15px;
-    color: #555;
-    white-space: nowrap;
-}
-.date_start .start_date, .date_end .end_date {
-    font-size: 15px;
-    color: #333;
-    font-weight: bold;
-}
 
 /* 즐겨찾기 버튼 */
-.getpostname button {
+.imgf {
+    position: relative; /* 버튼 절대위치 기준 */
+    display: inline-block;
+}
+
+.imgf {
+    position: relative; /* 버튼 절대위치 기준 */
+    display: inline-block;
+}
+
+.imgf .wish-btn {
+    position: absolute;
+    top: 10px;      /* 포스터 상단 여백 */
+    left: 10px;    /* 포스터 오른쪽 여백 */
     background-color: #fff;
     border: 2px solid #f28b82;
     color: #f28b82;
-    padding: 8px 16px;
-    border-radius: 25px;
+    padding: 6px 12px;
+    border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
     font-size: 14px;
@@ -174,21 +114,23 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
+    z-index: 10; /* 이미지 위에 항상 보이도록 추가 */
 }
-.getpostname button::before {
-    content: "♡"; /* 빈 하트 */
+
+/* 하트 아이콘 */
+.imgf .wish-btn::before {
+    content: "♡"; /* 기본 빈 하트 */
     font-size: 16px;
 }
-.getpostname button.active {
+.imgf .wish-btn.active {
     background-color: #f28b82;
     color: #fff;
 }
-.getpostname button.active::before {
-    content: "♥"; /* 채워진 하트 */
+.imgf .wish-btn.active::before {
+    content: "♥"; /* 즐겨찾기된 상태 → 채워진 하트 */
 }
-
 /* 수정/삭제 버튼 */
-.etcBox button {
+.countf .etcBox button {
     background-color: #f9dcdc;
     border: none;
     padding: 10px 20px;
@@ -199,13 +141,16 @@ body {
     color: #000;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.etcBox button:hover {
+.countf .etcBox button:hover {
     background-color: #f7b7b7;
     transform: translateY(-2px);
 }
 
 
-/* 탭 버튼 */
+/* 부트스트랩 버튼 */
+.nav-tabs{
+    margin-top: 20px;
+}
 .nav-tabs .nav-link {
     color: #525658 !important;   /* 글씨 색상 */
     font-weight: 700 !important; /* 두껍게 */
@@ -295,55 +240,61 @@ body {
     transform: translateY(-2px);
 }
 
-/* 가격 영역 */
-.pricef {
-    margin: 12px 0;
-    font-size: 20px;       /* "가격 :" 텍스트 크기 */
-    font-weight: 600;
-    color: #555;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-}
 
-.pricef .fprice {
-    font-size: 20px;       /* 금액은 크게 */
-    font-weight: 700;      /* 두껍게 */
-    color: #2c3e50;        /* 진한 남색 */
-    margin-left: 8px;
-    margin-right: 2px;
-}
-
-.pricef .currency {
-    font-size: 18px;       /* "원"은 작게 */
-    font-weight: 400;      /* 보통 굵기 */
-    color: #7f8c8d;        /* 회색톤 */
-}
-
-/* 가격,URL */
-.price_url_container {
-    display: flex;
-    justify-content: space-evenly; /* 또는 space-between */
-    align-items: center;
-    margin-top: 10px;
-}
-
-.pricef {
-    font-weight: 500;
-    font-size: 16px;
-}
+/* URL*/
 
 .urlf a {
-    display: inline-block;
-    padding: 6px 14px;
-    background-color: #e9ecef;  /* 개최일/마감일 버튼 색상 */
-    color: #212529;             /* 글자색 */
-    border-radius: 20px;        /* pill 버튼 느낌 */
+    display: flex;              /* 인라인 대신 flex */
+    align-items: center;        /* 안 글씨를 수직 가운데 */
+    justify-content: center;
+    height: 32px;               /* 버튼 높이 고정 */
+    padding: 0 14px;            /* 세로 패딩 제거 → 글씨 중앙정렬 */
+    background-color: #eee;
+    color: #555;
+    border: none;
+    border-radius: 20px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
+    margin-right:0px ;
+    margin-right:60px;
 }
 
 .urlf a:hover {
     background-color: #d6d8db;  /* hover 시 살짝 진한 회색 */
     color: #000;
     text-decoration: none;
+    border: none;               /* hover 시에도 테두리 제거 */
+}
+
+/* 가격,개최일,마감일 */
+.product-info {
+    display: block;
+    border-top: 1px solid #eee;    /* ⬅️ 전체 위쪽 줄 */
+    border-bottom: 1px solid #eee; /* ⬅️ 전체 아래쪽 줄 */
+}
+
+.product-info .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee; /* 각 행 구분선 */
+}
+
+.product-info .info-row:last-child {
+    border-bottom: none; /* 마지막 행은 중복선 제거 */
+}
+
+.product-info .info-label {
+    font-weight: bold;
+    color: #5a3e1b;
+    min-width: 90px;
+}
+
+.product-info .info-value {
+    color: #000;
+    font-weight: 500;
+    text-align: right;
+    flex: 1;
 }

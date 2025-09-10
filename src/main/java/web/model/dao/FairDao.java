@@ -361,7 +361,7 @@ public class FairDao extends Dao{
         try{
             // MySQL LIMIT OFFSET 적용
             int offset = (page - 1) * count;
-            String sql = "SELECT fno, fname, fcount, fplace, fprice " +
+            String sql = "SELECT fno, fname, fcount, fplace, fprice , fimg " +
                     "FROM fair " +
                     "ORDER BY fcount DESC " +
                     "LIMIT ? OFFSET ?";
@@ -377,6 +377,7 @@ public class FairDao extends Dao{
                 dto.setFcount(rs.getInt("fcount"));
                 dto.setFplace(rs.getString("fplace"));
                 dto.setFprice(rs.getInt("fprice"));
+                dto.setFimg(rs.getString("fimg"));
                 list.add(dto);
             }
         } catch (Exception e) {
