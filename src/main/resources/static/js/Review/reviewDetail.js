@@ -1,5 +1,6 @@
 console.log("reviewDetail.js open");
 
+// 주석확인용
 // 상세 리뷰 조회 함수
 const reviewDetail = async () => {
   try {
