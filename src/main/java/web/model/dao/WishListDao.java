@@ -113,5 +113,21 @@ public class WishListDao extends Dao{
         } catch (SQLException e) {System.out.println(e);}
         return 0;
     }//func end
+
+    //즐겨 찾기 Active
+    public boolean fairWishActive(int mno, int fno){
+        try{
+            String sql = "SELECT COUNT(*) FROM wishlist where mno=? and fno =?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,mno);
+            ps.setInt(2,fno);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                int count = rs.getInt(1);
+                return count > 0;
+            }//if end
+        } catch (Exception e){System.out.println(e);}//catch end
+        return false;
+    }//func end
 } // class e
 
