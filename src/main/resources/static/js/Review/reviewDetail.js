@@ -44,27 +44,24 @@ reviewDetail();
 
 // [1] 삭제처리
 const reviewDelete = async () => {
-  // URL에서 rno 가져오기
-  const params = new URLSearchParams(window.location.search);
-  const rno = params.get("rno");
-
-  if (!rno) {
-    console.error("파라미터 부족: rno 또는 fno 없음", { rno });
-    alert("잘못된 접근입니다.");
-    return;
-  }
-  
-  const res = await fetch(`/fair/review?rno=${rno}`, {
-    method: "DELETE"
-  });
-  console.log( res );
-
-  const data = res.json();
-
-
-    alert("삭제되었습니다.");
-    //location.href = `/Fair/getPost.jsp?fno=${data}`;
-
+    // URL에서 rno 가져오기
+    const params = new URLSearchParams(window.location.search);
+    const rno = params.get("rno");
+    if (!rno) {
+        console.error("파라미터 부족: rno 또는 fno 없음", { rno });
+        alert("잘못된 접근입니다.");
+        return;
+    }
+    const res = await fetch(`/fair/review?rno=${rno}`, {
+        method: "DELETE"
+    });
+    const data = await res.json();
+    if( data > 0 ){
+        alert("삭제되었습니다.");
+        location.href = `/Fair/getPost.jsp?fno=${data}`;
+    }else{
+        alert("삭제 실패 되었습니다. ");
+    }
 };
 
 
