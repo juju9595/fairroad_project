@@ -27,7 +27,7 @@ const wishWrite = async () => {
             wishBtn.classList.remove("active"); // 하트 비우기
         } else if (data > 0) {
             alert("즐겨찾기 등록 성공");
-            wishBtn.classList.add("active");    // 하트 채우기
+            wishBtn.classList.add("active");    // 하트 채움
         }
     } catch (e) {
         console.log(e);
