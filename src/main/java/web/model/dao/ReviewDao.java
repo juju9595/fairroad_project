@@ -117,20 +117,32 @@ import java.util.Map;
         }
 
 
-        // [5] 방문 리뷰 삭제
-        public boolean reviewDelete(int rno, int mno) {
-            String sql = "DELETE FROM review WHERE rno = ? AND mno = ?";
-            try { PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setInt(1, rno);
-                ps.setInt(2, mno); // 작성자 회원번호 검증
+    // [5] 방문 리뷰 삭제 (fno 반환)
+    public int reviewDelete(int rno, int mno) {
+        String sqlSelect = "SELECT fno FROM review WHERE rno = ? AND mno = ?";
+        String sqlDelete = "DELETE FROM review WHERE rno = ? AND mno = ?";
+        try {
+            // 먼저 fno 조회
+            PreparedStatement ps = conn.prepareStatement(sqlSelect);
+            ps.setInt(1, rno);
+            ps.setInt(2, mno);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int fno = rs.getInt("fno");
 
-                int count = ps.executeUpdate();
-                return count == 1;
-            } catch (Exception e) {
-                System.out.println(e);
+                // 삭제 실행
+                PreparedStatement ps2 = conn.prepareStatement(sqlDelete);
+                ps2.setInt(1, rno);
+                ps2.setInt(2, mno);
+                int count = ps2.executeUpdate();
+
+                if (count == 1) return fno; // 성공 시 fno 반환
             }
-            return false;
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        return 0; // 실패 시 0 반환
+    }
 
 
 
@@ -152,18 +164,15 @@ import java.util.Map;
         }
 
         // [7] 게시물 전체 조회
-        public List<ReviewDto> reviewPrint( int fno , int startRow , int count ){
+        public List<ReviewDto> reviewPrint( int fno ){
             List< ReviewDto > list = new ArrayList<>();
             try{
-                String sql = " select * from review r inner join members m " +
-                            " on r.mno = m.mno" +
-                            " where r.fno = ?" +
-                            " order by r.rno desc" +
-                            " limit ? , ? ";
+                String sql = "SELECT * FROM review r " +
+                        "INNER JOIN members m ON r.mno = m.mno " +
+                        "WHERE r.fno = ? " +
+                        "ORDER BY r.rno DESC";
                 PreparedStatement ps = conn.prepareStatement( sql );
                 ps.setInt( 1 , fno );
-                ps.setInt( 2 , startRow );
-                ps.setInt( 3 , count );
                 ResultSet rs = ps.executeQuery();
                 while ( rs.next() ){
                     ReviewDto reviewDto = new ReviewDto();

@@ -10,6 +10,8 @@ import web.model.dto.PageDto;
 import web.model.dto.ReviewDto;
 import web.service.ReviewService;
 
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -48,12 +50,8 @@ public class ReviewController { // class start
     // [2] 방문 리뷰 전체 조회
     // spec: GET /fair/review/print (queryString: 없음)
     @GetMapping("/print")
-    public PageDto reviewPrint(
-            @RequestParam int fno,
-            @RequestParam(defaultValue = "1") int page,       // 현재 페이지 번호
-            @RequestParam(defaultValue = "5") int count       // 페이지당 개수
-    ) {
-        return reviewService.reviewPrint(fno, page, count);
+    public List<ReviewDto> reviewPrint(@RequestParam int fno) {
+        return reviewService.reviewPrint(fno);
     }
 
 
@@ -96,9 +94,9 @@ public class ReviewController { // class start
 
     // [5] 방문 리뷰 삭제
     @DeleteMapping("")
-    public boolean reviewDelete(@RequestParam int rno, HttpSession session) {
+    public int reviewDelete(@RequestParam int rno, HttpSession session) {
         Integer loginMno = (Integer) session.getAttribute("loginMno");
-        if ( loginMno == null ) return false;
+        if (loginMno == null) return 0; // 로그인 안 된 경우 0 반환
         return reviewService.reviewDelete(rno, loginMno);
     }
 
