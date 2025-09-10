@@ -226,6 +226,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // ===============================
     // 초기 로드
     // ===============================
+    if (isMember) {
+        currentCategoryUrl = `/fair/allPostMain?page=${currentPage}&count=${countPerPage}&mno=${memberNo}&recommend=true`;
+        pageTitleEl.textContent = "추천 박람회";
+    } else {
+        currentCategoryUrl = `/fair/allPostMain?page=${currentPage}&count=${countPerPage}`;
+        pageTitleEl.textContent = "전체 박람회";
+    }
+
     loadFairs();
 
     // ===============================
