@@ -9,52 +9,55 @@
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <link rel="stylesheet" href="/css/getPost.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
     </head>
 
     <body>
         <jsp:include page="/header.jsp"></jsp:include>
-        <div class="getpostname">
 
+        <div class="getpostname">
             <div class="title-container">
                 <img src="/img/icon.jpg" alt="아이콘" />
-                <div class="fname"> </div>
+                <div class="fname"></div>
                 <button type="button" onclick="wishWrite()"></button>
             </div>
 
-            <div class="countf">조회수: <span class="fcount"></span></div>
-            <div class="imgf"><span class="fimg"></span></div>
-
-            <div class="pricef">
-                가격 : <span class="fprice"></span>
-                <span class="currency">원</span>
+            <div class="countf">
+                조회수: <span class="fcount"></span>
             </div>
 
-<c:if test="${not empty fair.furl}">
-  <div class="urlf">
-    URL
-    <span class="furl">
-      <a href="${fair.furl}" target="_blank" class="url-button">바로가기</a>
-    </span>
-  </div>
-</c:if>
-            <div class="date-container">
-                <div class="date_start">
-                    <span class="label">개최일</span>
-                    <span class="start_date"></span>
-                </div>
-                <div class="date_end">
-                    <span class="label">마감일</span>
-                    <span class="end_date"></span>
+            <div class="imgf">
+                <span class="fimg"></span>
+            </div>
+            
+            <div class="price_url_container">
+                <div class="pricef">
+                    가격 : <span class="fprice"></span>
+                    <span class="currency">원</span>
+
+                    <div class="urlf">
+                        <span class="furl"></span>
+                    </div>
                 </div>
             </div>
-            <div class="etcBox">
-                <!-- 수정 버튼 생기는곳-->
+
+
+                <div class="date-container">
+                    <div class="date_start">
+                        <span class="label">개최일</span>
+                        <span class="start_date"></span>
+                    </div>
+                    <div class="date_end">
+                        <span class="label">마감일</span>
+                        <span class="end_date"></span>
+                    </div>
+                </div>
+
+                <div class="etcBox">
+                    <!-- 수정 버튼 생기는곳 -->
+                </div>
             </div>
-        </div>
 
-
-                <!-- 부스스트랩 시작 -->
+            <!-- 부트스트랩 탭 시작 -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
@@ -79,14 +82,14 @@
                 <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                     tabindex="0">
                     <div class="reviewname">
-                            <div class="review-btn-wrap">
-                                <a href="/Review/reviewWrite.jsp?fno=${param.fno}"> 등록페이지로 이동하기 </a>
-                            </div>
+                        <div class="review-btn-wrap">
+                            <a href="/Review/reviewWrite.jsp?fno=${param.fno}">등록페이지로 이동하기</a>
+                        </div>
                         <table border="1" cellpadding="6" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th> 작성날짜 </th>
-                                    <th> 리뷰제목 </th>
+                                    <th>작성날짜</th>
+                                    <th>리뷰제목</th>
                                 </tr>
                             </thead>
                             <tbody class="reviewTbody">
@@ -96,16 +99,17 @@
                     </div>
                 </div>
             </div>
-        <jsp:include page="/footer.jsp"></jsp:include>
-        <script>
-            // 세션에서 loginAdmin 관리자 키를 호출 후 관리자 로그인하면 null -> true 로 변경
-            const loginAdmin = <%= Boolean.TRUE.equals(session.getAttribute("loginAdmin")) %>;
-        </script>
-        <script src='/js/Fair/getPost.js'></script>
-        <script src='/js/Review/review.js'></script>
-        <script src='/js/wishList/wishWrite.js'></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+            <jsp:include page="/footer.jsp"></jsp:include>
+
+            <script>
+                // 세션에서 loginAdmin 관리자 키를 호출 후 관리자 로그인하면 null -> true 로 변경
+                const loginAdmin = <%= Boolean.TRUE.equals(session.getAttribute("loginAdmin")) %>;
+            </script>
+            <script src='/js/Fair/getPost.js'></script>
+            <script src='/js/Review/review.js'></script>
+            <script src='/js/wishList/wishWrite.js'></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 
     </html>
