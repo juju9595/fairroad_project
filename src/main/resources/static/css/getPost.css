@@ -318,8 +318,3 @@ body {
     color: #7f8c8d;        /* 회색톤 */
 }
 
-/* URL */
-.urlf .furl a.url-button {
-  background-color: #f28b82 !important;
-  color: #fff !important;
-}
