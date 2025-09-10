@@ -20,6 +20,7 @@ const reviewDetail = async () => {
     }
 
     const review = await res.json();
+    console.log( review );
 
     // DOM에 출력
     const reviewDetailTbody = document.querySelector(".reviewDetailTbody");
@@ -53,31 +54,17 @@ const reviewDelete = async () => {
     return;
   }
   
-  const res = await fetch(`/fair/review?rno=${encodeURIComponent(rno)}`, {
-    method: "DELETE",
-    credentials: "include"
+  const res = await fetch(`/fair/review?rno=${rno}`, {
+    method: "DELETE"
   });
+  console.log( res );
 
-  if (res.status === 401) { alert("로그인이 필요합니다."); return; }
+  const data = res.json();
 
-  let ok = false;
-  try {
-    // 컨트롤러가 boolean을 JSON으로 주는 경우
-    ok = await res.json();  // true 또는 false
-  } catch {
-    // 혹시 text로 내려오면
-    const t = await res.text();
-    ok = (t.trim() === "true");
-  }
 
-  if (ok === true) {
     alert("삭제되었습니다.");
-    location.href = "/Review/review";
-  setTimeout(() => window.location.replace(url), 0);
-  } else {
-    // 여기로 오면 '남의 글'이거나 존재하지 않음 등
-    alert("본인 글만 삭제할 수 있거나, 삭제할 대상이 없습니다.");
-  }
+    //location.href = `/Fair/getPost.jsp?fno=${data}`;
+
 };
 
 

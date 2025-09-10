@@ -9,20 +9,20 @@ const findAllReview = async () => {
       return;
     }
 
-    const response = await fetch(`/fair/review/print?fno=${fno}`); 
-    const pageDto = await response.json();   // PageDto 객체
-    console.log(pageDto);
+    // 단순히 fno만 넘겨서 전체 조회
+    const response = await fetch(`/fair/review/print?fno=${fno}`);
+    const reviews = await response.json();   // 바로 배열(List<ReviewDto>)
+    console.log(reviews);
 
     const reviewTbody = document.querySelector('.reviewTbody');
     let html = '';
 
-
-    pageDto.data.forEach(review => {
-      html += `
+    reviews.forEach(review => {
+      html += `ㅌ₩
         <tr>
           <td>${review.rdate}</td>
           <td>
-            <a href="/Review/reviewDetail.jsp?rno=${review.rno}">
+            <a href="/Review/reviewDetail.jsp?rno=${review.rno}&fno=${fno}">
               ${review.rtitle}
             </a>
           </td>
@@ -37,4 +37,3 @@ const findAllReview = async () => {
 
 // 페이지 로드시 자동 실행
 findAllReview();
-
