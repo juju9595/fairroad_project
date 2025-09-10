@@ -30,7 +30,7 @@ public class AppStart { // class start
         } else {
             System.out.println("logs 폴더 이미 존재");
         }
-
+    //
 
         System.out.println("notifyUpcomingFairs 실행됨");
 
