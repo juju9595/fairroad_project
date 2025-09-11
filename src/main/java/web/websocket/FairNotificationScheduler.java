@@ -31,50 +31,6 @@ public class FairNotificationScheduler extends Dao {
     }
 
 
-    // [3] 3분마다 실행되는 스케줄러
-    // cron = "0 */3 * * * *"
-    // 초(0), 분(3분마다), 시, 일, 월, 요일
-    @Scheduled(cron = "0 */1 * * * *")
-    public void notifyUpcomingFairs() {
-
-        // [4] 위시리스트 + 박람회 테이블 조인
-        // 시작일이 오늘 기준 3일 후인 박람회 조회
-        String sql =
-                "select w.mno, f.fno, f.fname, f.start_date " +
-                        "from wishlist w " +
-                        "join fair f on w.fno = f.fno " +
-                        "where f.start_date = date_add(curdate(), interval 3 day)";
-
-        try (
-                // [5] SQL 준비
-                PreparedStatement ps = conn.prepareStatement(sql);
-                // [6] SQL 실행 → 결과 집합(ResultSet) 반환
-                ResultSet rs = ps.executeQuery()) {
-
-            // [7] 결과 집합 반복 처리
-            while (rs.next()) {
-                int mno = rs.getInt("mno");            // 회원 번호
-                int fno = rs.getInt("fno");            // 박람회 번호
-                String fname = rs.getString("fname");  // 박람회 이름
-                String startDate = rs.getDate("start_date").toString(); // 시작일
-
-                // [8] 알림 메시지 포맷팅
-                String msg = String.format("📢 '%s' 박람회가 %s에 열립니다!", fname, startDate);
-
-                // [9] DB에 알림 저장 (알람 이력 남김)
-                alarmService.createAlarm(mno, fno, msg);
-
-                // [10] WebSocket으로 해당 회원에게 실시간 알림 전송
-                socketHandler.sendMessageToUser(mno, msg);
-            }
-        } catch (Exception e) {
-            // [11] 예외 발생 시 로그 출력
-            System.out.println("notifyUpcomingFairs 오류: " + e);
-        }
-    }
-
-
-
     public void notifyUpcomingFairsForUser(int mno) {
         String sql =
                 "select w.mno, f.fno, f.fname, f.start_date " +
