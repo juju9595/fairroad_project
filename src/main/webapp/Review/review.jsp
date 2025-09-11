@@ -8,6 +8,7 @@
     <title>방문 리뷰 전체 조회</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/review.css">
 </head>
 <body>
 

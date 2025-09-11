@@ -18,7 +18,7 @@ const findAllReview = async () => {
     let html = '';
 
     reviews.forEach(review => {
-      html += `ㅌ₩
+      html += `
         <tr>
           <td>${review.rdate}</td>
           <td>

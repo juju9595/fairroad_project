@@ -184,6 +184,7 @@ body {
     color: #000; /* 기본 글씨 검은색 */
 }
 
+
 .reviewname td:first-child {
     font-size: 13px;
     color: #444; /* 날짜는 연한 검정 */
