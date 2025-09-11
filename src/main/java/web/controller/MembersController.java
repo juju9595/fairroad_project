@@ -50,14 +50,14 @@ public class MembersController { // class start
             //관리자 세션 저장
             session.setAttribute("loginAdmin",loginAdmin);
 
-            // WebSocket 연결될 시간을 1초 주고 알람 전송
+            // WebSocket 연결될 시간을 1초 주고 알람 전송//
             // 이게 왜 필요하냐면 WebSocket 연결보다 서버 푸시가 먼저 실행되기 때문에
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    fairNotificationScheduler.notifyUpcomingFairsForUser(result);
+                    fairNotificationScheduler.notifyUpcomingFairsForUser( result );
                 }
-            }, 1000); // 1초 지연
+            }, 2000); // 1초 지연
         }//if end
         return result;
     }//func e
