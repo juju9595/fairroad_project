@@ -45,7 +45,7 @@ body {
 }
 
 .category li {
-  margin: 5px 7px;
+  margin: 5px 10px;
   /* 각 항목 간 간격 설정 */
 }
 
@@ -53,7 +53,7 @@ body {
   display: flex;
   /* 아이콘과 텍스트 정렬 */
   align-items: center;
-  padding: 7px 10px;
+  padding: 10px 15px;
   border: 1px solid #ddd;
   border-radius: 20px;
   text-decoration: none;
@@ -342,3 +342,5 @@ body {
   font-size: 12px;
   color: #aaa;
 }
+
+ul { margin:0; padding:0; }

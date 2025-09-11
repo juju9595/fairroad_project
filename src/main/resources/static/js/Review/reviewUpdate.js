@@ -1,5 +1,19 @@
 console.log("reviewUpdate.js open");
 
+//기존 정보 불러오기
+const reviewinfo = async() =>{
+  try{
+    const rno = new URLSearchParams(location.search).get('rno'); //rno선언
+    const option = {method : "GET"}
+    const response = await fetch(`/fair/review/print2?rno=${rno}`, option);
+    const data = await response.json();
+
+    document.querySelector('.rtitle').value = data.rtitle;
+    document.querySelector('.rcontent').value = data.rcontent;
+  }catch(error){console.log(error)}
+}
+reviewinfo();//최초1번 실행
+
 // [2] 수정처리 
 const reviewUpdate = async () => {
   const params = new URLSearchParams(window.location.search);
