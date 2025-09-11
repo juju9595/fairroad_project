@@ -199,7 +199,6 @@ body {
   padding: 8px 16px;
   border-radius: 20px;
   background: #f1f1f1;
-  color: #333;
   font-weight: 600;
   text-decoration: none;
   border: 1px solid #ddd;
@@ -207,10 +206,16 @@ body {
   font-size: 13px;
 }
 
-.btn:hover {
+/* 일반 버튼 (회색) */
+.btn:not(.danger) {
+  color: #333;
+}
+
+.btn:not(.danger):hover {
   background: #e0e0e0;
 }
 
+/* 회원탈퇴 버튼 (빨강) */
 .btn.danger {
   background: #ffe5e5;
   color: #d9534f;
@@ -221,4 +226,19 @@ body {
   background: #f8cccc;
 }
 
-.btn {color: #333;}
+/* 일반 버튼: 회색 */
+.btn-group .btn:not(.danger) {
+  color: #333 !important;
+}
+
+/* 회원탈퇴: 빨강 */
+.btn-group .btn.danger {
+  color: #d9534f !important;
+}
+
+/* visited/hover에도 색 유지 */
+.btn-group .btn:not(.danger):visited,
+.btn-group .btn:not(.danger):hover { color: #333 !important; }
+
+.btn-group .btn.danger:visited,
+.btn-group .btn.danger:hover { color: #d9534f !important; }
