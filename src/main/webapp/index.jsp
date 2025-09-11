@@ -17,24 +17,6 @@
 
         <jsp:include page="/header.jsp"></jsp:include>
 
-        <div class="category">
-            <ul>
-                <li><a href="#" data-cno="1"><i class="fa-solid fa-ring"></i> 웨딩</a></li>
-                <li><a href="#" data-cno="2"><i class="fa-solid fa-baby"></i> 베이비</a></li>
-                <li><a href="#" data-cno="3"><i class="fa-solid fa-briefcase"></i> 취업</a></li>
-                <li><a href="#" data-cno="4"><i class="fa-solid fa-paw"></i> 애완</a></li>
-                <li><a href="#" data-cno="5"><i class="fa-solid fa-campground"></i> 캠핑</a></li>
-                <li><a href="#" data-url="/fair/visitlog/fcount" data-type="popular"><i class="fa-solid fa-star"></i>
-                        인기순</a></li>
-                <li><a href="#" data-url="/fair/visitlog/fregion" data-type="region"><i class="fa-solid fa-map"></i>
-                        지역</a></li>
-                <li><a href="#" data-url="/visitlog/recent" data-type="recent"><i class="fa-solid fa-clock"></i> 최근
-                        본</a></li>
-                <li><a href="#" data-url="/wish/member?mno=1" data-type="favorite"><i class="fa-solid fa-heart"></i> 내
-                        찜</a></li>
-            </ul>
-        </div>
-        
         <div class="banner-slider">
             <div class="slider-track" id="slider-track">
                 <div class="slide">
@@ -55,6 +37,26 @@
             </div>
             <div class="pagination-dots" id="pagination-dots"></div>
         </div>
+
+        <div class="category">
+            <ul>
+                <li><a href="#" data-cno="1"><i class="fa-solid fa-ring"></i> 웨딩</a></li>
+                <li><a href="#" data-cno="2"><i class="fa-solid fa-baby"></i> 베이비</a></li>
+                <li><a href="#" data-cno="3"><i class="fa-solid fa-briefcase"></i> 취업</a></li>
+                <li><a href="#" data-cno="4"><i class="fa-solid fa-paw"></i> 애완</a></li>
+                <li><a href="#" data-cno="5"><i class="fa-solid fa-campground"></i> 캠핑</a></li>
+                <li><a href="#" data-url="/fair/visitlog/fcount" data-type="popular"><i class="fa-solid fa-star"></i>
+                        인기순</a></li>
+                <li><a href="#" data-url="/fair/visitlog/fregion" data-type="region"><i class="fa-solid fa-map"></i>
+                        지역</a></li>
+                <li><a href="#" data-url="/visitlog/recent" data-type="recent"><i class="fa-solid fa-clock"></i> 최근
+                        본</a></li>
+                <li><a href="#" data-url="/wish/member?mno=1" data-type="favorite"><i class="fa-solid fa-heart"></i> 내
+                        찜</a></li>
+            </ul>
+        </div>
+        
+        
 
 
 
