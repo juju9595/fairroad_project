@@ -78,7 +78,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // 무한스크롤 박람회 로드
     // ===============================
     function loadFairs() {
+        console.log('111')
         if (loading) return;
+        console.log('222')
         loading = true;
 
         let url = currentCategoryUrl || `/fair/allPostMain?page=${currentPage}&count=${countPerPage}`;
