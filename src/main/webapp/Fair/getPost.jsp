@@ -16,14 +16,14 @@
     <body>
         <jsp:include page="/header.jsp"></jsp:include>
         <!-- 조회수 -->
-<div class="countf">
-    <div class="etcBox">
-        <!-- 수정 버튼 생기는곳 -->
-    </div>
-    <div class="viewcount">
-        조회수: <span class="fcount"></span>
-    </div>
-</div>
+        <div class="countf">
+            <div class="etcBox">
+                <!-- 수정 버튼 생기는곳 -->
+            </div>
+            <div class="viewcount">
+                조회수: <span class="fcount"></span>
+            </div>
+        </div>
 
         <!-- 이미지 및 즐겨찾기 -->
         <div class="imgf">
