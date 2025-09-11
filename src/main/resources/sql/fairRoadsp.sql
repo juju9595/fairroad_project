@@ -181,3 +181,16 @@ select * from visitlog;
 select * from wishList;
 select * from members;
 select *from fair;
+
+create table alarm (
+    ano int auto_increment,          -- 알림 고유번호
+    mno int not null,                -- 회원 번호
+    fno int not null,                -- 박람회 번호
+    message varchar(255) not null,   -- 알림 내용
+    created_at timestamp default current_timestamp, -- 알림 생성 시간
+    primary key(ano),
+    foreign key(mno) references members(mno) on delete cascade,
+    foreign key(fno) references fair(fno) on delete cascade
+);
+
+select * from alarm;
