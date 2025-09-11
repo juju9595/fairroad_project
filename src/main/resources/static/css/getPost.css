@@ -245,6 +245,7 @@ body {
     font-size: 12px;       /* 글자 크기 줄임 */
     text-decoration: none;
     transition: all 0.2s ease;
+    white-space: nowrap;   /* 줄바꿈 처리*/
 }
 
 .urlf a:hover {

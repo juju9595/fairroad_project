@@ -46,12 +46,28 @@ const renderFairDOM = (data) => {
     document.querySelector('.end_date').textContent = data.end_date;
 
     document.querySelector('.finfo').innerHTML = data.finfo;
-     // ✅ 상세정보 안 모든 img에 img-fluid 클래스 강제 적용 (부트스트랩)
-        document.querySelectorAll('.finfo img').forEach(img => {
-            img.classList.add('img-fluid');
-            img.removeAttribute('width');
-            img.removeAttribute('height');
+
+    // 상세정보 안 모든 img에 img-fluid 클래스 강제 적용 (부트스트랩)
+    // .finfo 안에 있는 div.contents 정리
+    document.querySelectorAll('.finfo .contents').forEach(div => {
+        div.removeAttribute('style'); // 인라인 스타일 제거
+        div.classList.add('text-center', 'mb-3'); // 가운데 정렬 + 간격
     });
+
+    // 이미지 스타일 정리
+    document.querySelectorAll('.finfo img').forEach(img => {
+        img.removeAttribute('width');
+        img.removeAttribute('height');
+
+        // cursor:pointer 같은 필수 스타일만 복구
+        const cursor = img.style.cursor;
+        img.removeAttribute('style');
+        if (cursor) img.style.cursor = cursor;
+
+        img.classList.add('img-fluid', 'rounded'); // 부트스트랩 적용
+    });
+    // 부스 스트랩 end
+
 
     document.querySelector('.furl').innerHTML = `
         <a href="${data.furl}" target="_blank" class="btn btn-secondary">
