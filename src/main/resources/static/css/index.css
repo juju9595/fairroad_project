@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: 'Noto Sans KR', sans-serif;
-  background-color: #fff;
+  background: #fff !important;
   color: #333;
 }
 
@@ -39,13 +39,13 @@ body {
   list-style: none;
   /* 리스트 점 제거 */
   padding: 0;
-  margin: 20px 0;
+  margin: 15px 0;
   flex-wrap: wrap;
   /* 카테고리가 많아지면 자동으로 줄바꿈 */
 }
 
 .category li {
-  margin: 5px 10px;
+  margin: 5px 5px;
   /* 각 항목 간 간격 설정 */
 }
 
@@ -53,7 +53,7 @@ body {
   display: flex;
   /* 아이콘과 텍스트 정렬 */
   align-items: center;
-  padding: 10px 15px;
+  padding: 7px 10px;
   border: 1px solid #ddd;
   border-radius: 20px;
   text-decoration: none;
@@ -64,7 +64,7 @@ body {
 }
 
 .category a:hover {
-  background-color: #f9dcdc;
+  background-color: #fff1e6;
   /* 호버 효과 */
   color: #000;
 }
@@ -137,6 +137,7 @@ body {
 .content-wrapper{
   padding-bottom: 100px;
 }
+
 /* 검색 바 */
 .search-bar {
   display: flex;
@@ -245,6 +246,65 @@ body {
   display: none;
 }
 
+#pageTitle{
+  margin: 0px 15px;
+  font-size: 17px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;   /* 세로 배치 */
+    align-items: center;      /* 가로 중앙 정렬 */
+    gap: 20px;                /* 아이템 간 간격 */
+    padding: 20px;
+}
+/* 박람회 아이템 */
+.fair-item {
+    list-style: none;         /* li 점 없애기 */
+    width: 390px;             /* 원하는 카드 크기 */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.fair-item:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.fair-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.fair-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;        /* 이미지 비율 유지 + 꽉 채우기 */
+}
+
+.fair-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.fair-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.fair-date {
+    font-size: 14px;
+    color: #555;
+}
+
+.content > ul > li{
+  margin: 0px 0px 10px 0px;
+}
+
 /* 페이지네이션 */
 .pagination {
   display: flex;
@@ -271,7 +331,7 @@ body {
   margin: 12px;
   border-radius: 12px;
   overflow: hidden;
-  height: 150px;
+  height: 170px;
   /* 배너의 높이 */
   position: relative;
 }

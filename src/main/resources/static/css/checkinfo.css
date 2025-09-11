@@ -1,4 +1,6 @@
-
+body{
+  background: #fff !important;
+}
 /* ===== 컨테이너 ===== */
 #container {
   width: 100%;
@@ -50,7 +52,7 @@
 }
 
 #container .btn-primary:hover {
-  background: #e55c50;
+  background: #fff1e6;
 }
 
 /* ===== 링크 영역 ===== */
