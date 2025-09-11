@@ -6,6 +6,7 @@ import web.model.dao.MemberDao;
 import web.model.dao.WishListDao;
 import web.model.dto.MembersDto;
 import web.model.dto.WishListDto;
+import web.websocket.FairNotificationScheduler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ public class MembersService {
     public int login(MembersDto membersDto){
         int result = memberDao.login(membersDto);
         return result;
+
     }
 
 // -----------------------------------------------------------------------------------------//
