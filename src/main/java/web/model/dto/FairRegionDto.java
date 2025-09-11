@@ -13,4 +13,6 @@ public class FairRegionDto { // 지역별로 리스트 묶어 반환하기 위�
     private String fplace;  // 추가
     private int fprice;     // 추가
     private String fimg;
+    private String start_date;
+    private String end_date;
 }

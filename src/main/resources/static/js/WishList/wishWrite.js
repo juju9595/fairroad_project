@@ -2,9 +2,23 @@ const wishParams = new URL(location.href).searchParams;
 const wish = wishParams.get('fno');
 console.log(wish);
 
-// 버튼 DOM 가져오기 (박람회 상세 제목 옆 버튼)
-const wishBtn = document.querySelector(".title-container button");
 
+// 버튼 DOM 가져오기 (박람회 상세 제목 옆 버튼)
+const wishBtn = document.querySelector(".imgf .wish-btn");
+
+//즐겨찾기 active
+const wishActive = async (mno, fno) => {
+    const response = await fetch(`/wish/active?mno=${mno}&fno=${fno}`);
+    const data = await response.json();
+    console.log("즐겨찾기active",data);
+    if (data) {
+        wishBtn.classList.add("active"); // 즐겨찾기 O
+    } else {
+        wishBtn.classList.remove("active"); // 즐겨찾기 X
+    }//if end
+}//func end
+
+//즐겨찾기 추가/취소
 const wishWrite = async () => {
     console.log("wishWrite.js open");
 
@@ -33,3 +47,11 @@ const wishWrite = async () => {
         console.log(e);
     }
 }; // func end
+
+    // 페이지 로드 시 active 상태 확인
+    document.addEventListener("DOMContentLoaded", () => {
+    const mno = sessionStorage.getItem("memberNo");
+    if (mno) {
+        wishActive(mno, wish);
+    }
+});
