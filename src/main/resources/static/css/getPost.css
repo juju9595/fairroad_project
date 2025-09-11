@@ -3,6 +3,7 @@ body {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     color: #333;
     line-height: 1.6;
+    padding-bottom: 100px;
 }
 
 .content-container {
@@ -208,7 +209,7 @@ body {
 }
 
 .reviewname td a:hover {
-    color: #fff1e6; /* 호버 시 포인트 색상 */
+    color: #333; /* 호버 시 포인트 색상 */
 }
 
 /* 등록페이지로이동 부분 */

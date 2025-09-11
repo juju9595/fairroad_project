@@ -22,6 +22,8 @@ public class ReviewController { // class start
 
     // [1] 방문 리뷰 등록 (로그인 필수)
     @PostMapping("/write")
+    // 원래는 다른 타입이 들어가는데 <?>는 왜 사용하냐면
+    // <?>는 와일드카드, 즉 아무 타입이나 올 수 있다는 의미
     public ResponseEntity<?> reviewWrite(@RequestBody ReviewDto reviewDto, HttpSession session) {
         // 1. 세션에서 로그인 회원번호 확인
         Integer loginMno = (Integer) session.getAttribute("loginMno");
@@ -55,7 +57,7 @@ public class ReviewController { // class start
     }
 
 
-    // [3] 방문 리뷰 개별 조회 (안전하게 반환)
+    // [3] 방문 리뷰 개별 조회
     @GetMapping("/print2")
     public ResponseEntity<ReviewDto> reviewPrint2( @RequestParam(required = false) Integer rno) {
         // 1. rno가 없거나 잘못 들어온 경우
