@@ -177,11 +177,6 @@ insert into visitlog ( mno , fno , vdate ) values
 (9, 2, '2025-03-10 11:22:30'),
 (NULL, 5, '2025-03-10 12:45:55');  # 비회원 방문 예시
 
-select * from visitlog;
-select * from wishList;
-select * from members;
-select *from fair;
-
 create table alarm (
     ano int auto_increment,          -- 알림 고유번호
     mno int not null,                -- 회원 번호
@@ -194,3 +189,7 @@ create table alarm (
 );
 
 select * from alarm;
+select * from visitlog;
+select * from wishList;
+select * from members;
+select *from fair;
