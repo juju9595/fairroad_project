@@ -13,7 +13,7 @@ public class FileService {
     // 프로젝트 최상위 디렉토리 경로찾기
     private String baseDir = System.getProperty("user.dir");
     // 서버의 폴더로 업로드 경로 지정
-    private String uploadPath = baseDir + "/build/resources/main/static/upload/";
+    private String uploadPath = baseDir + "/src/main/resources/static/upload";
 
     //파일 업로드
     public String fileUpload(MultipartFile multipartFile){
@@ -22,7 +22,8 @@ public class FileService {
 
         String uuid = UUID.randomUUID().toString(); //파일명 UUID
         String fimg = uuid +"_"+multipartFile.getOriginalFilename().replaceAll("_","-");//파일명 ("기본문자"+"새로운문자")
-        String uploadFilePath = uploadPath + fimg; // 업로드 경로와 파일명 합치기
+        //String uploadFilePath = uploadPath + fimg; // 업로드 경로와 파일명 합치기 //수정전
+        String uploadFilePath = uploadPath +"/"+ fimg; // 업로드 경로와 파일명 합치기
 
         File pathFile = new File(uploadPath); // 업로드한 경로가 upload 폴더가 존재 하지않으면 폴더 생성
         System.out.println("pathFile"+pathFile);
@@ -30,6 +31,7 @@ public class FileService {
         if(!pathFile.exists()){
             pathFile.mkdir();
         }//if end
+        // File uploadFile = new File(uploadPath, fimg); //수정전
         File uploadFile = new File(uploadFilePath); //업로드 할 경로를 file 클래스 생성
 
         System.out.println("uploadFile"+uploadFile);

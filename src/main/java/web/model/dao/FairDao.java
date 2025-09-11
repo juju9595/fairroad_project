@@ -47,23 +47,28 @@ public class FairDao extends Dao{
 
     //-----------------------------------------------------------------------------------------------------------//
 
-    //박람회 수정
+    // 박람회 수정
     public int fairUpdate(FairDto fairDto){
         try{
-            String sql = "UPDATE fair SET fname=?,fplace=?,fprice=?,furl=?,finfo=?,start_date=?,end_date=? where fno=?;";
+            String sql = "UPDATE fair " +
+                    "SET cno=?, fname=?, fplace=?, fprice=?, furl=?, finfo=?, start_date=?, end_date=? " +
+                    "WHERE fno=?;";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,fairDto.getFname());
-            ps.setString(2,fairDto.getFplace());
-            ps.setInt(3,fairDto.getFprice());
-            ps.setString(4,fairDto.getFurl());
-            ps.setString(5,fairDto.getFinfo());
-            ps.setString(6,fairDto.getStart_date());
-            ps.setString(7,fairDto.getEnd_date());
-            ps.setInt(8,fairDto.getFno());
+            ps.setInt(1, fairDto.getCno());            // ✅ 카테고리 번호
+            ps.setString(2, fairDto.getFname());
+            ps.setString(3, fairDto.getFplace());
+            ps.setInt(4, fairDto.getFprice());
+            ps.setString(5, fairDto.getFurl());
+            ps.setString(6, fairDto.getFinfo());
+            ps.setString(7, fairDto.getStart_date());
+            ps.setString(8, fairDto.getEnd_date());
+            ps.setInt(9, fairDto.getFno());            // WHERE 조건용 PK
             int count = ps.executeUpdate();
-            if(count==1){ return fairDto.getFno();}
+            if(count==1){ return fairDto.getFno(); }
             ps.close();
-        } catch (Exception e) {System.out.println("박람회등록"+e);}//catch end
+        } catch (Exception e) {
+            System.out.println("박람회수정 오류: " + e);
+        }
         return 0;
     }//func end
 

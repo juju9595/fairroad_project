@@ -78,11 +78,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // 무한스크롤 박람회 로드
     // ===============================
     function loadFairs() {
-        console.log('111')
+        console.log('무한스크롤시작');
         if (loading) return;
         console.log('222')
         loading = true;
-
+        console.log('무한스크롤중');
         let url = currentCategoryUrl || `/fair/allPostMain?page=${currentPage}&count=${countPerPage}`;
         if (currentKey && currentKeyword) url += `&key=${currentKey}&keyword=${currentKeyword}`;
 
