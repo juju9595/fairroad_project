@@ -3,7 +3,7 @@ body {
     width: 414px;
     margin: 0 auto;
     font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-    background-color: #f7f7f8;
+    background: #fff !important;
     color: #333;
 }
 

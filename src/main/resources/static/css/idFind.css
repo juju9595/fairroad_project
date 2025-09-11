@@ -1,3 +1,7 @@
+body{
+  background: #fff !important;
+}
+
 /* ===== 아이디 찾기 컨테이너 ===== */
 #container {
   width: 100%;

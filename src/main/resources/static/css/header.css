@@ -8,7 +8,7 @@ html, body {
     margin: 0;
     padding: 0;
     font: 14px/1.45 system-ui;
-    background: #fff;
+    background-color: #f8f8f8;
     overflow-x: hidden;
 }
 
@@ -92,7 +92,7 @@ body {
 }
 
 #log-menu li a:hover {
-    background: #f2f2f2;
+    background: #fff1e6;
     border-radius: 4px;
 }
 
@@ -240,6 +240,8 @@ body {
     height: 80px;
     margin: 20px 0px 20px 35px;
 }
+
+
 .webPageImg{
     width: 120px;
     margin: 0px 0px 20px 0px;
