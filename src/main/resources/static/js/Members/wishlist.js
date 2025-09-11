@@ -57,7 +57,7 @@ const wishlistDelete = async () => {
     const fno = chk.value;
     const option = { method: "DELETE" };
     // ★ 파라미터 이름 꼭 붙이기: ?fno=값
-    const response = await fetch(`/member/wishlist/delete?fno=${encodeURIComponent(fno)}`, option);
+    const response = await fetch(`/member/wishlist/delete?fno=${(fno)}`, option);
     const ok = await response.json();
     // ok가 false면 필요 시 처리
   }
