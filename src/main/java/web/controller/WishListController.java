@@ -37,5 +37,12 @@ public class WishListController { // class start
         int mno = (int)login;
         return wishlistService.fairWishToggle(mno,fno);
     }//func end
+
+    @GetMapping("/active")
+    //즐겨 찾기 Active
+    public boolean fairWishActive(@RequestParam int mno, @RequestParam int fno){
+        boolean result = wishlistService.fairWishActive(mno,fno);
+        return result;
+    }
 } // class end
 

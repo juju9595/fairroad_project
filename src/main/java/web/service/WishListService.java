@@ -28,4 +28,10 @@ public class WishListService {
         int result = wishlistDao.fairWishToggle(mno,fno);
         return result;
     }//func end
+
+    //즐겨 찾기 Active
+    public boolean fairWishActive(int mno, int fno){
+        boolean result = wishlistDao.fairWishActive(mno,fno);
+        return result;
+    }
 } // class e

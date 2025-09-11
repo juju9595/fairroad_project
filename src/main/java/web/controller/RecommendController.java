@@ -19,11 +19,11 @@ public class RecommendController {
     @Autowired
     RecommendService recommendService;
 
-    // 추천 알고리즘
-    @GetMapping("/algorithm")
-    public List<FairDto> recommendList(@RequestParam int mno){
-        List<FairDto> result = recommendService.getRecommendations(mno);
-        return result;
-    } // func e
+//    // 추천 알고리즘
+//    @GetMapping("/algorithm")
+//    public List<FairDto> recommendList(@RequestParam int mno){
+//        List<FairDto> result = recommendService.getRecommendations(mno);
+//        return result;
+//    } // func e
 
 } // class e
