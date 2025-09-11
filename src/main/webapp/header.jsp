@@ -77,12 +77,12 @@
 
 
         <div class="banner2">
-            <img class="banner2_img" src="/img/아이콘3D.png">
-            <img class="letter2" src="/img/글씨.png">
+            <img class="banner2_img" src="/img/배너사진수정11.png">
             <div class="banner2_flex">
                 <img class="qrcode" src="/img/큐알코드.png">
                 <img class="webPageImg" src="/img/페이지이동.png">
             </div>
+            <img class="banner2_img2" src="/img/배너사진22.png">
             
         </div>
 
