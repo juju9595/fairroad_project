@@ -34,16 +34,29 @@ public class VisitLogDaoImpl implements VisitLogDao{
         return folder + "/visitlog_" + today + ".csv";
     }
 
-    // CSV 저장 메소드 (멀티스레드 안전 테스트용)
+    // CSV 저장 메소드 (멀티스레드 안전 + 헤더 처리)
     public void saveVisitLog(VisitLogDto log) {
         synchronized (lock) {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(getCsvPath(), true))) {
-                // vno 자동 증가
-                log.setVno(++currentVno);
-                // 현재 시간 적용
-                log.setVdate(java.time.LocalDateTime.now());
-                bw.write(log.toCsv());
-                bw.newLine();
+            try {
+                File file = new File(getCsvPath());
+                boolean fileExists = file.exists();
+
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
+                    // 새 파일일 경우 헤더 먼저 작성
+                    if (!fileExists || file.length() == 0) {
+                        bw.write("vno,mno,fno,vdate");
+                        bw.newLine();
+                    }
+
+                    // vno 자동 증가
+                    log.setVno(++currentVno);
+                    // 현재 시간 적용
+                    log.setVdate(java.time.LocalDateTime.now());
+
+                    // 데이터 기록
+                    bw.write(log.toCsv());
+                    bw.newLine();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
