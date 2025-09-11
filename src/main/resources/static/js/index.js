@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadFairs() {
         console.log('무한스크롤시작');
         if (loading) return;
+        console.log('222')
         loading = true;
         console.log('무한스크롤중');
         let url = currentCategoryUrl || `/fair/allPostMain?page=${currentPage}&count=${countPerPage}`;
