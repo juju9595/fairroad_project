@@ -171,6 +171,8 @@ public class VisitLogService {
                     map.put("fprice", fair.getFprice());
                     map.put("furl", fair.getFurl());
                     map.put("fimg", fair.getFimg());
+                    map.put("start_date" , fair.getStart_date());
+                    map.put("end_date" , fair.getEnd_date());
                     return map;
                 })
                 .filter(Objects::nonNull)

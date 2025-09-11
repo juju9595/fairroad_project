@@ -15,4 +15,6 @@ public class FairCountDto {
     private int fprice;
     private String fplace;
     private String fimg;
+    private String start_date;
+    private String end_date;
 }
