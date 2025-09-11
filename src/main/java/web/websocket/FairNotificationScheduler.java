@@ -29,13 +29,14 @@ public class FairNotificationScheduler extends Dao {
         this.alarmService = alarmService;   // DB 저장용
         this.socketHandler = socketHandler; // 웹소켓 전송용
     }
-    //
+
+
     // [3] 3분마다 실행되는 스케줄러
     // cron = "0 */3 * * * *"
     // 초(0), 분(3분마다), 시, 일, 월, 요일
     @Scheduled(cron = "0 */1 * * * *")
     public void notifyUpcomingFairs() {
-        //
+
         // [4] 위시리스트 + 박람회 테이블 조인
         // 시작일이 오늘 기준 3일 후인 박람회 조회
         String sql =
@@ -74,31 +75,31 @@ public class FairNotificationScheduler extends Dao {
 
 
 
-//    public void notifyUpcomingFairsForUser(int mno) {
-//        String sql =
-//                "select w.mno, f.fno, f.fname, f.start_date " +
-//                        "from wishlist w " +
-//                        "join fair f on w.fno = f.fno " +
-//                        "where w.mno = ? and f.start_date = date_add(curdate(), interval 3 day)";
-//
-//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-//            ps.setInt(1, mno);
-//            try (ResultSet rs = ps.executeQuery()) {
-//                while (rs.next()) {
-//                    int fno = rs.getInt("fno");
-//                    String fname = rs.getString("fname");
-//                    String startDate = rs.getDate("start_date").toString();
-//
-//                    String msg = String.format("📢 '%s' 박람회가 %s에 열립니다!", fname, startDate);
-//
-//                    alarmService.createAlarm( mno, fno, msg );
-//                    socketHandler.sendMessageToUser( mno, msg );
-//                }
-//            }
-//        } catch (Exception e) {
-//            System.out.println("notifyUpcomingFairsForUser 오류: " + e);
-//        }
-//    }
+    public void notifyUpcomingFairsForUser(int mno) {
+        String sql =
+                "select w.mno, f.fno, f.fname, f.start_date " +
+                        "from wishlist w " +
+                        "join fair f on w.fno = f.fno " +
+                        "where w.mno = ? and f.start_date = date_add(curdate(), interval 3 day)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, mno);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int fno = rs.getInt("fno");
+                    String fname = rs.getString("fname");
+                    String startDate = rs.getDate("start_date").toString();
+
+                    String msg = String.format("📢 '%s' 박람회가 %s에 열립니다!", fname, startDate);
+
+                    alarmService.createAlarm( mno, fno, msg );
+                    socketHandler.sendMessageToUser( mno, msg );
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("notifyUpcomingFairsForUser 오류: " + e);
+        }
+    }
 }
 
 
