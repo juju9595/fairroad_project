@@ -40,7 +40,8 @@ const renderFairDOM = (data) => {
 
     document.querySelector('.fname').textContent = data.fname;
     document.querySelector('.fcount').textContent = data.fcount;
-    document.querySelector('.fprice').textContent = data.fprice;
+    // ✅ 가격 포맷 적용 (여기 수정)
+    document.querySelector('.fprice').textContent = Number(data.fprice).toLocaleString();
     // document.querySelector('.furl').textContent = data.furl;
     document.querySelector('.start_date').textContent = data.start_date;
     document.querySelector('.end_date').textContent = data.end_date;
