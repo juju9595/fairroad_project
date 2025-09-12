@@ -84,6 +84,6 @@ Spring Boot 기반 “박람회 정보 통합 제공 플랫폼” 웹/앱 구현
 
 
 ## 개발환경
-#### **- Version** : Java 17
-#### **- IDE** : IntelliJ
-#### **- Framework** : SpringBoot 2.7.11
+#### - **Version** : Java 17
+#### - **IDE** : IntelliJ
+#### - **Framework** : SpringBoot 2.7.11
