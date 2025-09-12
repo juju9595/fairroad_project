@@ -1,5 +1,4 @@
-drop database if exists fairRoad;
-create database fairRoad;
+
 use fairRoad;
 
 -- ----------------------- 회원 목록 테이블 -------------------

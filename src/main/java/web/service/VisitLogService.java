@@ -65,7 +65,7 @@ public class VisitLogService {
                     .max()
                     .orElse(0);
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             return 0;
         }
     }
@@ -97,7 +97,7 @@ public class VisitLogService {
                 bw.write(log.toCsv());
                 bw.newLine();
             } catch (Exception e) {
-                e.printStackTrace();
+                // e.printStackTrace();
             }
         }
     }
@@ -121,7 +121,7 @@ public class VisitLogService {
                             .map(VisitLogDto::fromCsv)
                             .forEach(logs::add);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    // e.printStackTrace();
                 }
             }
         }
@@ -216,7 +216,7 @@ public class VisitLogService {
                     }
                     bw.flush();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    // e.printStackTrace();
                 }
             }
             System.out.println("아카이브 완료: " + date + ", 로그 수 = " + byDate.get(date).size());
