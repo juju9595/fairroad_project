@@ -57,6 +57,11 @@ Spring Boot 기반 “박람회 정보 통합 제공 플랫폼” 웹/앱 구현
 ![팀소개](https://github.com/juju9595/fairroad_project/blob/master/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202025-09-12%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%201.02.22.png)
 
 
+## 개발환경
+- **Version** : Java 17
+- **IDE** : IntelliJ
+- **Framework** : SpringBoot 2.7.11
+
 
 ## 주요기능
 #### 1. 로그인 / 회원가입
@@ -81,9 +86,3 @@ Spring Boot 기반 “박람회 정보 통합 제공 플랫폼” 웹/앱 구현
 
 - 사용자 리텐션(재방문율)과 서비스 차별성에 중요한 기능.
 - 단순 정보 전달을 넘어 참여율을 높이는 유인 요소.
-
-
-## 개발환경
-- **Version** : Java 17
-- **IDE** : IntelliJ
-- **Framework** : SpringBoot 2.7.11
